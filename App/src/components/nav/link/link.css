@@ -1,0 +1,21 @@
+.container-link {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.container-link a{
+    color: var(--secondary-color);
+    gap: 1rem;
+    text-decoration: none;
+}
+
+.container-link a img{
+    width: 2rem;
+    object-fit: contain;
+}
+
+.container-link a p{
+    font-size: 14px;
+    text-transform: capitalize;
+}

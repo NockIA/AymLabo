@@ -1,0 +1,22 @@
+.container-nav {
+  background-color: var(--primary-color);
+  width: 20%;
+  max-width: 15rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+.separation-nav {
+  background-color: var(--secondary-color);
+  height: 1.5px;
+  width: 100%;
+}
+
+.container-nav ul {
+  padding: 0;
+  margin: 0;
+}
