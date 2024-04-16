@@ -1,0 +1,25 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page d'accueil</title>
+</head>
+<body>
+    <!-- Contenu spécifique de la page d'accueil -->
+    <h1>Page d'accueil</h1>
+    <p>Bienvenue sur la page d'accueil.</p>
+
+    <!-- Charger la barre de navigation -->
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            fetch('../components/nav.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('navbarContainer').innerHTML = data;
+                })
+                .catch(error => console.error('Erreur de chargement de la barre de navigation:', error));
+        });
+    </script>
+    <div id="navbarContainer"></div>
+</body>
+</html>
