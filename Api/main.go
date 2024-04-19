@@ -40,8 +40,8 @@ func authenticate(inLogin bool, next http.Handler) http.Handler {
 }
 
 func main() {
-	http.Handle("/login", authenticate(true, http.HandlerFunc(handlers.Login)))
-	http.Handle("/", authenticate(false, http.HandlerFunc(handlers.ProtectedHandler)))
+	http.Handle("/login", authenticate(true, http.HandlerFunc(handlers.MainHandler)))
+	http.Handle("/", authenticate(false, http.HandlerFunc(handlers.MainHandler)))
 	fmt.Printf("Sever start on : http://localhost%v/\n", port)
 	http.ListenAndServe(port, nil)
 }

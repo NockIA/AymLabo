@@ -2,7 +2,7 @@ package handlers
 
 import "net/http"
 
-func ProtectedHandler(w http.ResponseWriter, r *http.Request) {
+func MainHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		GetHandler(w, r)
