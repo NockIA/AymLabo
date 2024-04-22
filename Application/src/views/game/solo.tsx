@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./solo.css";
-import '../../style/global.css';
-import Crosshair from "@/components/crosshair/crosshair";
+import "../../style/global.css";
+import { HeaderGame } from "@/components/headerGame/header_game";
+import { Target } from "@/components/target/target";
 
 interface Target {
   id: number;
@@ -10,69 +11,108 @@ interface Target {
 }
 
 const Solo: React.FC = () => {
-  const [score, setScore] = useState(1300);
+  const [score, setScore] = useState(0);
   const [targets, setTargets] = useState<Target[]>([]);
-  const gridSize = 100;
   const gameRef = useRef<HTMLDivElement>(null);
+  const [seconds, setSeconds] = useState(0);
+  const [totalTargets, setTotalTargets] = useState(0);
+  const [totalClics, setTotalClics] = useState(0);
 
-  useEffect(()=>{
-    if (score > window.innerWidth -150) {
-        setScore(0); 
-    }
-  },[score])
+  // ------------------------- //
+  // ---------Rules----------- //
+  // ------------------------- //
 
-  const addTarget = () => {
-    if (targets.length < 8) {
-      let newTarget: Target;
-      do {
-        const gridX = Math.floor(
-          Math.random() * (gameRef.current!.offsetWidth / gridSize)
-        );
-        const gridY = Math.floor(
-          Math.random() * (gameRef.current!.offsetHeight / gridSize)
-        );
-        newTarget = {
-          id: Math.floor(Math.random() * 1000),
-          top: Math.max(
-            0,
-            Math.min(gridY * gridSize, gameRef.current!.offsetHeight - gridSize)
-          ),
-          left: Math.max(
-            0,
-            Math.min(gridX * gridSize, gameRef.current!.offsetWidth - gridSize)
-          ),
-        };
-      } while (
-        targets.some(
-          (target) =>
-            target.top === newTarget.top && target.left === newTarget.left
-        )
-      );
-      setTargets([...targets, newTarget]);
-    }
-  };
+  const maxScore: number = 1000;
+  const maxTime: number = 30;
+
+  // ------------------------- //
+  // ---------Score----------- //
+  // ------------------------- //
 
   useEffect(() => {
-    const defaultTargets: Target[] = [];
-    for (let i = 0; i < 3; i++) {
+    const checkEnd = () => {
+      if (score >= maxScore) {
+        setScore(0);
+        setSeconds(0);
+        setTotalClics(0);
+        setTotalTargets(0);
+      }
+      if (seconds > maxTime) {
+        setScore(0);
+        setTotalClics(0);
+        setTotalTargets(0);
+        setSeconds(0);
+      }
+    };
+    if (score < 0) {
+      setScore(0);
+    }
+    checkEnd();
+  }, [score, seconds]);
+
+  // ------------------------- //
+  // ---------Timer----------- //
+  // ------------------------- //
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setSeconds((prevSeconds) => prevSeconds + 1);
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, []);
+
+  // ------------------------------ //
+  // ---------Init Targets--------- //
+  // ------------------------------ //
+
+  useEffect(() => {
+    const initialTargets: Target[] = generateRandomTargets(4);
+    setTargets(initialTargets);
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const newTargets = generateRandomTargets(4); 
+      setTargets(newTargets);
+    };
+  
+    window.addEventListener("resize", handleResize);
+  
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  // ---------------------------------- //
+  // ---------Generate targets--------- //
+  // ---------------------------------- //
+
+  useEffect(() => {
+    if (targets.length < 3) {
+      const newTargets = generateRandomTargets(3 - targets.length);
+      setTargets((prevTargets) => [...prevTargets, ...newTargets]);
+    } else if (targets.length > 5) {
+      setTargets((prevTargets) => prevTargets.slice(0, 5));
+    }
+  }, [targets]);
+
+  const generateRandomTargets = (count: number): Target[] => {
+    const gridRowCount = 3;
+    const gridColumnCount = 3;
+
+    const cellWidth = gameRef.current!.offsetWidth / gridColumnCount;
+    const cellHeight = gameRef.current!.offsetHeight / gridRowCount;
+
+    const newTargets: Target[] = [];
+    for (let i = 0; i < count; i++) {
       let newTarget: Target;
       do {
-        const gridX = Math.floor(
-          Math.random() * (gameRef.current!.offsetWidth / gridSize)
-        );
-        const gridY = Math.floor(
-          Math.random() * (gameRef.current!.offsetHeight / gridSize)
-        );
+        const gridX = Math.floor(Math.random() * gridColumnCount);
+        const gridY = Math.floor(Math.random() * gridRowCount);
         newTarget = {
-          id: i,
-          top: Math.max(
-            0,
-            Math.min(gridY * gridSize, gameRef.current!.offsetHeight - gridSize)
-          ),
-          left: Math.max(
-            0,
-            Math.min(gridX * gridSize, gameRef.current!.offsetWidth - gridSize)
-          ),
+          id: Math.floor(Math.random() * 1000),
+          top: gridY * cellHeight,
+          left: gridX * cellWidth,
         };
       } while (
         targets.some(
@@ -80,44 +120,62 @@ const Solo: React.FC = () => {
             target.top === newTarget.top && target.left === newTarget.left
         )
       );
-      defaultTargets.push(newTarget);
+      newTargets.push(newTarget);
     }
-    setTargets(defaultTargets);
-  }, []);
+    return newTargets;
+  };
+
+  // ---------------------------------- //
+  // ---------Remove targets----------- //
+  // ---------------------------------- //
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
       const clickedTargetId = parseInt((event.target as HTMLDivElement).id);
       if (!isNaN(clickedTargetId)) {
         setScore(score + 10);
-        setTargets(targets.filter((target) => target.id !== clickedTargetId));
+        setTargets((prevTargets) =>
+          prevTargets.filter((target) => target.id !== clickedTargetId)
+        );
       }
     };
     document.addEventListener("click", handleClick);
     return () => {
       document.removeEventListener("click", handleClick);
     };
-  }, [targets]);
+  }, [score, targets]);
 
-  const renderTargets = () => {
-    return targets.map((target) => (
-      <div
-        key={target.id}
-        id={target.id.toString()}
-        className="target"
-        style={{ top: target.top, left: target.left }}
-      ></div>
-    ));
-  };
+  useEffect(() => {
+    const handleGlobalClick = () => {
+      setTotalClics(totalClics + 1);
+    };
+    document.body.addEventListener("click", handleGlobalClick);
+    return () => {
+      document.body.removeEventListener("click", handleGlobalClick);
+    };
+  }, [totalClics]);
 
   return (
-    <main className="container-game flex-col">
-      <div className="flex-row header-game">
-        <span style={{width:score+'px'}} className=" score-bar"></span>
-        <h2>{score}</h2>
-      </div>
-      <div id="game" ref={gameRef} className="game" onClick={addTarget}>
-        {renderTargets()}
+    <main className="container-game flex-col" role="main">
+      <HeaderGame
+        score={score}
+        time={seconds}
+        precison={Math.ceil((totalTargets * 100) / totalClics)}
+      />
+      <div
+        ref={gameRef}
+        className="game flex-row"
+        onClick={(event) => {
+          if (event.target === gameRef.current) {
+            setScore(score - 10);
+          } else {
+            setTotalTargets(totalTargets + 1);
+          }
+        }}
+      >
+        {targets.map((target, index) => (
+          <Target key={index} target={target} />
+        ))}
       </div>
     </main>
   );
