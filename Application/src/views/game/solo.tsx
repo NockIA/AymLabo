@@ -23,7 +23,7 @@ const Solo: React.FC = () => {
   // ------------------------- //
 
   const maxScore: number = 1000;
-  const maxTime: number = 30;
+  const maxTime: number = 30; // seconds
 
   // ------------------------- //
   // ---------Score----------- //
@@ -72,12 +72,12 @@ const Solo: React.FC = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      const newTargets = generateRandomTargets(4); 
+      const newTargets = generateRandomTargets(4);
       setTargets(newTargets);
     };
-  
+
     window.addEventListener("resize", handleResize);
-  
+
     return () => {
       window.removeEventListener("resize", handleResize);
     };
