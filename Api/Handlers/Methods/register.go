@@ -2,14 +2,17 @@ package methods
 
 import (
 	bdd "api/BDD"
+	utils "api/Handlers/Utils"
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/google/uuid"
 )
 
 type NewPlayer struct {
 	Email    string `json:"email"`
-	Pseudo   string `json:"pseudo"`
+	Pseudo   string `json:"username"`
 	Password string `json:"password"`
 }
 
@@ -25,14 +28,23 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to decode JSON", http.StatusBadRequest)
 		return
 	}
-	rslt := bdd.SelectDB("SELECT * FROM XXXX WHERE email=? and email=? and email=? and")
-	defer rslt.Close()
-	if rslt.Next() {
-		http.Error(w, "This user already exist", http.StatusBadRequest)
+	rslt, err := bdd.DbManager.SelectDB("SELECT playerUUID FROM players WHERE (email=? OR pseudo=?) AND password=?", requestData.Email, requestData.Pseudo, requestData.Password)
+	if err != nil {
+		rslt.Close()
+		http.Error(w, "Failed to read db", http.StatusBadRequest)
+		fmt.Println("erreur in db read in login")
 		return
 	}
-	message := Message{Text: "Hello, World!"}
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(message)
-	fmt.Println(requestData.Email, requestData.Pseudo, requestData.Password)
+	defer rslt.Close()
+	if !rslt.Next() {
+		var playerUUID string = uuid.New().String()
+		if jwtToken, err := utils.CreateJWT(&playerUUID); err == nil {
+			message := Message{Text: jwtToken}
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(message)
+			bdd.DbManager.AddDeleteUpdateDB("INSERT INTO players (playerUUID, email, pseudo, password, numberOfWin, numberOfLoose) VALUES (?, ?, ?, ?,0,0);", playerUUID, requestData.Email, requestData.Pseudo, requestData.Password)
+			return
+		}
+	}
+	http.Error(w, "Unauthorized", http.StatusUnauthorized)
 }
