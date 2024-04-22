@@ -3,14 +3,16 @@
   border-radius: 20px;
   overflow: hidden;
   position: absolute;
+  height: 60vh;
   top: 50%;
   left: 50%;
+  min-height: 450px;
   transform: translate(-50%, -50%);
 }
 
 .container-sign .container-left-section {
   background-color: var(--background-sign);
-  padding: 1.5rem;
+  padding: 3rem;
   padding-right: 0;
   justify-content: space-around;
   gap: 3rem;
@@ -62,6 +64,7 @@
 .button-sign {
   border-radius: 999px;
   width: fit-content;
+  margin-top: 1rem;
   outline: none;
   padding: 0.3rem 3rem;
   text-transform: uppercase;
@@ -70,6 +73,26 @@
   font-family: "Poppins";
   font-size: 14px;
   background-color: transparent;
+}
+
+.button-sign-black {
+  border: 2px solid var(--background-sign);
+  color: var(--background-sign);
+}
+
+.button-sign-white:focus {
+ background-color: var(--white);
+ color: var(--background-sign);
+}
+
+.button-sign-black:focus {
+  background-color: var(--background-sign);
+ color: var(--white);
+}
+
+.container-right-section fieldset {
+  border: none;
+  padding: 0;
 }
 
 .button-sign:hover {
@@ -88,15 +111,15 @@
   width: 0;
   height: 0;
   border-style: solid;
-  border-width: 45vh 130px 0 0;
+  border-width: 500px 130px 0 0;
   border-color: var(--background-sign) var(--white) transparent transparent;
-  transform: scale(1.0001);
 }
 
 .container-sign .container-right-section {
-  justify-content: space-around;
-  padding: 1.5rem;
+  padding: 3rem 1.5rem;
   background-color: var(--white);
+  justify-content: center;
+  gap: 2rem;
   align-items: center;
   text-align: center;
   width: 17rem;
@@ -122,10 +145,15 @@
 .container-form input {
   background-color: var(--background-inputs-form);
   border: none;
+  border: 1px solid transparent;
   outline: none;
   padding: 0.6rem 1.5rem;
   border-radius: 5px;
   font-size: 12px;
+}
+
+.container-form input:focus {
+  outline: 1px solid var(--background-sign);
 }
 
 .container-form .password {
@@ -133,4 +161,12 @@
   color: var(--grey);
   font-size: 12px;
   margin: 0.5rem 0;
+}
+
+.container-form .error-message {
+  color: var(--error-code);
+  font-size: 12px;
+  margin: 0.2rem;
+  text-align: left;
+  margin-bottom: -0.5rem;
 }

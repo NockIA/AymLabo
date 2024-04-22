@@ -8,9 +8,10 @@ import {
   ValidationErrors,
 } from "@/services/auth_service";
 
-const SignIn: React.FC = () => {
-  const [username, setUserName] = useState("");
+const ResetPassword: React.FC = () => {
+  const [email, setEmail] = useState("");
   const [password1, setPassword1] = useState("");
+  const [password2, setPassword2] = useState("");
   const _authService: AuthService = new AuthService();
   const [error, setError] = useState<ValidationErrors | null>(null);
   const navigate = useNavigate();
@@ -19,20 +20,20 @@ const SignIn: React.FC = () => {
     e.preventDefault();
     setError(null);
     const userData: SigninFormProps = {
-      username: username,
+      username: email,
       password: password1,
     };
-    const errors: ValidationErrors = _authService.validateLogin(userData);
+    const errors: ValidationErrors = _authService.validateResetPassword(userData);
     if (Object.keys(errors).length === 0) {
       try {
-        const response = await _authService.signin(userData);
+        const response = await _authService.resetPassword(userData);
         if (response.data) {
-          navigate("/home");
+          navigate("/signin");
         } else {
           setError({ other: "Invalid credentials" });
         }
       } catch (error: any) {
-        setError({ other: "An error occured while trying to signin" });
+        setError({ other: "An error occured while trying to reset password" });
       }
     } else {
       setError(errors);
@@ -59,13 +60,13 @@ const SignIn: React.FC = () => {
           </p>
         </div>
         <Link
-          aria-label="Switch to signup"
+          aria-label="Switch to signin"
           role="button"
-          tabIndex={5}
           className="button-sign button-sign-white"
-          to={"/signup"}
+          to={"/signin"}
+          tabIndex={5}
         >
-          Sign Up
+          Sign In
         </Link>
       </section>
       <span className="separation-sign"></span>
@@ -74,45 +75,43 @@ const SignIn: React.FC = () => {
         aria-label="SignIn section"
       >
         <div className="flex-col container-header-form ">
-          <h1>Sign In</h1>
-          <h2>Connect to your account</h2>
+          <h1>Reset Password</h1>
+          <h2>{"Dont't forget it next time :)"}</h2>
         </div>
         <form
+          onSubmit={handleSubmit}
+          className="flex-col container-form"
           role="form"
           aria-label="Form signin"
-          className="flex-col container-form"
-          onSubmit={handleSubmit}
         >
           <fieldset className="flex-col">
             <input
-              aria-label="Input username"
+              aria-label="Input email"
               tabIndex={0}
               style={{
-                borderColor: error?.username
-                  ? "var(--error-code)"
-                  : "transparent",
+                borderColor: error?.email ? "var(--error-code)" : "transparent",
               }}
-              onChange={(e) => setUserName(e.target.value)}
-              placeholder="Username"
-              type="text"
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              type="email"
             />
-            {error?.username && (
-              <p aria-label="username error" className="error-message">
-                {error.username}
+            {error?.email && (
+              <p aria-label="email error" className="error-message">
+                {error.email}
               </p>
             )}
           </fieldset>
           <fieldset className="flex-col">
             <input
               aria-label="Input password"
-              tabIndex={1}
+              tabIndex={2}
               style={{
                 borderColor: error?.password
                   ? "var(--error-code)"
                   : "transparent",
               }}
               onChange={(e) => setPassword1(e.target.value)}
-              placeholder="Password"
+              placeholder="New password"
               type="password"
             />
             {error?.password && (
@@ -121,23 +120,34 @@ const SignIn: React.FC = () => {
               </p>
             )}
           </fieldset>
-          <Link
-            role="button"
-            aria-label="Go to forget password page"
-            tabIndex={3}
-            className="password"
-            to={"/reset-password"}
-          >
-            Forget your password ?
-          </Link>
+          <fieldset className="flex-col">
+            <input
+              aria-label="Input confirm password"
+              tabIndex={3}
+              style={{
+                borderColor: error?.password
+                  ? "var(--error-code)"
+                  : "transparent",
+              }}
+              onChange={(e) => setPassword2(e.target.value)}
+              placeholder="Confirm new password"
+              type="password"
+            />
+            {error?.password && (
+              <p aria-label="password error" className="error-message">
+                {error.password}
+              </p>
+            )}
+          </fieldset>
+
           <button
-            role="button"
-            aria-label="Submit form signin"
             tabIndex={4}
             onClick={(e) => handleSubmit}
-            className="button-sign button-sign-black "
+            role="button"
+            aria-label="submit reset form"
+            className="button-sign-black button-sign"
           >
-            Sign In
+            Reset
           </button>
           {error?.other && (
             <p aria-label="others error" className="error-message">
@@ -150,4 +160,4 @@ const SignIn: React.FC = () => {
   );
 };
 
-export default SignIn;
+export default ResetPassword;

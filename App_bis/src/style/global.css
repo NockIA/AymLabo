@@ -43,4 +43,5 @@ a {
     --grey:#A5A5A5;
     --white:#F9F9F9;
     --cyan:#48fdfd;
+    --error-code:rgb(225, 49, 49);
 }

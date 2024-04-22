@@ -1,11 +1,10 @@
-import { SignIn } from "@/components/auth/signin"
+import ResetPassword from "@/components/auth/forget_password"
 import { Nav } from "@/components/nav/nav"
 
  const App:React.FC = () => {
     return (
         <main>
-            <Nav/>
-            <SignIn/>
+            <ResetPassword />
         </main>
     )
 }

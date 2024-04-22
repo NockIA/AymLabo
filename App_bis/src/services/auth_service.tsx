@@ -1,27 +1,31 @@
-import { apiURL } from "@/utils/api";
+import { apiKey, apiURL } from "@/utils/api";
 import axios, { AxiosResponse } from "axios";
 
-interface LoginForm {
+export interface SigninFormProps {
   username: string;
   password: string;
 }
 
-interface SignupForm {
+export interface SignupFormProps {
   username: string;
   email: string;
   password: string;
 }
 
-interface ValidationErrors {
-  [key: string]: string[];
+export interface ValidationErrors {
+  username?: string;
+  email?: string;
+  password?: string;
+  other?: string;
 }
 
 export class AuthService {
-  async signin(username: string, password: string): Promise<AxiosResponse> {
+  async signin(userData: SigninFormProps): Promise<AxiosResponse> {
     try {
-      const response = await axios.post(`${apiURL}/signin`, {
-        username,
-        password,
+      const response = await axios.post(`${apiURL}/signin`, userData, {
+        headers: {
+          "X-API-Key": apiKey,
+        },
       });
       return response;
     } catch (error: any) {
@@ -29,38 +33,68 @@ export class AuthService {
     }
   }
 
-  async signup(userData: SignupForm): Promise<AxiosResponse> {
+  async signup(userData: SignupFormProps): Promise<AxiosResponse> {
     try {
-      const response = await axios.post(`${apiURL}/signup`, userData);
+      const response = await axios.post(`${apiURL}/signup`, userData, {
+        headers: {
+          "X-API-Key": apiKey,
+        },
+      });
       return response;
     } catch (error: any) {
       throw new Error(`Error signing up: ${error.message}`);
     }
   }
 
-  validateLogin(loginForm: LoginForm): ValidationErrors {
+  async resetPassword (userData : SigninFormProps): Promise<AxiosResponse> {
+    try {
+      const response = await axios.post(`${apiURL}/reset-password`, userData, {
+        headers: {
+          "X-API-Key": apiKey,
+        },
+      });
+      return response;
+    } catch (error:any) {
+      throw new Error(`Error signing up: ${error.message}`);
+    }
+  }
+
+  validateLogin(loginForm: SigninFormProps): ValidationErrors {
     const errors: ValidationErrors = {};
     if (!loginForm.username) {
-      errors.username = ["Username is required"];
+      errors.username = "Username is required";
     }
     if (!loginForm.password) {
-      errors.password = ["Password is required"];
+      errors.password = "Password is required";
     }
     return errors;
   }
 
-  validateSignup(signupForm: SignupForm): ValidationErrors {
+  validateResetPassword(loginForm: SigninFormProps): ValidationErrors {
+    const errors: ValidationErrors = {};
+    if (!loginForm.username) {
+      errors.email = "Email is required";
+    }
+    if (!loginForm.password) {
+      errors.password = "Password is required";
+    }
+    return errors;
+  }
+
+
+
+  validateSignup(signupForm: SignupFormProps): ValidationErrors {
     const errors: ValidationErrors = {};
     if (!signupForm.username) {
-      errors.username = ["Username is required"];
+      errors.username = "Username is required";
     }
     if (!signupForm.email) {
-      errors.email = ["Email address is required"];
+      errors.email = "Email address is required";
     }
     if (!signupForm.password) {
-      errors.password = ["Password is required"];
+      errors.password = "Password is required";
     } else if (signupForm.password.length < 8) {
-      errors.password = ["Password must be at least 8 characters long"];
+      errors.password = "Password must be at least 8 characters long";
     }
     return errors;
   }
