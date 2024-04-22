@@ -2,6 +2,7 @@ package methods
 
 import (
 	bdd "api/BDD"
+	utils "api/Handlers/Utils"
 	"encoding/json"
 	"net/http"
 )
@@ -19,17 +20,25 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to decode JSON", http.StatusBadRequest)
 		return
 	}
-	rslt := bdd.SelectDB("SELECT * FROM XXXX WHERE email=? and email=? and email=? and")
+	sqlQuery := "SELECT playerUUID FROM players WHERE (email=? OR pseudo=?) AND password=?"
+	rslt := bdd.SelectDB(&sqlQuery, &requestData.Login, &requestData.Login, &requestData.Password)
 	defer rslt.Close()
 	if rslt.Next() {
-		// create user
-		//return c'est créé
+		var playerUUID string
+		rslt.Scan(&playerUUID)
+		if jwtToken, err := utils.CreateJWT(&playerUUID); err != nil {
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			return
+		} else {
+			message := Message{Text: jwtToken}
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(message)
+			return
+		}
 	} else {
 		http.Error(w, "Unauthorized", http.StatusUnauthorized)
 		return
 	}
-	message := Message{Text: "Hello, World!"}
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(message)
+
 	// fmt.Println(requestData.Email, requestData.Pseudo, requestData.Password)
 }
