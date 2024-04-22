@@ -39,6 +39,7 @@ a {
 :root {
     --background-color : #1a1a20;
     --background-nav :#161A23;
+    --background-game:rgba(0, 0, 0, 0.685);
     --background-sign:#31313F;
     --background-inputs-form:#DDDBE3;
     --grey:#A5A5A5;

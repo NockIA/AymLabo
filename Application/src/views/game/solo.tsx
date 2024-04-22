@@ -3,6 +3,7 @@ import "./solo.css";
 import "../../style/global.css";
 import { HeaderGame } from "@/components/headerGame/header_game";
 import { Target } from "@/components/target/target";
+import EndMenu from "@/components/endMenu/end_menu";
 
 interface Target {
   id: number;
@@ -17,6 +18,9 @@ const Solo: React.FC = () => {
   const [seconds, setSeconds] = useState(0);
   const [totalTargets, setTotalTargets] = useState(0);
   const [totalClics, setTotalClics] = useState(0);
+  const [currentStrike, setCurrentStrike] = useState(0);
+  const [bestStrike, setBestStrike] = useState(0);
+  const [showMenu, setShowMenu] = useState(false);
 
   // ------------------------- //
   // ---------Rules----------- //
@@ -26,22 +30,51 @@ const Solo: React.FC = () => {
   const maxTime: number = 30; // seconds
 
   // ------------------------- //
+  // ---------Menu------------ //
+  // ------------------------- //
+
+  const handleMenuModal = (data: boolean) => {
+    setShowMenu(data);
+  };
+
+  const handleEchap = (event: { key: string }) => {
+    if (event.key === "Escape") {
+      setShowMenu((prevShowMenu) => !prevShowMenu);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleEchap);
+    return () => {
+      document.removeEventListener("keydown", handleEchap);
+    };
+  }, []);
+
+  const restart = (restart: boolean) => {
+    if (restart) {
+      setScore(0);
+      setBestStrike(0);
+      setCurrentStrike(0);
+      setSeconds(0);
+      setTotalClics(0);
+      setTotalTargets(0);
+      setShowMenu(false);
+      const initialTargets: Target[] = generateRandomTargets(4);
+      setTargets(initialTargets);
+    }
+  };
+
+  // ------------------------- //
   // ---------Score----------- //
   // ------------------------- //
 
   useEffect(() => {
     const checkEnd = () => {
       if (score >= maxScore) {
-        setScore(0);
-        setSeconds(0);
-        setTotalClics(0);
-        setTotalTargets(0);
+        setShowMenu(true);
       }
-      if (seconds > maxTime) {
-        setScore(0);
-        setTotalClics(0);
-        setTotalTargets(0);
-        setSeconds(0);
+      if (seconds >= maxTime) {
+        setShowMenu(true);
       }
     };
     if (score < 0) {
@@ -55,11 +88,17 @@ const Solo: React.FC = () => {
   // ------------------------- //
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      setSeconds((prevSeconds) => prevSeconds + 1);
-    }, 1000);
-    return () => clearInterval(intervalId);
-  }, []);
+    let intervalId: NodeJS.Timeout | null = null;
+    if (!showMenu) {
+      intervalId = setInterval(() => {
+        setSeconds((prevSeconds) => prevSeconds + 1);
+      }, 1000);
+    }
+
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [showMenu]);
 
   // ------------------------------ //
   // ---------Init Targets--------- //
@@ -68,6 +107,8 @@ const Solo: React.FC = () => {
   useEffect(() => {
     const initialTargets: Target[] = generateRandomTargets(4);
     setTargets(initialTargets);
+    setBestStrike(0);
+    setCurrentStrike(0);
   }, []);
 
   useEffect(() => {
@@ -99,27 +140,49 @@ const Solo: React.FC = () => {
   const generateRandomTargets = (count: number): Target[] => {
     const gridRowCount = 3;
     const gridColumnCount = 3;
-
     const cellWidth = gameRef.current!.offsetWidth / gridColumnCount;
     const cellHeight = gameRef.current!.offsetHeight / gridRowCount;
 
     const newTargets: Target[] = [];
-    for (let i = 0; i < count; i++) {
-      let newTarget: Target;
+    const existingPositions: { [key: string]: boolean } = {};
+
+    const generateUniquePosition = (): string => {
+      let newPosition: string;
       do {
         const gridX = Math.floor(Math.random() * gridColumnCount);
         const gridY = Math.floor(Math.random() * gridRowCount);
-        newTarget = {
-          id: Math.floor(Math.random() * 1000),
-          top: gridY * cellHeight,
-          left: gridX * cellWidth,
-        };
+        newPosition = `${gridX},${gridY}`;
+      } while (existingPositions[newPosition]);
+
+      return newPosition;
+    };
+
+    const targetPositions = targets.map(
+      (target) =>
+        `${Math.floor(target.left / cellWidth)},${Math.floor(
+          target.top / cellHeight
+        )}`
+    );
+
+    for (let i = 0; i < count; i++) {
+      let newTarget: Target;
+      let newPosition: string;
+      do {
+        newPosition = generateUniquePosition();
       } while (
-        targets.some(
-          (target) =>
-            target.top === newTarget.top && target.left === newTarget.left
-        )
+        existingPositions[newPosition] ||
+        targetPositions.includes(newPosition)
       );
+
+      existingPositions[newPosition] = true;
+
+      const [gridX, gridY] = newPosition.split(",").map(Number);
+      newTarget = {
+        id: Math.floor(Math.random() * 1000),
+        top: gridY * cellHeight,
+        left: gridX * cellWidth,
+      };
+
       newTargets.push(newTarget);
     }
     return newTargets;
@@ -147,13 +210,17 @@ const Solo: React.FC = () => {
 
   useEffect(() => {
     const handleGlobalClick = () => {
-      setTotalClics(totalClics + 1);
+      if (!showMenu) {
+        setTotalClics(totalClics + 1);
+      }
     };
     document.body.addEventListener("click", handleGlobalClick);
     return () => {
       document.body.removeEventListener("click", handleGlobalClick);
     };
-  }, [totalClics]);
+  }, [totalClics, showMenu]);
+
+  
 
   return (
     <main className="container-game flex-col" role="main">
@@ -168,8 +235,16 @@ const Solo: React.FC = () => {
         onClick={(event) => {
           if (event.target === gameRef.current) {
             setScore(score - 10);
+            if (currentStrike > bestStrike) {
+              setBestStrike(currentStrike);
+            }
+            setCurrentStrike(0);
           } else {
             setTotalTargets(totalTargets + 1);
+            if (currentStrike > bestStrike) {
+              setBestStrike(currentStrike);
+            }
+            setCurrentStrike(currentStrike + 1);
           }
         }}
       >
@@ -177,6 +252,17 @@ const Solo: React.FC = () => {
           <Target key={index} target={target} />
         ))}
       </div>
+      {showMenu && (
+        <EndMenu
+          score={score}
+          accuracy={Math.ceil((totalTargets * 100) / totalClics)}
+          bestStrike={bestStrike}
+          targetHits={totalTargets}
+          totalClics={totalClics}
+          close={handleMenuModal}
+          restart={restart}
+        />
+      )}
     </main>
   );
 };
