@@ -38,6 +38,8 @@ a {
 :root {
     --background-color : #272730;
     --background-nav :#161A23;
+    --background-sign:#31313F;
+    --background-inputs-form:#DDDBE3;
     --grey:#A5A5A5;
     --white:#F9F9F9;
     --cyan:#48fdfd;
