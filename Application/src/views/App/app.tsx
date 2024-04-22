@@ -1,10 +1,9 @@
-import ResetPassword from "@/components/auth/forget_password"
-import { Nav } from "@/components/nav/nav"
+import Solo from "../game/solo"
 
  const App:React.FC = () => {
     return (
         <main>
-            <ResetPassword />
+            <Solo />
         </main>
     )
 }
