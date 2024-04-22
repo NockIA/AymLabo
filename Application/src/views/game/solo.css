@@ -1,0 +1,17 @@
+.container-game {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.741);
+  min-height: 100vh;
+}
+
+.game {
+  position: absolute;
+  transform: translate(-50%,-50%);
+  top: 50%;
+  left: 50%;
+  width: 60vh;
+  height: 60vh;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}

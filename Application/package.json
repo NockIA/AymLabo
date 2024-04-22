@@ -1,9 +1,8 @@
 {
-  "name": "electron-vite-react",
-  "version": "2.2.0",
+  "name": "aimlabo",
+  "version": "1.0.0",
   "main": "dist-electron/main/index.js",
   "description": "Aimlab belike",
-  "license": "MIT",
   "private": true,
   "debug": {
     "env": {
