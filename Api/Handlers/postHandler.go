@@ -6,8 +6,8 @@ import (
 )
 
 var posthandlers = map[string]func(http.ResponseWriter, *http.Request){
-	"/register": methods.Register,
-	"/login":    methods.Login,
+	"/signup": methods.Register,
+	"/signin": methods.Login,
 	// "/play":     methods.Play,
 	"/soloPlay": methods.SoloPlay,
 }

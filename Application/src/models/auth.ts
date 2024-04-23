@@ -1,5 +1,5 @@
 export interface SigninFormProps {
-  username: string;
+  login: string;
   password: string;
 }
 

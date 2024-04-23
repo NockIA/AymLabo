@@ -11,7 +11,7 @@ export class AuthService {
     try {
       const response = await axios.post(`${apiURL}/signin`, userData, {
         headers: {
-          "X-API-Key": apiKey,
+          "Authorization": apiKey+":",
         },
       });
       return response;
@@ -24,7 +24,7 @@ export class AuthService {
     try {
       const response = await axios.post(`${apiURL}/signup`, userData, {
         headers: {
-          "X-API-Key": apiKey,
+          "Authorization": apiKey+":",
         },
       });
       return response;
@@ -37,7 +37,7 @@ export class AuthService {
     try {
       const response = await axios.post(`${apiURL}/reset-password`, userData, {
         headers: {
-          "X-API-Key": apiKey,
+          "Authorization": apiKey+":",
         },
       });
       return response;
@@ -48,7 +48,7 @@ export class AuthService {
 
   validateLogin(loginForm: SigninFormProps): ValidationErrors {
     const errors: ValidationErrors = {};
-    if (!loginForm.username) {
+    if (!loginForm.login) {
       errors.username = "Username is required";
     }
     if (!loginForm.password) {
@@ -59,7 +59,7 @@ export class AuthService {
 
   validateResetPassword(loginForm: SigninFormProps): ValidationErrors {
     const errors: ValidationErrors = {};
-    if (!loginForm.username) {
+    if (!loginForm.login) {
       errors.email = "Email is required";
     }
     if (!loginForm.password) {

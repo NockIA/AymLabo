@@ -61,8 +61,8 @@ func main() {
 	}
 	bdd.DbManager = initDbManager
 	router := http.NewServeMux()
-	router.Handle("/login", authenticate(true, http.HandlerFunc(handlers.MainHandler)))
-	router.Handle("/register", authenticate(true, http.HandlerFunc(handlers.MainHandler)))
+	router.Handle("/signin", authenticate(true, http.HandlerFunc(handlers.MainHandler)))
+	router.Handle("/signup", authenticate(true, http.HandlerFunc(handlers.MainHandler)))
 	router.Handle("/", authenticate(false, http.HandlerFunc(handlers.MainHandler)))
 	server := &http.Server{
 		Addr:    ":9090",

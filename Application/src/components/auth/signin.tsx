@@ -18,7 +18,7 @@ const SignIn: React.FC = () => {
     e.preventDefault();
     setError(null);
     const userData: SigninFormProps = {
-      username: username,
+      login: username,
       password: password1,
     };
     const errors: ValidationErrors = _authService.validateLogin(userData);
