@@ -13,7 +13,10 @@ require (
 )
 
 require (
+	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
+	github.com/gorilla/handlers v1.5.2 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
+	github.com/rs/cors v1.10.1 // indirect
 )
