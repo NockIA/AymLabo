@@ -1,17 +1,35 @@
 .target {
-    position: absolute;
-    background-color: rgba(255, 0, 0, 0.308);
-    border: 2px solid var(--white);
-    border-radius:999px;
-    padding: 0.15rem;
-  }
+  position: absolute;
+  background-color: rgba(255, 0, 0, 0.308);
+  border: 2px solid var(--white);
+  border-radius: 999px;
+  padding: 0.15rem;
+}
 
-  .target span{
-    border: 4px solid var(--white);
-    width: 4.5rem;
-    height: 4.5rem;
-    border-radius: 999px;
-    padding: 0.2rem;
-    user-select: none;
-    pointer-events: none;
+/* .target:active {
+  transition: transform 0.2s ease;
+  transform: scale(0);
+}
+
+@keyframes shrink {
+  0% {
+    transform: scale(1);
   }
+  100% {
+    transform: scale(0);
+  }
+} */
+
+.target.shrinking {
+  animation: shrink 0.5s forwards;
+}
+
+.target span {
+  border: 4px solid var(--white);
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 999px;
+  padding: 0.2rem;
+  user-select: none;
+  pointer-events: none;
+}
