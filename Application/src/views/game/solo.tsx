@@ -4,16 +4,11 @@ import "../../style/global.css";
 import { HeaderGame } from "@/components/headerGame/header_game";
 import { Target } from "@/components/target/target";
 import EndMenu from "@/components/endMenu/end_menu";
-
-interface Target {
-  id: number;
-  top: number;
-  left: number;
-}
+import { TargetProps } from "@/models/game";
 
 const Solo: React.FC = () => {
   const [score, setScore] = useState(0);
-  const [targets, setTargets] = useState<Target[]>([]);
+  const [targets, setTargets] = useState<TargetProps[]>([]);
   const gameRef = useRef<HTMLDivElement>(null);
   const [seconds, setSeconds] = useState(0);
   const [totalTargets, setTotalTargets] = useState(0);
@@ -63,7 +58,7 @@ const Solo: React.FC = () => {
       setTotalClics(-1);
       setTotalTargets(0);
       setShowMenu(false);
-      const initialTargets: Target[] = generateRandomTargets(4);
+      const initialTargets: TargetProps[] = generateRandomTargets(4);
       setTargets(initialTargets);
     }
   };
@@ -109,7 +104,7 @@ const Solo: React.FC = () => {
   // ------------------------------ //
 
   useEffect(() => {
-    const initialTargets: Target[] = generateRandomTargets(4);
+    const initialTargets: TargetProps[] = generateRandomTargets(4);
     setTargets(initialTargets);
     setBestStrike(0);
     setCurrentStrike(0);
@@ -141,13 +136,13 @@ const Solo: React.FC = () => {
     }
   }, [targets]);
 
-  const generateRandomTargets = (count: number): Target[] => {
+  const generateRandomTargets = (count: number): TargetProps[] => {
     const gridRowCount = 3;
     const gridColumnCount = 3;
     const cellWidth = gameRef.current!.offsetWidth / gridColumnCount;
     const cellHeight = gameRef.current!.offsetHeight / gridRowCount;
 
-    const newTargets: Target[] = [];
+    const newTargets: TargetProps[] = [];
     const existingPositions: { [key: string]: boolean } = {};
 
     const generateUniquePosition = (): string => {
@@ -169,7 +164,7 @@ const Solo: React.FC = () => {
     );
 
     for (let i = 0; i < count; i++) {
-      let newTarget: Target;
+      let newTarget: TargetProps;
       let newPosition: string;
       do {
         newPosition = generateUniquePosition();
@@ -251,7 +246,12 @@ const Solo: React.FC = () => {
         }}
       >
         {targets.map((target, index) => (
-          <Target key={index} target={target} />
+          <Target
+            key={index}
+            id={target.id}
+            left={target.left}
+            top={target.left}
+          />
         ))}
       </div>
       {showMenu && (
