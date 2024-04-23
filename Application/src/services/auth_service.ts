@@ -5,8 +5,10 @@ import {
 } from "../models/auth";
 import { apiKey, apiURL } from "../utils/api";
 import axios, { AxiosResponse } from "axios";
+import { Store } from "./store";
 
 export class AuthService {
+
   async signin(userData: SigninFormProps): Promise<AxiosResponse> {
     try {
       const response = await axios.post(`${apiURL}/signin`, userData, {

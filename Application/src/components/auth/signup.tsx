@@ -4,8 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { AuthService } from "../../services/auth_service";
 import { SignupFormProps, ValidationErrors } from "../../models/auth";
+import { Store } from "../../services/store";
 
 const SignUp: React.FC = () => {
+  const _store: Store = new Store("userData");
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password1, setPassword1] = useState("");
@@ -31,6 +34,7 @@ const SignUp: React.FC = () => {
         try {
           const response = await _authService.signup(userData);
           if (response.data) {
+            _store.save(response.data);
             navigate("/home");
           } else {
             setError({ other: "Invalid credentials" });
