@@ -40,16 +40,17 @@
 }
 
 .container-stat {
-  gap: 2rem;
+  gap: 3vw;
+  min-width: 300px;
   align-items: center;
   justify-content: space-between;
   border-radius: 10px;
-  
 }
 
 .container-stat h2 {
   background-color: #5b5e7b;
   color: var(--white);
+  width: 50%;
   font-weight: 500;
   height: 100%;
   font-size: 18px;
@@ -102,6 +103,7 @@
 }
 .container-col-stats {
   gap: 3rem;
+  justify-content: space-between;
   margin-bottom: -1rem;
 }
 
@@ -111,7 +113,7 @@
 }
 
 .container-end-menu .container-buttons .buttons-menu-stats {
-  padding: 1rem 8vw;
+  padding: 1rem 2rem;
   background-color: #2d2f43;
   border-radius: 10px;
   color: var(--white);
@@ -125,4 +127,5 @@
 
 .container-stats-buttons {
   gap: 3rem;
+  justify-content: space-between;
 }

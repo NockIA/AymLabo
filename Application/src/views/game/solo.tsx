@@ -35,6 +35,7 @@ const Solo: React.FC = () => {
 
   const handleMenuModal = (data: boolean) => {
     setShowMenu(data);
+    setTotalClics(totalClics - 1);
   };
 
   const handleEchap = (event: { key: string }) => {
@@ -56,7 +57,7 @@ const Solo: React.FC = () => {
       setBestStrike(0);
       setCurrentStrike(0);
       setSeconds(0);
-      setTotalClics(0);
+      setTotalClics(-1);
       setTotalTargets(0);
       setShowMenu(false);
       const initialTargets: Target[] = generateRandomTargets(4);
@@ -219,8 +220,6 @@ const Solo: React.FC = () => {
       document.body.removeEventListener("click", handleGlobalClick);
     };
   }, [totalClics, showMenu]);
-
-  
 
   return (
     <main className="container-game flex-col" role="main">

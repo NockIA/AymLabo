@@ -35,7 +35,7 @@ const EndMenu: React.FC<EndMenuProps> = ({
                 <h2>Targets hit</h2>
                 <p>{targetHits + "x"}</p>
               </div>
-            
+
               <div className="flex-row container-stat">
                 <h2>Total clics</h2>
                 <p>{totalClics + "x"}</p>
@@ -48,7 +48,7 @@ const EndMenu: React.FC<EndMenuProps> = ({
               </div>
               <div className="flex-col container-col-stat">
                 <h2>Accuracy</h2>
-                <p>{!Number.isNaN(accuracy) ? accuracy + '%' : '0%' }</p>
+                <p>{!Number.isNaN(accuracy) ? accuracy + "%" : "0%"}</p>
               </div>
             </div>
           </div>
