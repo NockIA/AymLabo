@@ -1,13 +1,13 @@
 import "./target.css";
 import "../../style/global.css";
-import { TargetProps } from "@/models/game";
+import { TargetCompProps } from "@/models/game";
 
-export const Target: React.FC<TargetProps> = ({ id, top, left }) => {
+export const Target: React.FC<TargetCompProps> = ({ target }) => {
   return (
     <div
-      id={id.toString()}
+      id={target.id.toString()}
       className="target flex-col"
-      style={{ top: top, left: left }}
+      style={{ top: target.top, left: target.left }}
     >
       <span></span>
     </div>

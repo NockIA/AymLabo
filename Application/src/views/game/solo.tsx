@@ -246,12 +246,7 @@ const Solo: React.FC = () => {
         }}
       >
         {targets.map((target, index) => (
-          <Target
-            key={index}
-            id={target.id}
-            left={target.left}
-            top={target.left}
-          />
+          <Target key={index} target={target} />
         ))}
       </div>
       {showMenu && (

@@ -8,8 +8,8 @@ const Ways = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/solo" element={<Solo />} />
-        <Route path="/" element={<SignIn />} />
+        <Route path="/" element={<Solo />} />
+        <Route path="/solo" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>

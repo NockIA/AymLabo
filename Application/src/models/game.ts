@@ -3,3 +3,7 @@ export interface TargetProps {
   top: number;
   left: number;
 }
+
+export interface TargetCompProps {
+  target: { top: number; left: number; id: number };
+}
