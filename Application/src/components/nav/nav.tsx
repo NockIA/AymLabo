@@ -7,7 +7,7 @@ export const Nav: React.FC = () => {
     <nav className="container-nav flex-col">
       <header className="flex-col container-logo">
         <Link className="flex-row container-link" to={"/home"}>
-          <img src="/logo.png" alt="Home logo" />
+          <img src="/icon.png" alt="Home logo" />
           <h5>Aym<span>Labo</span></h5>
         </Link>
         <span className="separation-nav" />

@@ -38,7 +38,11 @@ const Solo: React.FC = () => {
 
   const handleEchap = (event: { key: string }) => {
     if (event.key === "Escape") {
-      setShowMenu((prevShowMenu) => !prevShowMenu);
+      if (seconds >= maxTime || score >= maxScore) {
+        setShowMenu(true);
+      } else {
+        setShowMenu((prevShowMenu) => !prevShowMenu);
+      }
     }
   };
 

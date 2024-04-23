@@ -43,7 +43,7 @@ const SignIn: React.FC = () => {
         aria-label="App presentation"
       >
         <div className="flex-row container-logo">
-          <img src="/logo.png" />
+          <img src="/icon.png" />
           <h5>
             Aym<span>Labo</span>
           </h5>
