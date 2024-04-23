@@ -5,12 +5,15 @@ import (
 	"net/http"
 )
 
-var handlers = map[string]func(http.ResponseWriter, *http.Request){
+var posthandlers = map[string]func(http.ResponseWriter, *http.Request){
 	"/register": methods.Register,
+	"/login":    methods.Login,
+	"/play":     methods.Play,
+	"/ttk":      methods.UpdateTTK,
 }
 
 func PostHandler(w http.ResponseWriter, r *http.Request) {
-	if handler, ok := handlers[r.URL.Path]; ok {
+	if handler, handlerExist := posthandlers[r.URL.Path]; handlerExist {
 		handler(w, r)
 	} else {
 		http.Error(w, "Not Found", http.StatusNotFound)
