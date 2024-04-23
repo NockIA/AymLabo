@@ -2,8 +2,8 @@ import "./sign.css";
 import "../../style/global.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { AuthService } from "@/services/auth_service";
-import { SignupFormProps, ValidationErrors } from "@/models/auth";
+import { AuthService } from "../../services/auth_service";
+import { SignupFormProps, ValidationErrors } from "../../models/auth";
 
 const SignUp: React.FC = () => {
   const [username, setUsername] = useState("");

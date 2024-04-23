@@ -1,6 +1,6 @@
 import "./target.css";
 import "../../style/global.css";
-import { TargetCompProps } from "@/models/game";
+import { TargetCompProps } from "../../models/game";
 
 export const Target: React.FC<TargetCompProps> = ({ target }) => {
   return (
