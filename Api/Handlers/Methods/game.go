@@ -1,6 +1,7 @@
 package methods
 
 import (
+	bdd "api/BDD"
 	utils "api/Handlers/Utils"
 	"encoding/json"
 	"fmt"
@@ -8,8 +9,8 @@ import (
 )
 
 type ReceiveSoloPlay struct {
-	TimePlayedInSecond string `json:"timePlayedInSecond" validate:"required"`
-	NumberOfTargetDown string `json:"numberOfTargetDown" validate:"required"`
+	TimePlayedInSecond int `json:"timePlayedInSecond" validate:"required,numeric"`
+	NumberOfTargetDown int `json:"numberOfTargetDown" validate:"required,numeric"`
 }
 
 func SoloPlay(w http.ResponseWriter, r *http.Request) {
@@ -26,11 +27,10 @@ func SoloPlay(w http.ResponseWriter, r *http.Request) {
 	}
 	receiveToken := r.Header.Get("Authorization")
 	if claims, err := utils.GetClaims(&receiveToken); err == nil {
-		fmt.Println(claims)
-		message := LoginAndRegisterMessage{Jwt: "Hello, World!"}
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(message)
-		// fmt.Println(requestData.Email, requestData.Pseudo, requestData.Password)
+		sqlQuery := "UPDATE players SET timeToKill = CASE WHEN timeToKill IS NULL THEN ? ELSE ((timeToKill +?)/2) END, numberOfSoloGamePlay = numberOfSoloGamePlay + 1 WHERE playerUUID = ?;"
+		newTTK := requestData.NumberOfTargetDown / requestData.TimePlayedInSecond
+		bdd.DbManager.AddDeleteUpdateDB(sqlQuery, newTTK, newTTK, claims["UUID"])
+		w.WriteHeader(http.StatusCreated)
 	} else {
 		http.Error(w, "Unauthorized", http.StatusUnauthorized)
 		fmt.Println("Failed to get claims in SoloPlay method")

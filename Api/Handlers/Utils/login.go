@@ -6,7 +6,7 @@ import (
 )
 
 type Player struct {
-	Login    string `json:"login" validate:"required"`
+	Login    string `json:"login" validate:"required, alphanum"`
 	Password string `json:"password" validate:"required"`
 }
 
