@@ -4,9 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import {
   AuthService,
-  SigninFormProps,
-  ValidationErrors,
 } from "@/services/auth_service";
+import { SigninFormProps, ValidationErrors } from "@/models/auth";
 
 const SignIn: React.FC = () => {
   const [username, setUserName] = useState("");
@@ -19,7 +18,7 @@ const SignIn: React.FC = () => {
     e.preventDefault();
     setError(null);
     const userData: SigninFormProps = {
-      username: username,
+      login: username,
       password: password1,
     };
     const errors: ValidationErrors = _authService.validateLogin(userData);

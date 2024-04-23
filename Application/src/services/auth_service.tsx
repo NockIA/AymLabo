@@ -1,30 +1,17 @@
+import {
+  SigninFormProps,
+  SignupFormProps,
+  ValidationErrors,
+} from "@/models/auth";
 import { apiKey, apiURL } from "@/utils/api";
 import axios, { AxiosResponse } from "axios";
-
-export interface SigninFormProps {
-  username: string;
-  password: string;
-}
-
-export interface SignupFormProps {
-  username: string;
-  email: string;
-  password: string;
-}
-
-export interface ValidationErrors {
-  username?: string;
-  email?: string;
-  password?: string;
-  other?: string;
-}
 
 export class AuthService {
   async signin(userData: SigninFormProps): Promise<AxiosResponse> {
     try {
       const response = await axios.post(`${apiURL}/signin`, userData, {
         headers: {
-          "X-API-Key": apiKey,
+          "Authorization": apiKey+":",
         },
       });
       return response;
@@ -37,7 +24,7 @@ export class AuthService {
     try {
       const response = await axios.post(`${apiURL}/signup`, userData, {
         headers: {
-          "X-API-Key": apiKey,
+          "Authorization": apiKey+":",
         },
       });
       return response;
@@ -46,22 +33,22 @@ export class AuthService {
     }
   }
 
-  async resetPassword (userData : SigninFormProps): Promise<AxiosResponse> {
+  async resetPassword(userData: SigninFormProps): Promise<AxiosResponse> {
     try {
       const response = await axios.post(`${apiURL}/reset-password`, userData, {
         headers: {
-          "X-API-Key": apiKey,
+          "Authorization": apiKey+":",
         },
       });
       return response;
-    } catch (error:any) {
+    } catch (error: any) {
       throw new Error(`Error signing up: ${error.message}`);
     }
   }
 
   validateLogin(loginForm: SigninFormProps): ValidationErrors {
     const errors: ValidationErrors = {};
-    if (!loginForm.username) {
+    if (!loginForm.login) {
       errors.username = "Username is required";
     }
     if (!loginForm.password) {
@@ -72,7 +59,7 @@ export class AuthService {
 
   validateResetPassword(loginForm: SigninFormProps): ValidationErrors {
     const errors: ValidationErrors = {};
-    if (!loginForm.username) {
+    if (!loginForm.login) {
       errors.email = "Email is required";
     }
     if (!loginForm.password) {
@@ -80,8 +67,6 @@ export class AuthService {
     }
     return errors;
   }
-
-
 
   validateSignup(signupForm: SignupFormProps): ValidationErrors {
     const errors: ValidationErrors = {};

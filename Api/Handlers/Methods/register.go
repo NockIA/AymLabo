@@ -12,8 +12,8 @@ import (
 
 type NewPlayer struct {
 	Email    string `json:"email" validate:"required,email"`
-	Pseudo   string `json:"username" validate:"required, alphanum"`
-	Password string `json:"password" validate:"required, min=8"`
+	Pseudo   string `json:"username" validate:"required,alphanum"`
+	Password string `json:"password" validate:"required,min=8"`
 }
 
 type LoginAndRegisterMessage struct {

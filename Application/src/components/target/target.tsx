@@ -1,11 +1,8 @@
 import "./target.css";
 import "../../style/global.css";
+import { TargetCompProps } from "@/models/game";
 
-interface TargetProps {
-  target: { top: number; left: number; id: number };
-}
-
-export const Target: React.FC<TargetProps> = ({ target }) => {
+export const Target: React.FC<TargetCompProps> = ({ target }) => {
   return (
     <div
       id={target.id.toString()}
