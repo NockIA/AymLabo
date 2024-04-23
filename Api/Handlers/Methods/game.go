@@ -10,7 +10,7 @@ var receivePlayer struct {
 
 func Play(w http.ResponseWriter, r *http.Request) {
 	// encodedBody := json.NewDecoder(r.Body)
-	defer r.Body.Close()
+	// defer r.Body.Close()
 	// var requestData Player
 	// if err := encodedBody.Decode(&requestData); err != nil {
 	// 	http.Error(w, "Failed to decode JSON", http.StatusBadRequest)
@@ -25,7 +25,7 @@ func Play(w http.ResponseWriter, r *http.Request) {
 	// 	http.Error(w, "Unauthorized", http.StatusUnauthorized)
 	// 	return
 	// }
-	message := Message{Text: "Hello, World!"}
+	message := LoginAndRegisterMessage{Jwt: "Hello, World!"}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(message)
 	// fmt.Println(requestData.Email, requestData.Pseudo, requestData.Password)

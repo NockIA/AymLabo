@@ -14,8 +14,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to decode JSON", http.StatusBadRequest)
 		return
 	}
-	if isUserExist, jwtToken := utils.IsUserExist(requestData); !isUserExist {
-		message := Message{Text: jwtToken}
+	if isUserExist, jwtToken := utils.IsUserExist(requestData); isUserExist {
+		message := LoginAndRegisterMessage{Jwt: jwtToken}
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(message)
 	} else {

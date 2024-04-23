@@ -16,8 +16,8 @@ type NewPlayer struct {
 	Password string `json:"password"`
 }
 
-type Message struct {
-	Text string `json:"text"`
+type LoginAndRegisterMessage struct {
+	Jwt string `json:"jwt"`
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
@@ -39,7 +39,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	if !rslt.Next() {
 		var playerUUID string = uuid.New().String()
 		if jwtToken, err := utils.CreateJWT(&playerUUID); err == nil {
-			message := Message{Text: jwtToken}
+			message := LoginAndRegisterMessage{Jwt: jwtToken}
 			w.Header().Set("Content-Type", "application/json")
 			json.NewEncoder(w).Encode(message)
 			bdd.DbManager.AddDeleteUpdateDB("INSERT INTO players (playerUUID, email, pseudo, password, numberOfWin, numberOfLoose) VALUES (?, ?, ?, ?,0,0);", playerUUID, requestData.Email, requestData.Pseudo, requestData.Password)

@@ -3,6 +3,7 @@ package main
 import (
 	bdd "api/BDD"
 	handlers "api/Handlers"
+	utils "api/Handlers/Utils"
 	"fmt"
 	"net/http"
 	"strings"
@@ -14,8 +15,7 @@ const (
 )
 
 func isValidToken(JWT *string) bool {
-	splitJWT := strings.Split(*JWT, ".")
-	if len(splitJWT) == 2 {
+	if claims, err := utils.ParseJWT(JWT); err == nil && claims != nil {
 		return true
 	}
 	return false
