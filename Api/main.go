@@ -3,9 +3,12 @@ package main
 import (
 	bdd "api/BDD"
 	handlers "api/Handlers"
+	utils "api/Handlers/Utils"
 	"fmt"
 	"net/http"
 	"strings"
+
+	"github.com/go-playground/validator"
 )
 
 const (
@@ -14,8 +17,7 @@ const (
 )
 
 func isValidToken(JWT *string) bool {
-	splitJWT := strings.Split(*JWT, ".")
-	if len(splitJWT) == 2 {
+	if claims, err := utils.ParseJWT(JWT); err == nil && claims != nil {
 		return true
 	}
 	return false
@@ -39,6 +41,7 @@ func authenticate(inLogin bool, next http.Handler) http.Handler {
 
 func main() {
 	initDbManager, err := bdd.NewDatabaseManager("./BDD/db.db")
+	utils.Validator = validator.New()
 	if err != nil {
 		fmt.Println(err)
 		return

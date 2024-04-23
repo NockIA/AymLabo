@@ -3,6 +3,7 @@ package methods
 import (
 	utils "api/Handlers/Utils"
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
@@ -14,8 +15,13 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to decode JSON", http.StatusBadRequest)
 		return
 	}
-	if isUserExist, jwtToken := utils.IsUserExist(requestData); !isUserExist {
-		message := Message{Text: jwtToken}
+	if err := utils.Validator.Struct(requestData); err != nil {
+		fmt.Printf("Invalid request data in Login method : %v\n", err)
+		http.Error(w, "Invalid request data", http.StatusBadRequest)
+		return
+	}
+	if isUserExist, jwtToken := utils.IsUserExist(requestData); isUserExist {
+		message := LoginAndRegisterMessage{Jwt: jwtToken}
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(message)
 	} else {

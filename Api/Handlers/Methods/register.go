@@ -11,13 +11,13 @@ import (
 )
 
 type NewPlayer struct {
-	Email    string `json:"email"`
-	Pseudo   string `json:"username"`
-	Password string `json:"password"`
+	Email    string `json:"email" validate:"required,email"`
+	Pseudo   string `json:"username" validate:"required, alphanum"`
+	Password string `json:"password" validate:"required, min=8"`
 }
 
-type Message struct {
-	Text string `json:"text"`
+type LoginAndRegisterMessage struct {
+	Jwt string `json:"jwt"`
 }
 
 func Register(w http.ResponseWriter, r *http.Request) {
@@ -26,6 +26,11 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	var requestData NewPlayer
 	if err := encodedBody.Decode(&requestData); err != nil {
 		http.Error(w, "Failed to decode JSON", http.StatusBadRequest)
+		return
+	}
+	if err := utils.Validator.Struct(requestData); err != nil {
+		fmt.Printf("Invalid request data in Register method : %v\n", err)
+		http.Error(w, "Invalid request data", http.StatusBadRequest)
 		return
 	}
 	rslt, err := bdd.DbManager.SelectDB("SELECT playerUUID FROM players WHERE (email=? OR pseudo=?) AND password=?", requestData.Email, requestData.Pseudo, requestData.Password)
@@ -39,10 +44,10 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	if !rslt.Next() {
 		var playerUUID string = uuid.New().String()
 		if jwtToken, err := utils.CreateJWT(&playerUUID); err == nil {
-			message := Message{Text: jwtToken}
+			message := LoginAndRegisterMessage{Jwt: jwtToken}
 			w.Header().Set("Content-Type", "application/json")
 			json.NewEncoder(w).Encode(message)
-			bdd.DbManager.AddDeleteUpdateDB("INSERT INTO players (playerUUID, email, pseudo, password, numberOfWin, numberOfLoose) VALUES (?, ?, ?, ?,0,0);", playerUUID, requestData.Email, requestData.Pseudo, requestData.Password)
+			bdd.DbManager.AddDeleteUpdateDB("INSERT INTO players (playerUUID, email, pseudo, password) VALUES (?, ?, ?, ?);", playerUUID, requestData.Email, requestData.Pseudo, requestData.Password)
 			return
 		}
 	}
