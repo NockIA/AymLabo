@@ -4,9 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import {
   AuthService,
-  SigninFormProps,
-  ValidationErrors,
 } from "@/services/auth_service";
+import { SigninFormProps, ValidationErrors } from "@/models/auth";
 
 const ResetPassword: React.FC = () => {
   const [email, setEmail] = useState("");
