@@ -38,6 +38,7 @@
 }
 
 .container-header-game {
+  user-select: none;
   align-items: center;
   width: 100%;
   padding: 0.5rem 1rem;

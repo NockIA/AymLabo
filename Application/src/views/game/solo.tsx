@@ -35,6 +35,9 @@ const Solo: React.FC = () => {
 
   const handleMenuModal = (data: boolean) => {
     setShowMenu(data);
+    if (seconds >= maxTime || score >= maxScore) {
+      restart(true);
+    }
     setTotalClics(totalClics - 1);
   };
 

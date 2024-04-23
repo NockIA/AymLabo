@@ -6,7 +6,7 @@
   padding: 0.15rem;
 }
 
-.target:active {
+/* .target:active {
   transition: transform 0.2s ease;
   transform: scale(0);
 }
@@ -18,7 +18,7 @@
   100% {
     transform: scale(0);
   }
-}
+} */
 
 .target.shrinking {
   animation: shrink 0.5s forwards;
