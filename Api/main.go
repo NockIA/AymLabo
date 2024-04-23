@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+
+	"github.com/go-playground/validator"
 )
 
 const (
@@ -39,6 +41,7 @@ func authenticate(inLogin bool, next http.Handler) http.Handler {
 
 func main() {
 	initDbManager, err := bdd.NewDatabaseManager("./BDD/db.db")
+	utils.Validator = validator.New()
 	if err != nil {
 		fmt.Println(err)
 		return

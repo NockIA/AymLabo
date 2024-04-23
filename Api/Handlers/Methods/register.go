@@ -11,9 +11,9 @@ import (
 )
 
 type NewPlayer struct {
-	Email    string `json:"email"`
-	Pseudo   string `json:"username"`
-	Password string `json:"password"`
+	Email    string `json:"email" validate:"required"`
+	Pseudo   string `json:"username" validate:"required"`
+	Password string `json:"password" validate:"required"`
 }
 
 type LoginAndRegisterMessage struct {
@@ -26,6 +26,11 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	var requestData NewPlayer
 	if err := encodedBody.Decode(&requestData); err != nil {
 		http.Error(w, "Failed to decode JSON", http.StatusBadRequest)
+		return
+	}
+	if err := utils.Validator.Struct(requestData); err != nil {
+		fmt.Printf("Invalid request data in Register method : %v\n", err)
+		http.Error(w, "Invalid request data", http.StatusBadRequest)
 		return
 	}
 	rslt, err := bdd.DbManager.SelectDB("SELECT playerUUID FROM players WHERE (email=? OR pseudo=?) AND password=?", requestData.Email, requestData.Pseudo, requestData.Password)

@@ -8,8 +8,8 @@ import (
 var posthandlers = map[string]func(http.ResponseWriter, *http.Request){
 	"/register": methods.Register,
 	"/login":    methods.Login,
-	"/play":     methods.Play,
-	"/ttk":      methods.UpdateTTK,
+	// "/play":     methods.Play,
+	"/soloPlay": methods.SoloPlay,
 }
 
 func PostHandler(w http.ResponseWriter, r *http.Request) {

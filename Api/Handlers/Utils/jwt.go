@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -16,6 +17,15 @@ func CreateJWT(userUUID *string) (string, error) {
 	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
 	tokenString, err := token.SignedString(jwtKey)
 	return tokenString, err
+}
+
+func GetClaims(allTokenString *string) (jwt.MapClaims, error) {
+	splittedToken := strings.Split(*allTokenString, ":")
+	if claims, err := ParseJWT(&splittedToken[1]); err == nil {
+		return claims, nil
+	} else {
+		return nil, err
+	}
 }
 
 func ParseJWT(tokenString *string) (jwt.MapClaims, error) {
