@@ -2,11 +2,8 @@ import "./sign.css";
 import "../../style/global.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import {
-  AuthService,
-  SignupFormProps,
-  ValidationErrors,
-} from "@/services/auth_service";
+import { AuthService } from "@/services/auth_service";
+import { SignupFormProps, ValidationErrors } from "@/models/auth";
 
 const SignUp: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -32,7 +29,7 @@ const SignUp: React.FC = () => {
       const errors: ValidationErrors = _authService.validateSignup(userData);
       if (Object.keys(errors).length === 0) {
         try {
-          const response = await _authService.signin(userData);
+          const response = await _authService.signup(userData);
           if (response.data) {
             navigate("/home");
           } else {

@@ -19,7 +19,7 @@ const ResetPassword: React.FC = () => {
     e.preventDefault();
     setError(null);
     const userData: SigninFormProps = {
-      username: email,
+      login: email,
       password: password1,
     };
     const errors: ValidationErrors = _authService.validateResetPassword(userData);
