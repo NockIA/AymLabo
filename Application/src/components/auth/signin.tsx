@@ -2,18 +2,18 @@ import "./sign.css";
 import "../../style/global.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import {
-  AuthService,
-} from "@/services/auth_service";
-import { SigninFormProps, ValidationErrors } from "@/models/auth";
+import { AuthService } from "../../services/auth_service";
+import { SigninFormProps, ValidationErrors } from "../../models/auth";
+import { Store } from "../../services/store";
 
 const SignIn: React.FC = () => {
+  const _store: Store = new Store("userData");
+
   const [username, setUserName] = useState("");
   const [password1, setPassword1] = useState("");
   const _authService: AuthService = new AuthService();
   const [error, setError] = useState<ValidationErrors | null>(null);
   const navigate = useNavigate();
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
@@ -26,7 +26,8 @@ const SignIn: React.FC = () => {
       try {
         const response = await _authService.signin(userData);
         if (response.data) {
-          navigate("/home");
+          _store.save(response.data);
+          navigate("/solo");
         } else {
           setError({ other: "Invalid credentials" });
         }
@@ -45,7 +46,7 @@ const SignIn: React.FC = () => {
         aria-label="App presentation"
       >
         <div className="flex-row container-logo">
-          <img src="/logo.png" />
+          <img src="/icon.png" />
           <h5>
             Aym<span>Labo</span>
           </h5>

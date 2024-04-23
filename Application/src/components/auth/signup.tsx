@@ -2,13 +2,13 @@ import "./sign.css";
 import "../../style/global.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import {
-  AuthService,
-  SignupFormProps,
-  ValidationErrors,
-} from "@/services/auth_service";
+import { AuthService } from "../../services/auth_service";
+import { SignupFormProps, ValidationErrors } from "../../models/auth";
+import { Store } from "../../services/store";
 
 const SignUp: React.FC = () => {
+  const _store: Store = new Store("userData");
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password1, setPassword1] = useState("");
@@ -32,8 +32,9 @@ const SignUp: React.FC = () => {
       const errors: ValidationErrors = _authService.validateSignup(userData);
       if (Object.keys(errors).length === 0) {
         try {
-          const response = await _authService.signin(userData);
+          const response = await _authService.signup(userData);
           if (response.data) {
+            _store.save(response.data);
             navigate("/home");
           } else {
             setError({ other: "Invalid credentials" });
@@ -54,7 +55,7 @@ const SignUp: React.FC = () => {
         aria-label="App presentation"
       >
         <div className="flex-row container-logo">
-          <img src="/logo.png" />
+          <img src="/icon.png" />
           <h5>
             Aym<span>Labo</span>
           </h5>

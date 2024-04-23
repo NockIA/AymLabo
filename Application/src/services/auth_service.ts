@@ -2,16 +2,18 @@ import {
   SigninFormProps,
   SignupFormProps,
   ValidationErrors,
-} from "@/models/auth";
-import { apiKey, apiURL } from "@/utils/api";
+} from "../models/auth";
+import { apiKey, apiURL } from "../utils/api";
 import axios, { AxiosResponse } from "axios";
+import { Store } from "./store";
 
 export class AuthService {
+
   async signin(userData: SigninFormProps): Promise<AxiosResponse> {
     try {
       const response = await axios.post(`${apiURL}/signin`, userData, {
         headers: {
-          "Authorization": apiKey+":",
+          Authorization: apiKey + ":",
         },
       });
       return response;
@@ -24,7 +26,7 @@ export class AuthService {
     try {
       const response = await axios.post(`${apiURL}/signup`, userData, {
         headers: {
-          "Authorization": apiKey+":",
+          Authorization: apiKey + ":",
         },
       });
       return response;
@@ -37,7 +39,7 @@ export class AuthService {
     try {
       const response = await axios.post(`${apiURL}/reset-password`, userData, {
         headers: {
-          "Authorization": apiKey+":",
+          Authorization: apiKey + ":",
         },
       });
       return response;

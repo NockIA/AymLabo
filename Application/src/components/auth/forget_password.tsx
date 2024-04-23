@@ -4,8 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import {
   AuthService,
-} from "@/services/auth_service";
-import { SigninFormProps, ValidationErrors } from "@/models/auth";
+} from "../../services/auth_service";
+import { SigninFormProps, ValidationErrors } from "../../models/auth";
 
 const ResetPassword: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -19,7 +19,7 @@ const ResetPassword: React.FC = () => {
     e.preventDefault();
     setError(null);
     const userData: SigninFormProps = {
-      username: email,
+      login: email,
       password: password1,
     };
     const errors: ValidationErrors = _authService.validateResetPassword(userData);
@@ -46,7 +46,7 @@ const ResetPassword: React.FC = () => {
         aria-label="App presentation"
       >
         <div className="flex-row container-logo">
-          <img src="/logo.png" />
+          <img src="/icon.png" />
           <h5>
             Aym<span>Labo</span>
           </h5>

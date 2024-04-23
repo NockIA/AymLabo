@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./solo.css";
 import "../../style/global.css";
-import { HeaderGame } from "@/components/headerGame/header_game";
-import { Target } from "@/components/target/target";
-import EndMenu from "@/components/endMenu/end_menu";
-import { TargetProps } from "@/models/game";
+import { HeaderGame } from "../../components/headerGame/header_game";
+import { Target } from "../../components/target/target";
+import EndMenu from "../../components/endMenu/end_menu";
+import { TargetProps } from "../../models/game";
 
 const Solo: React.FC = () => {
   const [score, setScore] = useState(0);
@@ -38,7 +38,11 @@ const Solo: React.FC = () => {
 
   const handleEchap = (event: { key: string }) => {
     if (event.key === "Escape") {
-      setShowMenu((prevShowMenu) => !prevShowMenu);
+      if (seconds >= maxTime || score >= maxScore) {
+        setShowMenu(true);
+      } else {
+        setShowMenu((prevShowMenu) => !prevShowMenu);
+      }
     }
   };
 
