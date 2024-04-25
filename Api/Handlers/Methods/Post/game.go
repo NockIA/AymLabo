@@ -30,10 +30,21 @@ func SoloPlay(w http.ResponseWriter, r *http.Request) {
 	}
 	receiveToken := r.Header.Get("Authorization")
 	if claims, err := utils.GetClaims(&receiveToken); err == nil {
-		sqlQuery := "UPDATE players SET timeToKill = CASE WHEN timeToKill IS NULL THEN ? ELSE ((timeToKill +?)/2) END, numberOfSoloGamePlay = numberOfSoloGamePlay + 1 WHERE playerUUID = ?;"
-		newTTK := requestData.NumberOfTargetDown / requestData.TimePlayedInSecond
-		bdd.DbManager.AddDeleteUpdateDB(sqlQuery, newTTK, newTTK, claims["UUID"])
-		w.WriteHeader(http.StatusCreated)
+		sqlQuery := `
+		UPDATE 
+			players 
+		SET 
+			killPerSeconde = (killPerSeconde + ?)/2,
+			numberOfSoloGamePlay = numberOfSoloGamePlay + 1,
+			avgAccuracy = (avgAccuracy + ?)/2,
+			totalScore = totalScore + ?,
+			bestStrike = MAX(bestStrike, ?),
+			numberOfGameWithStrike = CASE WHEN ? != 0 THEN numberOfGameWithStrike + 1 ELSE numberOfGameWithStrike END
+		WHERE playerUUID = ?;
+		`
+		newKPS := requestData.NumberOfTargetDown / requestData.TimePlayedInSecond
+		bdd.DbManager.AddDeleteUpdateDB(sqlQuery, newKPS, requestData.Accuracy, requestData.Score, requestData.BestStrike, requestData.BestStrike, claims["UUID"])
+		w.WriteHeader(http.StatusAccepted)
 	} else {
 		http.Error(w, "Unauthorized", http.StatusUnauthorized)
 		fmt.Println("Failed to get claims in SoloPlay method")
