@@ -5,7 +5,6 @@ import {
 } from "../models/auth";
 import { apiKey, apiURL } from "../utils/api";
 import axios, { AxiosResponse } from "axios";
-import { Store } from "./store";
 
 export class AuthService {
 

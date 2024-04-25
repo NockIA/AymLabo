@@ -10,6 +10,7 @@ export interface SignupFormProps {
 }
 
 export interface ValidationErrors {
+  avatar?: string;
   username?: string;
   email?: string;
   password?: string;

@@ -34,7 +34,7 @@ const SignUp: React.FC = () => {
         try {
           const response = await _authService.signup(userData);
           if (response.data) {
-            _store.save(response.data);
+            _store.save(response.data.jwt);
             navigate("/home");
           } else {
             setError({ other: "Invalid credentials" });

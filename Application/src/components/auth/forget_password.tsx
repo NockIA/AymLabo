@@ -62,7 +62,7 @@ const ResetPassword: React.FC = () => {
           aria-label="Switch to signin"
           role="button"
           className="button-sign button-sign-white"
-          to={"/signin"}
+          to={"/"}
           tabIndex={5}
         >
           Sign In
