@@ -28,9 +28,11 @@ func Seeder() {
 		"PlasmaPilot", "NightmareNinja", "OmegaOps", "Blackout", "CrusaderClash",
 		"VoidVoyager", "ApexPredator",
 	}
+	images := []string{"bear.png", "panda.png", "rabbit.png"}
 	for _, pseudo := range pseudos {
 		source := rand.NewSource(time.Now().UnixNano())
 		random := rand.New(source)
+		randomIndex := rand.Intn(len(images))
 		randomKillPerSeconde := 1 + rand.Float64()*(5)
 		randomNumberOfWin := random.Intn(101)
 		randomNumberOfLoose := random.Intn(101)
@@ -43,9 +45,9 @@ func Seeder() {
 		}
 		DbManager.AddDeleteUpdateDB(`
 			INSERT INTO players 
-			(playerUUID, email, pseudo, password, killPerSeconde, numberOfWin, numberOfLoose, numberOfSoloGamePlay, avgAccuracy, totalScore) 
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-		`, playerUUID, pseudo+"@gmail.com", pseudo, string(password), randomKillPerSeconde, randomNumberOfWin, randomNumberOfLoose, randomNumberOfSoloGamePlay, random.Intn(101), randomTotalScore)
+			(playerUUID, email, pseudo, password, killPerSeconde, numberOfWin, numberOfLoose, numberOfSoloGamePlay, avgAccuracy, totalScore, avatarProfile) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+		`, playerUUID, pseudo+"@gmail.com", pseudo, string(password), randomKillPerSeconde, randomNumberOfWin, randomNumberOfLoose, randomNumberOfSoloGamePlay, random.Intn(101), randomTotalScore, images[randomIndex])
 	}
 	fmt.Println("Seed is finished")
 }
