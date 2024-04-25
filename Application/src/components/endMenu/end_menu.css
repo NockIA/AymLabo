@@ -1,3 +1,5 @@
+/* ------------------ Containers ------------------*/
+
 .container-end-menu-shadow {
   background-color: rgba(0, 0, 0, 0.4);
   width: 100vw;
@@ -28,6 +30,47 @@
   align-items: center;
 }
 
+.container-stat {
+  gap: 3vw;
+  min-width: 300px;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 10px;
+}
+
+.container-end-menu .container-stats {
+  background-color: #2d2f43;
+  padding: 2rem 2rem;
+  border-radius: 10px;
+  gap: 2rem;
+}
+
+.container-target-stats {
+  gap: 3vh;
+}
+
+.container-col-stat {
+  color: var(--white);
+}
+
+.container-col-stats {
+  gap: 3rem;
+  justify-content: space-between;
+  margin-bottom: -1rem;
+}
+
+.container-end-menu .container-buttons {
+  justify-content: flex-start;
+  gap: 2rem;
+}
+
+.container-stats-buttons {
+  gap: 3rem;
+  justify-content: space-between;
+}
+
+/* ------------------ Texts ------------------*/
+
 .container-score-stat h2 {
   color: var(--white);
   font-weight: 500;
@@ -37,14 +80,6 @@
   color: var(--white);
   font-weight: 500;
   font-size: 40px;
-}
-
-.container-stat {
-  gap: 3vw;
-  min-width: 300px;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 10px;
 }
 
 .container-stat h2 {
@@ -76,21 +111,6 @@
   box-shadow: 0px 4px 17px 8px rgba(0, 0, 0, 0.205);
 }
 
-.container-end-menu .container-stats {
-  background-color: #2d2f43;
-  padding: 2rem 2rem;
-  border-radius: 10px;
-  gap: 2rem;
-}
-
-.container-target-stats {
-  gap: 3vh;
-}
-
-.container-col-stat {
-  color: var(--white);
-}
-
 .container-col-stat h2 {
   font-size: 18px;
   font-weight: 500;
@@ -101,16 +121,8 @@
   font-weight: 500;
   margin-top: -0.5rem;
 }
-.container-col-stats {
-  gap: 3rem;
-  justify-content: space-between;
-  margin-bottom: -1rem;
-}
 
-.container-end-menu .container-buttons {
-  justify-content: flex-start;
-  gap: 2rem;
-}
+/* ------------------ Buttons ------------------*/
 
 .container-end-menu .container-buttons .buttons-menu-stats {
   padding: 1rem 2rem;
@@ -125,7 +137,10 @@
   font-family: "Poppins";
 }
 
-.container-stats-buttons {
-  gap: 3rem;
-  justify-content: space-between;
+.container-end-menu .container-buttons .buttons-menu-stats:focus {
+  outline: 2px solid var(--blue);
+}
+
+.container-end-menu .container-buttons .buttons-menu-stats:hover {
+  outline: 2px solid var(--blue);
 }

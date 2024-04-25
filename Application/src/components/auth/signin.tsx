@@ -28,7 +28,7 @@ const SignIn: React.FC = () => {
         const response = await _authService.signin(userData);
         if (response.data) {
           _store.save(response.data.jwt);
-          navigate("/solo");
+          navigate("/home");
         } else {
           setError({ other: "Invalid credentials" });
         }

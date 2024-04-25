@@ -1,3 +1,5 @@
+/* ------------------ Containers ------------------*/
+
 .container-stat-profile {
   background-color: var(--white);
   padding: 1.5rem 1rem;
@@ -11,12 +13,7 @@
   text-align: center;
 }
 
-.container-stat-profile img {
-  position: absolute;
-  top: -3rem;
-  width: 6rem;
-  object-fit: contain;
-}
+/* ------------------ Texts ------------------*/
 
 .container-stat-profile h2 {
   font-weight: 900;
@@ -27,4 +24,13 @@
 .container-stat-profile p {
   font-weight: 600;
   font-size: 36px;
+}
+
+/* ------------------ Others ------------------*/
+
+.container-stat-profile img {
+  position: absolute;
+  top: -3rem;
+  width: 6rem;
+  object-fit: contain;
 }
