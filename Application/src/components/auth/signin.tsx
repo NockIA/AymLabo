@@ -14,6 +14,7 @@ const SignIn: React.FC = () => {
   const _authService: AuthService = new AuthService();
   const [error, setError] = useState<ValidationErrors | null>(null);
   const navigate = useNavigate();
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
@@ -26,7 +27,7 @@ const SignIn: React.FC = () => {
       try {
         const response = await _authService.signin(userData);
         if (response.data) {
-          _store.save(response.data);
+          _store.save(response.data.jwt);
           navigate("/solo");
         } else {
           setError({ other: "Invalid credentials" });

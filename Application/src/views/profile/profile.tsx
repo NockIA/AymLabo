@@ -1,48 +1,180 @@
 import "./profile.css";
 import "../../style/global.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { StatProfile } from "../../components/stats/stat_profile";
+import { ValidationErrors } from "../../models/auth";
+import { ProfileService } from "../../services/profile_service";
+import { Store } from "../../services/store";
+import { ProfileProps } from "../../models/profile";
+import { StatProfileProps } from "@/models/stat";
+import { Nav } from "../../components/nav/nav";
+import { AvatarModal } from "../../components/avatar/avatar";
 
 const Profile: React.FC = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [avatar, setAvatar] = useState("panda.png");
+  const [error, setError] = useState<ValidationErrors | null>(null);
+  const _profileService: ProfileService = new ProfileService();
+  const [stats, setStats] = useState<Array<StatProfileProps>>([]);
+  const _store: Store = new Store("userData");
+  const [jwt, setJwt] = useState("");
+  const [showModal, setShowModal] = useState(false);
+
+  // --------------------------- //
+  // ---------Getters----------- //
+  // --------------------------- //
+
+  const getProfileInfos = () => {
+    _profileService.getProfileCurrentUser(jwt).then((datas) => {
+      setAvatar(datas.avatar);
+      setEmail(datas.email);
+      setUsername(datas.username);
+    });
+  };
+
+  const getStatsUser = () => {
+    _profileService.getProfileStats(jwt).then((datas) => {
+      setStats(datas);
+    });
+  };
+
+  useEffect(() => {
+    if (jwt.length > 0) {
+      getProfileInfos();
+      getStatsUser();
+    }
+  }, []);
+
+  // -------------------------- //
+  // ---------Submit----------- //
+  // -------------------------- //
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+    const userData: ProfileProps = {
+      username: username,
+      email: email,
+      avatar: avatar,
+    };
+    const errors: ValidationErrors = _profileService.validateProfile(userData);
+    if (Object.keys(errors).length === 0) {
+      try {
+        const response = await _profileService.submitProfileEdit(userData, jwt);
+        if (response.data) {
+          getProfileInfos();
+        } else {
+          setError({ other: "Invalid credentials" });
+        }
+      } catch (error: any) {
+        setError({ other: "An error occured while trying to update profile" });
+      }
+    } else {
+      setError(errors);
+    }
+  };
+
+  const handleEditAvatar = (data: string) => {
+    setAvatar(data);
+    setShowModal(false);
+  };
+  // -------------------------- //
+  // -----------JWT------------ //
+  // -------------------------- //
+
+  useEffect(() => {
+    const jwt_store = _store.load();
+    if (jwt_store) {
+      setJwt(jwt_store);
+    }
+  }, [jwt]);
+
   return (
-    <main className="container-profile flex-row">
-      <section className="flex-col">
-        <img src="" alt="" />
-        <button>Change avatar</button>
-        <form>
-          <fieldset>
-            <label htmlFor="">Username</label>
-            <input
-              type="text"
-              value={username}
-              placeholder="Enter a username"
-              onChange={(e) => setUsername(e.target.value)}
+    <>
+      <Nav />
+      <main className="container-profile-view flex-row" role="main">
+        <div className="container-profile flex-row">
+          <section className="flex-col container-informations">
+            <img
+              className="avatar"
+              src={"/avatar/" + avatar}
+              alt="user_avatar"
             />
-          </fieldset>
-          <fieldset>
-            <label htmlFor="">Username</label>
-            <input
-              type="text"
-              value={email}
-              placeholder="Enter an email"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </fieldset>
-          <Link to={"/reset-password"}>Edit your password</Link>
-          <button>Submit</button>
-        </form>
-      </section>
-      <section className="container-stats ">
-        <StatProfile title="Targets Hit" value={3600} />
-        <StatProfile title="Targets Hissssssssst" value={3600} />
-        <StatProfile title="Targets Hit" value={360000000} />
-        <StatProfile title="Targets Hit" value={3600} />
-        <StatProfile title="Targets Hit" value={3600} />
-      </section>
-    </main>
+            <button className="edit-avatar" onClick={() => setShowModal(true)}>
+              Change avatar
+            </button>
+            <form className="flex-col form-profile" onSubmit={handleSubmit}>
+              <fieldset className="flex-col">
+                <label htmlFor="username">Username</label>
+                <input
+                  style={{
+                    borderColor: error?.username
+                      ? "var(--error-code)"
+                      : "transparent",
+                  }}
+                  type="text"
+                  id="username"
+                  value={username}
+                  placeholder="Enter a username"
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                {error?.username && (
+                  <p aria-label="username error" className="profile-error">
+                    {error.username}
+                  </p>
+                )}
+              </fieldset>
+              <fieldset className="flex-col">
+                <label htmlFor="email">Email</label>
+                <input
+                  style={{
+                    borderColor: error?.email
+                      ? "var(--error-code)"
+                      : "transparent",
+                  }}
+                  id="email"
+                  type="email"
+                  value={email}
+                  placeholder="Enter an email"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                {error?.email && (
+                  <p aria-label="username error" className="profile-error">
+                    {error.email}
+                  </p>
+                )}
+              </fieldset>
+              <button onClick={(e) => handleSubmit}>Submit</button>
+              {error?.avatar && (
+                <p aria-label="username error" className="profile-error">
+                  {error.avatar}
+                </p>
+              )}
+              {error?.other && (
+                <p aria-label="username error" className="profile-error">
+                  {error.other}
+                </p>
+              )}
+            </form>
+          </section>
+          <section className="container-stats ">
+            {stats.length > 0 &&
+              stats.map((stat: StatProfileProps, index: number) => (
+                <StatProfile
+                  title={stat.title}
+                  value={stat.value}
+                  key={index}
+                />
+              ))}
+          </section>
+        </div>
+      </main>
+      {showModal && (
+        <AvatarModal callback={handleEditAvatar} currentAvatar={avatar} />
+      )}
+    </>
   );
 };
 

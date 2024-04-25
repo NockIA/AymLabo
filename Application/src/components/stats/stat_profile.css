@@ -3,8 +3,9 @@
   padding: 1.5rem 1rem;
   padding-top: 2.5rem;
   border-radius: 10px;
+  width: 8rem;
+  height: 8rem;
   position: relative;
-  width: fit-content;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -13,7 +14,7 @@
 .container-stat-profile img {
   position: absolute;
   top: -3rem;
-  width: 5rem;
+  width: 6rem;
   object-fit: contain;
 }
 

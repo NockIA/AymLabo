@@ -5,11 +5,17 @@ export class Store {
     this.storageKey = storageKey;
   }
 
-  save(data: object): void {
+  // --------------------------- //
+  // -----------Set------------- //
+  // --------------------------- //
+  save(data: string): void {
     localStorage.setItem(this.storageKey, JSON.stringify(data));
   }
 
-  load(): object | null {
+  // --------------------------- //
+  // -----------Get------------- //
+  // --------------------------- //
+  load(): string | null {
     const data = localStorage.getItem(this.storageKey);
     if (data) {
       return JSON.parse(data);
@@ -17,6 +23,9 @@ export class Store {
     return null;
   }
 
+  // --------------------------- //
+  // ----------Reset------------ //
+  // --------------------------- //
   clear(): void {
     localStorage.removeItem(this.storageKey);
   }

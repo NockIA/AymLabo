@@ -10,10 +10,10 @@ const Ways: React.FC = () => {
     <HashRouter>
       <Routes>
         <Route path="/solo" element={<Solo />} />
-        <Route path="/signin" element={<SignIn />} />
+        <Route path="/" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/" element={<Profile />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </HashRouter>
   );

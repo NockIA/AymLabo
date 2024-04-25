@@ -199,7 +199,7 @@ const Solo: React.FC = () => {
     const handleClick = (event: MouseEvent) => {
       const clickedTargetId = parseInt((event.target as HTMLDivElement).id);
       if (!isNaN(clickedTargetId)) {
-        setScore(score + 10);
+        setScore(score + 10 + Math.ceil(currentStrike / 10));
         setTargets((prevTargets) =>
           prevTargets.filter((target) => target.id !== clickedTargetId)
         );
