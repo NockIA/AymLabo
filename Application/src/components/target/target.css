@@ -6,11 +6,6 @@
   padding: 0.15rem;
 }
 
-/* .target:active {
-  transition: transform 0.2s ease;
-  transform: scale(0);
-} */
-
 .target span {
   border: 4px solid var(--white);
   width: 4.5rem;

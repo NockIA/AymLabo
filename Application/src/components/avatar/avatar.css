@@ -1,3 +1,5 @@
+/* ------------------ Containers ------------------*/
+
 .container-avatar-modal-shadow {
   background-color: rgba(0, 0, 0, 0.55);
   width: 100vw;
@@ -25,10 +27,37 @@
   justify-content: space-between;
 }
 
+.container-avatar-modal .container-avatars {
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding: 2rem;
+}
+
+.container-avatars .container-avatar {
+  background-color: var(--background-sign);
+  border-radius: 20px;
+  padding: 2rem;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid transparent;
+  gap: 1rem;
+}
+
+/* ------------------ Texts ------------------*/
+
 .container-avatar-modal .header-modal h2 {
   font-weight: 600;
   font-size: 32px;
 }
+
+.container-avatar p {
+  color: var(--white);
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* ------------------ Buttons ------------------*/
 
 .container-avatar-modal .header-modal button {
   padding: 0.5rem 3rem;
@@ -43,31 +72,10 @@
   outline: 2px solid var(--blue);
 }
 
-.container-avatar-modal .container-avatars {
-  gap: 2rem;
-  flex-wrap: wrap;
-  padding: 2rem;
-}
-
-.container-avatars .container-avatar {
-  background-color: var(--background-sign);
-  border-radius: 20px;
-  padding: 2rem;
-  align-items: center;
-  justify-content: center;
-  border: 4px solid transparent;
-
-  gap: 1rem;
-}
+/* ------------------ Others ------------------*/
 
 .container-avatar img {
   width: 8rem;
   object-fit: contain;
   user-select: none;
-}
-.container-avatar p {
-  color: var(--white);
-  font-size: 18px;
-  font-weight: 600;
-  text-transform: uppercase;
 }

@@ -143,8 +143,9 @@ const Solo: React.FC = () => {
   const generateRandomTargets = (count: number): TargetProps[] => {
     const gridRowCount = 3;
     const gridColumnCount = 3;
-    const cellWidth = gameRef.current!.offsetWidth / gridColumnCount;
-    const cellHeight = gameRef.current!.offsetHeight / gridRowCount;
+    const cellWidth = 325 / gridColumnCount;
+    const cellHeight = 325 / gridRowCount;
+    console.log(gameRef.current!.offsetWidth, gameRef.current!.offsetHeight);
 
     const newTargets: TargetProps[] = [];
     const existingPositions: { [key: string]: boolean } = {};
@@ -253,6 +254,7 @@ const Solo: React.FC = () => {
           <Target key={index} target={target} />
         ))}
       </div>
+      <h2 className="bestStrike">{currentStrike + "x"}</h2>
       {showMenu && (
         <EndMenu
           score={score}

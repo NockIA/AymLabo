@@ -1,9 +1,10 @@
+/* ------------------ Containers ------------------*/
+
 .container-sign {
   border: 2px solid var(--white);
   border-radius: 20px;
   overflow: hidden;
   position: absolute;
-  height: 60vh;
   top: 50%;
   left: 50%;
   min-height: 450px;
@@ -13,6 +14,7 @@
 .container-sign .container-left-section {
   background-color: var(--background-sign);
   padding: 3rem;
+  padding-left: 2vw;
   padding-right: 0;
   justify-content: space-around;
   gap: 3rem;
@@ -24,11 +26,34 @@
   align-items: center;
 }
 
-.container-left-section .container-logo img {
-  width: 2rem;
-  object-fit: contain;
-  border-radius: 999px;
+.container-left-section .container-content {
+  gap: 1rem;
 }
+
+.container-right-section fieldset {
+  border: none;
+  padding: 0;
+}
+
+.container-sign .container-right-section {
+  padding: 3rem 1.5rem;
+  padding-left: 0;
+  padding-right: 2vw;
+  background-color: var(--white);
+  justify-content: center;
+  gap: 2rem;
+  align-items: center;
+  text-align: center;
+  width: 17rem;
+}
+
+.container-right-section .container-form {
+  gap: 1rem;
+  width: 90%;
+}
+
+/* ------------------ Texts ------------------*/
+
 .container-left-section .container-logo h5 {
   text-transform: uppercase;
   color: var(--white);
@@ -36,10 +61,6 @@
 
 .container-left-section .container-logo h5 span {
   color: var(--cyan);
-}
-
-.container-left-section .container-content {
-  gap: 1rem;
 }
 
 .container-left-section .container-content h2 {
@@ -55,6 +76,43 @@
   font-size: 14px;
   text-align: center;
 }
+
+.container-right-section .container-header-form h1 {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.container-right-section .container-header-form h2 {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--grey);
+  margin-top: 0.5rem;
+}
+
+.container-form .password {
+  text-decoration: underline;
+  color: var(--grey);
+  font-size: 12px;
+  margin: 0.5rem 0;
+}
+
+.container-form .error-message {
+  color: var(--error-code);
+  font-size: 12px;
+  margin: 0.2rem;
+  text-align: left;
+  margin-bottom: -0.5rem;
+}
+
+/* ------------------ Images ------------------*/
+
+.container-left-section .container-logo img {
+  width: 2rem;
+  object-fit: contain;
+  border-radius: 999px;
+}
+
+/* ------------------ Buttons ------------------*/
 
 .button-sign-white {
   color: var(--white);
@@ -81,18 +139,13 @@
 }
 
 .button-sign-white:focus {
- background-color: var(--white);
- color: var(--background-sign);
+  background-color: var(--white);
+  color: var(--background-sign);
 }
 
 .button-sign-black:focus {
   background-color: var(--background-sign);
- color: var(--white);
-}
-
-.container-right-section fieldset {
-  border: none;
-  padding: 0;
+  color: var(--white);
 }
 
 .button-sign:hover {
@@ -107,40 +160,7 @@
   transition: 0.5s ease;
 }
 
-.separation-sign {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 500px 130px 0 0;
-  border-color: var(--background-sign) var(--white) transparent transparent;
-}
-
-.container-sign .container-right-section {
-  padding: 3rem 1.5rem;
-  background-color: var(--white);
-  justify-content: center;
-  gap: 2rem;
-  align-items: center;
-  text-align: center;
-  width: 17rem;
-}
-
-.container-right-section .container-header-form h1 {
-  font-size: 24px;
-  font-weight: 800;
-}
-
-.container-right-section .container-header-form h2 {
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--grey);
-  margin-top: 0.5rem;
-}
-
-.container-right-section .container-form {
-  gap: 1rem;
-  width: 90%;
-}
+/* ------------------ Inputs ------------------*/
 
 .container-form input {
   background-color: var(--background-inputs-form);
@@ -156,17 +176,13 @@
   outline: 1px solid var(--background-sign);
 }
 
-.container-form .password {
-  text-decoration: underline;
-  color: var(--grey);
-  font-size: 12px;
-  margin: 0.5rem 0;
-}
+/* ------------------ Others ------------------*/
 
-.container-form .error-message {
-  color: var(--error-code);
-  font-size: 12px;
-  margin: 0.2rem;
-  text-align: left;
-  margin-bottom: -0.5rem;
+.separation-sign {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  margin: 0 -1px;
+  border-width: 500px 6.8vw 0 0;
+  border-color: var(--background-sign) var(--white) transparent transparent;
 }

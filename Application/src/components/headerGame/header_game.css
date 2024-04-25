@@ -1,11 +1,4 @@
-.score-bar {
-  background-color: var(--cyan);
-  border-radius: 999px;
-  min-width: 20px;
-  height: 8px;
-  transition: 0.5s ease;
-  max-width: calc(100vw - 2rem - 130px - 1rem - 1rem - 80px);
-}
+/* ------------------ Containers ------------------*/
 
 .container-score {
   gap: 2rem;
@@ -14,6 +7,18 @@
   align-self: flex-start;
   margin-top: 5px;
 }
+
+.container-header-game {
+  user-select: none;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+  gap: 1rem;
+}
+
+/* ------------------ Texts ------------------*/
+
 .container-score h2 {
   color: var(--white);
   letter-spacing: 5px;
@@ -30,18 +35,20 @@
 }
 
 .container-header-game .precision {
-    color: var(--white);
-    font-size: 28px;
-    min-width: 90px;
-    font-weight: 500;
-    text-align: right;
+  color: var(--white);
+  font-size: 28px;
+  min-width: 90px;
+  font-weight: 500;
+  text-align: right;
 }
 
-.container-header-game {
-  user-select: none;
-  align-items: center;
-  width: 100%;
-  padding: 0.5rem 1rem;
-  box-sizing: border-box;
-  gap: 1rem;
+/* ------------------ Others ------------------*/
+
+.score-bar {
+  background-color: var(--cyan);
+  border-radius: 999px;
+  min-width: 20px;
+  height: 8px;
+  transition: 0.5s ease;
+  max-width: calc(100vw - 2rem - 130px - 1rem - 1rem - 80px);
 }
