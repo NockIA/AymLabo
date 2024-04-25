@@ -31,13 +31,21 @@ func Seeder() {
 	for _, pseudo := range pseudos {
 		source := rand.NewSource(time.Now().UnixNano())
 		random := rand.New(source)
-		randomTTK := 0.01 + rand.Float64()*(1.5)
+		randomKillPerSeconde := 1 + rand.Float64()*(5)
+		randomNumberOfWin := random.Intn(101)
+		randomNumberOfLoose := random.Intn(101)
+		randomNumberOfSoloGamePlay := random.Intn(101)
+		randomTotalScore := (randomNumberOfWin + randomNumberOfLoose + randomNumberOfSoloGamePlay) * (500 + random.Intn(1500))
 		var playerUUID string = uuid.New().String()
 		password, err := bcrypt.GenerateFromPassword([]byte(pseudo), bcrypt.DefaultCost)
 		if err != nil {
 			fmt.Println("Failde to hash password")
 		}
-		DbManager.AddDeleteUpdateDB("INSERT INTO players (playerUUID, email, pseudo, password, timeToKill, numberOfWin, numberOfLoose, numberOfSoloGamePlay) VALUES (?, ?, ?, ?, ?, ?, ?, ?);", playerUUID, pseudo+"@gmail.com", pseudo, string(password), randomTTK, random.Intn(101), random.Intn(101), random.Intn(101))
+		DbManager.AddDeleteUpdateDB(`
+			INSERT INTO players 
+			(playerUUID, email, pseudo, password, killPerSeconde, numberOfWin, numberOfLoose, numberOfSoloGamePlay, avgAccuracy, totalScore) 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+		`, playerUUID, pseudo+"@gmail.com", pseudo, string(password), randomKillPerSeconde, randomNumberOfWin, randomNumberOfLoose, randomNumberOfSoloGamePlay, random.Intn(101), randomTotalScore)
 	}
 	fmt.Println("Seed is finished")
 }
