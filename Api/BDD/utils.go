@@ -32,7 +32,7 @@ func (dm *DatabaseManager) CloseDB(db *sql.DB) error {
 
 func (dm *DatabaseManager) SelectDB(query string, args ...interface{}) *sql.Rows {
 	db, err := dm.OpenDB()
-	fmt.Printf("Query : %v\n", query)
+	// fmt.Printf("Query : %v\n", query)
 	if err != nil {
 		fmt.Printf("error in the function SelectDB in open db : %v\n", err)
 		return nil

@@ -102,14 +102,10 @@ func getPlayerOnEndpoint(limitMin, limitMax int, selectedEndpoint, uuid string, 
 			IsSelectedPlayer: false,
 		}
 		rslt.Scan(&newPlayer.Uuid, &newPlayer.Pseudo, &newPlayer.Avatar, &newPlayer.TotalScore, &newPlayer.NumberGameWin, &newPlayer.NumberGameLoose, &newPlayer.AvgAccuracy, &newPlayer.KillPerSeconde, &newPlayer.NumberOfSoloGamePlay, &newPlayer.Ranking)
-		data.Data[newPlayer.Ranking] = newPlayer
-	}
-	for key, value := range data.Data {
-		if value.Uuid == uuid {
-			updatedPlayer := data.Data[key]
-			updatedPlayer.IsSelectedPlayer = true
-			data.Data[key] = updatedPlayer
+		if newPlayer.Uuid == uuid {
+			newPlayer.IsSelectedPlayer = true
 		}
+		data.Data[newPlayer.Ranking] = newPlayer
 	}
 	return data
 }
@@ -163,17 +159,17 @@ func LeaderBoard(endpoint string, w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func LeaderBoardWithoutPlayer(endpoint string, w http.ResponseWriter, r *http.Request) {
+func LeaderBoardWithLimit(endpoint string, w http.ResponseWriter, r *http.Request) {
 	encodedBody := json.NewDecoder(r.Body)
 	defer r.Body.Close()
 	var requestData LeaderBoardReceive
 	if err := encodedBody.Decode(&requestData); err != nil {
 		http.Error(w, "Failed to decode JSON", http.StatusBadRequest)
-		fmt.Printf("Failed to decode JSON LeaderBoardWithoutPlayer method : %v\n", err)
+		fmt.Printf("Failed to decode JSON LeaderBoardWithLimit method : %v\n", err)
 		return
 	}
 	if err := utils.Validator.Struct(&requestData); err != nil {
-		fmt.Printf("Invalid request data in LeaderBoardWithoutPlayer method : %v\n", err)
+		fmt.Printf("Invalid request data in LeaderBoardWithLimit method : %v\n", err)
 		http.Error(w, "Invalid request data", http.StatusBadRequest)
 		return
 	}

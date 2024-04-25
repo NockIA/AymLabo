@@ -7,8 +7,8 @@ import (
 )
 
 var gethandlers = map[string]func(string, http.ResponseWriter, *http.Request){
-	"leaderBoardWithoutPlayer": get.LeaderBoardWithoutPlayer,
-	"leaderboard":              get.LeaderBoard,
+	"leaderBoardWithLimit": get.LeaderBoardWithLimit,
+	"leaderboard":          get.LeaderBoard,
 }
 
 func GetHandler(w http.ResponseWriter, r *http.Request) {
