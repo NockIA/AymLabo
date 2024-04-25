@@ -1,4 +1,4 @@
-package methods
+package post
 
 import (
 	bdd "api/BDD"

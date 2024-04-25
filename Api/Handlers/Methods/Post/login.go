@@ -1,4 +1,4 @@
-package methods
+package post
 
 import (
 	utils "api/Handlers/Utils"
@@ -25,7 +25,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(message)
 	} else {
-		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		http.Error(w, "This user don't exist", http.StatusUnauthorized)
 		return
 	}
 }

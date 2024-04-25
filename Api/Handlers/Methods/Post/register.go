@@ -1,4 +1,4 @@
-package methods
+package post
 
 import (
 	bdd "api/BDD"
@@ -33,13 +33,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid request data", http.StatusBadRequest)
 		return
 	}
-	rslt, err := bdd.DbManager.SelectDB("SELECT playerUUID FROM players WHERE (email=? OR pseudo=?) AND password=?", requestData.Email, requestData.Pseudo, requestData.Password)
-	if err != nil {
-		rslt.Close()
-		http.Error(w, "Failed to read db", http.StatusBadRequest)
-		fmt.Println("erreur in db read in login")
-		return
-	}
+	rslt := bdd.DbManager.SelectDB("SELECT playerUUID FROM players WHERE (email=? OR pseudo=?)", requestData.Email, requestData.Pseudo)
 	defer rslt.Close()
 	if !rslt.Next() {
 		var playerUUID string = uuid.New().String()
@@ -47,9 +41,9 @@ func Register(w http.ResponseWriter, r *http.Request) {
 			message := LoginAndRegisterMessage{Jwt: jwtToken}
 			w.Header().Set("Content-Type", "application/json")
 			json.NewEncoder(w).Encode(message)
-			bdd.DbManager.AddDeleteUpdateDB("INSERT INTO players (playerUUID, email, pseudo, password) VALUES (?, ?, ?, ?);", playerUUID, requestData.Email, requestData.Pseudo, requestData.Password)
+			bdd.DbManager.AddDeleteUpdateDB("INSERT INTO players (playerUUID, email, pseudo, password) VALUES (?, ?, ?, ?);", playerUUID, requestData.Email, requestData.Pseudo, string(utils.HashPassword(requestData.Password)))
 			return
 		}
 	}
-	http.Error(w, "Unauthorized", http.StatusUnauthorized)
+	http.Error(w, "This user already exist", http.StatusBadRequest)
 }

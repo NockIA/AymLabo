@@ -2,7 +2,8 @@ package utils
 
 import (
 	bdd "api/BDD"
-	"fmt"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type Player struct {
@@ -11,20 +12,18 @@ type Player struct {
 }
 
 func IsUserExist(requestData Player) (bool, string) {
-	rslt, err := bdd.DbManager.SelectDB("SELECT playerUUID FROM players WHERE (email=? OR pseudo=?) AND password=?", requestData.Login, requestData.Login, requestData.Password)
-	if err != nil {
-		rslt.Close()
-		fmt.Println("erreur in db read in login")
-		return false, ""
-	}
+	rslt := bdd.DbManager.SelectDB("SELECT playerUUID,password FROM players WHERE (email=? OR pseudo=?)", requestData.Login, requestData.Login)
 	defer rslt.Close()
-	if rslt != nil && rslt.Next() {
-		var playerUUID string
-		rslt.Scan(&playerUUID)
-		if jwtToken, err := CreateJWT(&playerUUID); err != nil {
-			return false, ""
-		} else {
-			return true, jwtToken
+	if rslt.Next() {
+		var playerUUID, password string
+		rslt.Scan(&playerUUID, &password)
+		err := bcrypt.CompareHashAndPassword([]byte(password), []byte(requestData.Password))
+		if err == nil {
+			if jwtToken, err := CreateJWT(&playerUUID); err != nil {
+				return false, ""
+			} else {
+				return true, jwtToken
+			}
 		}
 	}
 	return false, ""
