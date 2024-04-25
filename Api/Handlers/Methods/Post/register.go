@@ -28,7 +28,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to decode JSON", http.StatusBadRequest)
 		return
 	}
-	if err := utils.Validator.Struct(requestData); err != nil {
+	if err := utils.Validator.Struct(&requestData); err != nil {
 		fmt.Printf("Invalid request data in Register method : %v\n", err)
 		http.Error(w, "Invalid request data", http.StatusBadRequest)
 		return

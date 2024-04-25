@@ -11,7 +11,7 @@ type Player struct {
 	Password string `json:"password" validate:"required"`
 }
 
-func IsUserExist(requestData Player) (bool, string) {
+func IsUserExist(requestData *Player) (bool, string) {
 	rslt := bdd.DbManager.SelectDB("SELECT playerUUID,password FROM players WHERE (email=? OR pseudo=?)", requestData.Login, requestData.Login)
 	defer rslt.Close()
 	if rslt.Next() {
