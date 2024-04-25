@@ -1,8 +1,22 @@
 package utils
 
-import "github.com/go-playground/validator"
+import (
+	"fmt"
+
+	"github.com/go-playground/validator"
+	"golang.org/x/crypto/bcrypt"
+)
 
 var Validator *validator.Validate
+
+func HashPassword(password string) []byte {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		fmt.Printf("failed to hash password : %v\n", err)
+		return nil
+	}
+	return hashedPassword
+}
 
 // required : Le champ est requis et ne peut pas être vide.
 // omitempty : Le champ peut être vide.

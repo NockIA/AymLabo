@@ -1,15 +1,15 @@
 package handlers
 
 import (
-	methods "api/Handlers/Methods"
+	postMethods "api/Handlers/Methods/Post"
 	"net/http"
 )
 
 var posthandlers = map[string]func(http.ResponseWriter, *http.Request){
-	"/signup": methods.Register,
-	"/signin": methods.Login,
+	"/signup": postMethods.Register,
+	"/signin": postMethods.Login,
 	// "/play":     methods.Play,
-	"/soloPlay": methods.SoloPlay,
+	"/soloPlay": postMethods.SoloPlay,
 }
 
 func PostHandler(w http.ResponseWriter, r *http.Request) {

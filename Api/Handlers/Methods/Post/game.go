@@ -1,4 +1,4 @@
-package methods
+package post
 
 import (
 	bdd "api/BDD"
@@ -11,6 +11,9 @@ import (
 type ReceiveSoloPlay struct {
 	TimePlayedInSecond int `json:"timePlayedInSecond" validate:"required,numeric"`
 	NumberOfTargetDown int `json:"numberOfTargetDown" validate:"required,numeric"`
+	Accuracy           int `json:"accuracy" validate:"required,numeric"`
+	BestStrike         int `json:"bestStrike" validate:"required,numeric"`
+	Score              int `json:"score" validate:"required,numeric"`
 }
 
 func SoloPlay(w http.ResponseWriter, r *http.Request) {

@@ -6,6 +6,7 @@ import (
 	utils "api/Handlers/Utils"
 	"fmt"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/go-playground/validator"
@@ -41,10 +42,12 @@ func authenticate(inLogin bool, next http.Handler) http.Handler {
 		tokenString := r.Header.Get("Authorization")
 		splittedToken := strings.Split(tokenString, ":")
 		if len(splittedToken) != 2 || splittedToken[0] != validApiKey {
+			fmt.Printf("Api key invalid : %v\n", splittedToken[0])
 			http.Error(w, "Unauthorized", http.StatusUnauthorized)
 			return
 		}
 		if !inLogin && !isValidToken(&splittedToken[1]) {
+			fmt.Printf("jwt invalid : %v\n", splittedToken[1])
 			http.Error(w, "Unauthorized", http.StatusUnauthorized)
 			return
 		}
@@ -53,13 +56,13 @@ func authenticate(inLogin bool, next http.Handler) http.Handler {
 }
 
 func main() {
-	initDbManager, err := bdd.NewDatabaseManager("./BDD/db.db")
-	utils.Validator = validator.New()
-	if err != nil {
-		fmt.Println(err)
+	initDbManager := bdd.NewDatabaseManager()
+	bdd.DbManager = initDbManager
+	if len(os.Args) > 1 && os.Args[1] == "--init" {
+		bdd.Seeder()
 		return
 	}
-	bdd.DbManager = initDbManager
+	utils.Validator = validator.New()
 	router := http.NewServeMux()
 	router.Handle("/signin", authenticate(true, http.HandlerFunc(handlers.MainHandler)))
 	router.Handle("/signup", authenticate(true, http.HandlerFunc(handlers.MainHandler)))

@@ -1,12 +1,24 @@
 package handlers
 
-import "net/http"
+import (
+	get "api/Handlers/Methods/Get"
+	"net/http"
+	"strings"
+)
 
-var gethandlers = map[string]func(http.ResponseWriter, *http.Request){}
+var gethandlers = map[string]func(string, http.ResponseWriter, *http.Request){
+	"leaderBoardWithLimit": get.LeaderBoardWithLimit,
+	"leaderboard":          get.LeaderBoard,
+}
 
 func GetHandler(w http.ResponseWriter, r *http.Request) {
-	if handler, handlerExist := gethandlers[r.URL.Path]; handlerExist {
-		handler(w, r)
+	splitedPath := strings.Split(r.URL.Path, "/")
+	if len(splitedPath) == 3 {
+		if handler, handlerExist := gethandlers[splitedPath[1]]; handlerExist {
+			handler(splitedPath[2], w, r)
+		} else {
+			http.Error(w, "Not Found", http.StatusNotFound)
+		}
 	} else {
 		http.Error(w, "Not Found", http.StatusNotFound)
 	}
