@@ -1,0 +1,11 @@
+.container-profile {
+    gap: 2rem;
+    margin: 5rem;
+}
+
+.container-profile .container-stats {
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    gap: 1rem;
+    row-gap: 4rem;
+}
