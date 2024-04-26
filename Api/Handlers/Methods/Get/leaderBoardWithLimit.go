@@ -10,13 +10,10 @@ import (
 )
 
 func LeaderBoardWithLimit(endpoint string, w http.ResponseWriter, r *http.Request) {
-	encodedBody := json.NewDecoder(r.Body)
-	defer r.Body.Close()
-	var requestData utils.LeaderBoardReceive
-	if err := encodedBody.Decode(&requestData); err != nil {
-		http.Error(w, "Failed to decode JSON", http.StatusBadRequest)
-		fmt.Printf("Failed to decode JSON LeaderBoardWithLimit method : %v\n", err)
-		return
+	params := r.URL.Query()
+	requestData := utils.LeaderBoardReceive{
+		LimitMin: params["limitMin"][0],
+		LimitMax: params["limitMax"][0],
 	}
 	if err := utils.Validator.Struct(&requestData); err != nil {
 		fmt.Printf("Invalid request data in LeaderBoardWithLimit method : %v\n", err)

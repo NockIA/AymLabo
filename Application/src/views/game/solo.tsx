@@ -5,6 +5,9 @@ import { HeaderGame } from "../../components/headerGame/header_game";
 import { Target } from "../../components/target/target";
 import EndMenu from "../../components/endMenu/end_menu";
 import { TargetProps } from "../../models/game";
+import axios from "axios";
+import { apiKey, apiURL } from "../../utils/api";
+import { Store } from "../../services/store";
 
 const Solo: React.FC = () => {
   const [score, setScore] = useState(0);
@@ -16,13 +19,53 @@ const Solo: React.FC = () => {
   const [currentStrike, setCurrentStrike] = useState(0);
   const [bestStrike, setBestStrike] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
+  const [jwt, setJwt] = useState<string | null>();
+  const _store: Store = new Store("userData");
 
   // ------------------------- //
   // ---------Rules----------- //
   // ------------------------- //
 
-  const maxScore: number = 1000;
+  const maxScore: number = 10000;
   const maxTime: number = 30; // seconds
+
+  // ------------------------- //
+  // ----------Jwt------------ //
+  // ------------------------- //
+
+  useEffect(() => {
+    const jwt_store = _store.load();
+    if (jwt_store) {
+      setJwt(jwt_store);
+    }
+  }, [jwt]);
+
+  // ---------------------------------- //
+  // ---------------Submit------------- //
+  // ---------------------------------- //
+
+  const handleEndGame = async () => {
+    const datas = {
+      timePlayedInSecond: seconds,
+      numberOfTargetDown: totalTargets,
+      accuracy: Math.ceil((totalTargets * 100) / totalClics),
+      bestStrike: bestStrike,
+      score: score,
+    };
+    console.log(datas);
+
+    if (seconds >= maxTime && jwt) {
+      try {
+        await axios.post(`${apiURL}/soloPlay`, datas, {
+          headers: {
+            Authorization: apiKey + ":" + jwt,
+          },
+        });
+      } catch (error: any) {
+        throw new Error(`Couldn't save game datas : ${error.message}`);
+      }
+    }
+  };
 
   // ------------------------- //
   // ---------Menu------------ //
@@ -53,8 +96,9 @@ const Solo: React.FC = () => {
     };
   }, []);
 
-  const restart = (restart: boolean) => {
+  const restart = async (restart: boolean) => {
     if (restart) {
+      await handleEndGame();
       setScore(0);
       setBestStrike(0);
       setCurrentStrike(0);
@@ -261,7 +305,7 @@ const Solo: React.FC = () => {
           accuracy={Math.ceil((totalTargets * 100) / totalClics)}
           bestStrike={bestStrike}
           targetHits={totalTargets}
-          totalClics={totalClics}
+          totalClics={totalClics < 0 ? 0 : totalClics}
           close={handleMenuModal}
           restart={restart}
         />
