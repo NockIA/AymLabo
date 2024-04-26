@@ -4,10 +4,20 @@
   min-height: 100vh;
 }
 
+.container-leaderboard-page .container-title-buttons {
+  justify-content: space-between;
+  padding: 1rem .5rem;
+  align-items: center;
+}
+
+.container-title-buttons .container-pagination {
+  gap: 1rem;
+  margin-bottom: -.5rem;
+}
+
 .container-leaderboard-page h1 {
   color: var(--white);
   font-size: 50px;
-  padding: 1rem 0;
   padding-left: 2rem;
 }
 
@@ -25,7 +35,7 @@
   color: var(--white);
   padding: 0.5rem 1rem;
   display: grid;
-  grid-template-columns: 30px 1.5fr repeat(6, 1fr);
+  grid-template-columns: 50px 1.5fr repeat(6, 1fr);
   grid-gap: 50px;
   font-size: 0.8vw;
 }
@@ -55,12 +65,13 @@
   align-self: center;
   color: var(--white);
   border-radius: 10px;
-  margin-top: 2rem;
   font-family: "Poppins";
   font-weight: 600;
   font-size: 16px;
+  min-width: 8vw;
   transition: 0.5s ease;
   margin-bottom: 0.2rem;
+  box-shadow: 0px 0px 17px 5px #48affd30;
 }
 
 .container-leaderboard-page .see-more-button:focus {

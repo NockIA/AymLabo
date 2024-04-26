@@ -53,7 +53,7 @@ const Leaderboard: React.FC = () => {
   }, [jwt]);
 
   const expandLeaderboard = async (limitMin: number, limitMax: number) => {
-    if (jwt.length > 0 && limits?.limitMax && limits.limitMin) {
+    if (jwt.length > 0) {
       const response = await _leaderboardService.getLeaderboardWithLimits(
         endpoint,
         jwt,
@@ -62,19 +62,63 @@ const Leaderboard: React.FC = () => {
       );
       if (response) {
         setDatas(response);
-        await getLeaderboard();
         console.log(response);
       }
     }
+  };
+
+  const handlePreviousClick = async () => {
+    setLimits((prevLimits) => ({
+      limitMax: prevLimits.limitMax,
+      limitMin: prevLimits.limitMin + 5,
+    }));
+    await expandLeaderboard(limits.limitMin + 5, limits.limitMax);
+    setDatas((prevDatas) => {
+      if (prevDatas) {
+        return {
+          ...prevDatas,
+          limitMin: prevDatas.limitMin + 5,
+        };
+      }
+      return undefined;
+    });
+  };
+
+  const handleNextClick = async () => {
+    setLimits((prevLimits) => ({
+      limitMax: prevLimits.limitMax + 5,
+      limitMin: prevLimits.limitMin,
+    }));
+    await expandLeaderboard(limits.limitMin, limits.limitMax + 5);
+    setDatas((prevDatas) => {
+      if (prevDatas) {
+        return {
+          ...prevDatas,
+          limitMax: prevDatas.limitMax + 5,
+        };
+      }
+      return undefined;
+    });
   };
 
   return (
     <>
       <Nav />
       <main className="flex-col container-leaderboard-page">
-        <h1>
-          Leader<span>board</span>
-        </h1>
+        <div className="flex-row container-title-buttons">
+          <h1>
+            Leader<span>board</span>
+          </h1>
+          <div className="flex-row container-pagination">
+            <button onClick={handlePreviousClick} className="see-more-button">
+              Previous
+            </button>
+            <button onClick={handleNextClick} className="see-more-button">
+              Next
+            </button>
+          </div>
+        </div>
+
         <section className="flex-col container-leaderboard-content">
           <header className="container-leaderboard-header">
             <h2 className="cell-leaderboard">Rank</h2>
@@ -135,32 +179,6 @@ const Leaderboard: React.FC = () => {
                   kps={player.kps}
                 />
               ))}
-          </div>
-          <div className="flex-row">
-            <button
-              onClick={async () => {
-                setLimits({
-                  limitMax: limits?.limitMax,
-                  limitMin: limits?.limitMin + 5,
-                });
-                await expandLeaderboard(limits?.limitMin + 5, limits?.limitMax);
-              }}
-              className="see-more-button"
-            >
-              Previous
-            </button>
-            <button
-              onClick={async () => {
-                setLimits({
-                  limitMax: limits?.limitMax + 5,
-                  limitMin: limits?.limitMin,
-                });
-                await expandLeaderboard(limits?.limitMin, limits?.limitMax + 5);
-              }}
-              className="see-more-button"
-            >
-              Next
-            </button>
           </div>
         </section>
       </main>
