@@ -7,8 +7,10 @@ import (
 )
 
 var getHandlersWith2Endpoint = map[string]func(string, http.ResponseWriter, *http.Request){
-	"leaderBoardWithLimit": get.LeaderBoardWithLimit,
-	"leaderboard":          get.LeaderBoard,
+	"leaderBoardWithLimit":           get.LeaderBoardWithLimit,
+	"leaderboard":                    get.LeaderBoard,
+	"leaderBoardWithFriendWithLimit": get.LeaderBoardWithFriendWithLimit,
+	"leaderboardWithFriend":          get.LeaderBoardWithFriend,
 }
 var getHandlersWith1Endpoint = map[string]func(http.ResponseWriter, *http.Request){
 	"myStats":   get.MyStats,
