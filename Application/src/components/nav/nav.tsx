@@ -35,8 +35,6 @@ export const Nav: React.FC = () => {
     if (jwt.length > 0) {
       const response = await _friendService.getFriendsAndRequests(jwt);
       if (response.data) {
-        console.log(response.data);
-
         setData(response.data);
       }
     }
@@ -71,8 +69,6 @@ export const Nav: React.FC = () => {
   const handleRequest = async (accept: boolean, idRequest: string) => {
     if (jwt.length > 0) {
       if (accept) {
-        console.log(idRequest);
-
         await _friendService.acceptFriendRequest(idRequest, jwt);
         await getFriends();
       } else {
@@ -85,30 +81,30 @@ export const Nav: React.FC = () => {
   return (
     <nav className="container-nav flex-col">
       <Link className="flex-row container-header-nav" to={"/home"}>
-        <img src="/icon.png" alt="Home logo" />
+        <img src="/images/icons/icon.png" alt="Home logo" />
         <h5>
           Aym<span>Labo</span>
         </h5>
       </Link>
       <span className="separation-nav">.</span>
-      <div className="flex-col">
+      <div className="flex-col container-global-links">
         <h2 className="subtitle-nav ">Menu</h2>
         <ul className="flex-col container-links">
           <li className="flex-col ">
             <Link className="flex-row container-link" to={"/solo"}>
-              <img src="/pistol.png" alt="Solo gamemode" />
+              <img src="/images/icons/pistol.png" alt="Solo gamemode" />
               <p>Solo</p>
             </Link>
           </li>
           <li className="flex-col ">
             <Link className="flex-row container-link" to={"/leaderboard"}>
-              <img src="/ranking.png" alt="leaderboard" />
+              <img src="/images/icons/ranking.png" alt="leaderboard" />
               <p>Leaderboard</p>
             </Link>
           </li>
           <li className="flex-col ">
             <Link className="flex-row container-link" to={"/profile"}>
-              <img src="/user.png" alt="profile" />
+              <img src="/images/icons/user.png" alt="profile" />
               <p>My profile</p>
             </Link>
           </li>
@@ -139,7 +135,7 @@ export const Nav: React.FC = () => {
             className="flex-row container-selection "
             onClick={() => setShowFriends(true)}
           >
-            <img src="/icon.png" alt="friend-icon" />
+            <img src="/images/icons/friends.png" alt="friend-icon" />
             <h5>Friends</h5>
           </div>
           <div
@@ -150,7 +146,7 @@ export const Nav: React.FC = () => {
             className="flex-row container-selection "
             onClick={() => setShowFriends(false)}
           >
-            <img src="/icon.png" alt="friend-icon" />
+            <img src="/images/icons/add-friend.png" alt="friend-icon" />
             <h5>Request</h5>
           </div>
         </div>

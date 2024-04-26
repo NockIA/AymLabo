@@ -37,7 +37,6 @@ const Profile: React.FC = () => {
 
   const getStatsUser = () => {
     _profileService.getProfileStats(jwt).then((datas) => {
-      console.log(datas);
       setStats(datas);
     });
   };
@@ -110,7 +109,7 @@ const Profile: React.FC = () => {
           <section className="flex-col container-informations">
             <img
               className="avatar"
-              src={"/avatar/" + avatar}
+              src={"/images/avatar/" + avatar}
               alt="user_avatar"
             />
             <button className="edit-avatar" onClick={() => setShowModal(true)}>

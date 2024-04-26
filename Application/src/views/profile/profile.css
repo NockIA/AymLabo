@@ -3,14 +3,14 @@
 @media screen and (min-width: 1401px) {
   .container-profile-view {
     margin-top: 20vh;
-    margin-left: 240px;
+    margin-left: 260px;
   }
 }
 
 @media screen and (max-width: 1400px) {
   .container-profile-view {
     margin-top: 5vh;
-    margin-left: calc(240px + 3vw);
+    margin-left: calc(260px + 3vw);
   }
 }
 

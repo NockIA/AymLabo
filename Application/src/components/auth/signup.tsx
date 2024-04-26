@@ -55,7 +55,7 @@ const SignUp: React.FC = () => {
         aria-label="App presentation"
       >
         <div className="flex-row container-logo">
-          <img src="/icon.png" />
+          <img src="/images/icons/icon.png" />
           <h5>
             Aym<span>Labo</span>
           </h5>

@@ -33,6 +33,7 @@ const Leaderboard: React.FC = () => {
   // --------------------------------- //
   // -----------Load datas------------ //
   // --------------------------------- //
+  
   const getLeaderboard = async (friend: boolean) => {
     if (jwt.length > 0) {
       if (friend) {
@@ -41,8 +42,6 @@ const Leaderboard: React.FC = () => {
           jwt
         );
         if (response) {
-          console.log(response);
-
           setDatas(response);
           setLimits({
             limitMin: response.limitMin,
@@ -55,8 +54,6 @@ const Leaderboard: React.FC = () => {
           jwt
         );
         if (response) {
-          console.log(response);
-
           setDatas(response);
           setLimits({
             limitMin: response.limitMin,
@@ -102,9 +99,9 @@ const Leaderboard: React.FC = () => {
     }
   };
 
-  // ---------------------------- //
-  // -----------Clics------------ //
-  // ---------------------------- //
+  // ------------------------------ //
+  // -----------Buttons------------ //
+  // ------------------------------ //
 
   const handlePreviousClick = async () => {
     setLimits((prevLimits) => ({
@@ -156,12 +153,20 @@ const Leaderboard: React.FC = () => {
           <div className="flex-row container-pagination">
             <div className="flex-row container-sort-btn">
               <button
+                style={{
+                  backgroundColor:
+                    isFriend === false ? "var(--blue)" : "var(--white)",
+                }}
                 onClick={() => handleFriend(false)}
                 className="sort-button"
               >
                 all
               </button>
               <button
+                style={{
+                  backgroundColor:
+                    isFriend === true ? "var(--blue)" : "var(--white)",
+                }}
                 onClick={() => handleFriend(true)}
                 className="sort-button"
               >
@@ -189,7 +194,7 @@ const Leaderboard: React.FC = () => {
               <h2 className="cell-leaderboard">Total Score</h2>
               <img
                 style={{ display: endpoint === "score" ? "block" : "none" }}
-                src="/sort_icon.png"
+                src="/images/icons/sort_icon.png"
                 alt="sort-icon"
               />
             </div>
@@ -200,7 +205,7 @@ const Leaderboard: React.FC = () => {
               <h2 className="cell-leaderboard">Wins</h2>
               <img
                 style={{ display: endpoint === "win" ? "block" : "none" }}
-                src="/sort_icon.png"
+                src="/images/icons/sort_icon.png"
                 alt="sort-icon"
               />
             </div>
@@ -211,7 +216,7 @@ const Leaderboard: React.FC = () => {
               <h2 className="cell-leaderboard">Looses</h2>
               <img
                 style={{ display: endpoint === "loose" ? "block" : "none" }}
-                src="/sort_icon.png"
+                src="/images/icons/sort_icon.png"
                 alt="sort-icon"
               />
             </div>
@@ -222,7 +227,7 @@ const Leaderboard: React.FC = () => {
               <h2 className="cell-leaderboard">Solo games</h2>
               <img
                 style={{ display: endpoint === "solo" ? "block" : "none" }}
-                src="/sort_icon.png"
+                src="/images/icons/sort_icon.png"
                 alt="sort-icon"
               />
             </div>
@@ -233,7 +238,7 @@ const Leaderboard: React.FC = () => {
               <h2 className="cell-leaderboard">Average Accuracy</h2>
               <img
                 style={{ display: endpoint === "acc" ? "block" : "none" }}
-                src="/sort_icon.png"
+                src="/images/icons/sort_icon.png"
                 alt="sort-icon"
               />
             </div>
@@ -244,7 +249,7 @@ const Leaderboard: React.FC = () => {
               <h2 className="cell-leaderboard">KpS</h2>
               <img
                 style={{ display: endpoint === "kps" ? "block" : "none" }}
-                src="/sort_icon.png"
+                src="/images/icons/sort_icon.png"
                 alt="sort-icon"
               />
             </div>

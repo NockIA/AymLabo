@@ -1,8 +1,10 @@
+/* ------------------ Containers ------------------*/
+
 .container-friend {
   padding: 0.5rem;
   background-color: var(--background-friend);
   border-radius: 10px;
-  gap: .5rem;
+  gap: 0.5rem;
   align-items: center;
   justify-content: space-between;
 }
@@ -15,6 +17,8 @@
   align-items: center;
   gap: 0.5rem;
 }
+
+/* ------------------ Images ------------------*/
 
 .container-options img {
   width: 1rem;
@@ -35,6 +39,8 @@
   width: 2.3rem;
   object-fit: contain;
 }
+
+/* ------------------ Texts ------------------*/
 
 .container-friend p {
   white-space: nowrap;

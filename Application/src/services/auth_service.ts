@@ -7,7 +7,9 @@ import { apiKey, apiURL } from "../utils/api";
 import axios, { AxiosResponse } from "axios";
 
 export class AuthService {
-
+  // ----------------------------- //
+  // -----------signin------------ //
+  // ----------------------------- //
   async signin(userData: SigninFormProps): Promise<AxiosResponse> {
     try {
       const response = await axios.post(`${apiURL}/signin`, userData, {
@@ -21,6 +23,9 @@ export class AuthService {
     }
   }
 
+  // ----------------------------- //
+  // -----------signup------------ //
+  // ----------------------------- //
   async signup(userData: SignupFormProps): Promise<AxiosResponse> {
     try {
       const response = await axios.post(`${apiURL}/signup`, userData, {
@@ -34,6 +39,9 @@ export class AuthService {
     }
   }
 
+  // ------------------------------------ //
+  // -----------resetPassword------------ //
+  // ------------------------------------ //
   async resetPassword(userData: SigninFormProps): Promise<AxiosResponse> {
     try {
       const response = await axios.post(`${apiURL}/reset-password`, userData, {
@@ -47,6 +55,9 @@ export class AuthService {
     }
   }
 
+  // ------------------------------------ //
+  // -----------validateLogin------------ //
+  // ------------------------------------ //
   validateLogin(loginForm: SigninFormProps): ValidationErrors {
     const errors: ValidationErrors = {};
     if (!loginForm.login) {
@@ -58,6 +69,9 @@ export class AuthService {
     return errors;
   }
 
+  // -------------------------------------------- //
+  // -----------validateResetPassword------------ //
+  // -------------------------------------------- //
   validateResetPassword(loginForm: SigninFormProps): ValidationErrors {
     const errors: ValidationErrors = {};
     if (!loginForm.login) {
@@ -69,6 +83,9 @@ export class AuthService {
     return errors;
   }
 
+  // ------------------------------------- //
+  // -----------validateSignup------------ //
+  // ------------------------------------- //
   validateSignup(signupForm: SignupFormProps): ValidationErrors {
     const errors: ValidationErrors = {};
     if (!signupForm.username) {

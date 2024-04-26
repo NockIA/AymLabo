@@ -2,6 +2,9 @@ import { apiKey, apiURL } from "../utils/api";
 import axios from "axios";
 
 export class FriendService {
+  // ------------------------------------ //
+  // -----------requestFriend------------ //
+  // ------------------------------------ //
   async requestFriend(username: string, jwt: string): Promise<string> {
     try {
       const response = await axios.post(
@@ -18,6 +21,9 @@ export class FriendService {
     }
   }
 
+  // -------------------------------------------- //
+  // -----------getFriendsAndRequests------------ //
+  // -------------------------------------------- //
   async getFriendsAndRequests(jwt: string) {
     try {
       const response = await axios.get(`${apiURL}/myFriend`, {
@@ -29,6 +35,9 @@ export class FriendService {
     }
   }
 
+  // ------------------------------------------ //
+  // -----------acceptFriendRequest------------ //
+  // ------------------------------------------ //
   async acceptFriendRequest(requestId: string, jwt: string) {
     try {
       const response = await axios.post(
@@ -44,6 +53,9 @@ export class FriendService {
     }
   }
 
+  // ------------------------------------------ //
+  // -----------refuseFriendRequest------------ //
+  // ------------------------------------------ //
   async refuseFriendRequest(requestId: string, jwt: string) {
     try {
       const response = await axios.post(

@@ -2,7 +2,7 @@
 
 body {
   margin: 0;
-  background-image: url("/background.png");
+  background-image: url("/images/others/background.png");
   background-color: var(--background-color);
   background-size: cover;
   background-attachment: fixed;
@@ -36,6 +36,10 @@ p {
 
 a {
   text-decoration: none;
+}
+
+a:focus {
+  outline: 2px solid var(--blue);
 }
 
 /* ------------------ Colors ------------------*/

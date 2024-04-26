@@ -3,18 +3,23 @@
 @media screen and (min-width: 1401px) {
   .container-leaderboard-page h1 {
     font-size: 50px;
+    padding-left: 2rem;
   }
   .see-more-button {
     font-size: 16px;
   }
   .sort-button {
     font-size: 16px;
+  }
+  .container-leaderboard-page .container-leaderboard-content {
+    min-height: calc(100vh - (76px + 2rem));
   }
 }
 
 @media screen and (max-width: 1400px) {
   .container-leaderboard-page h1 {
     font-size: 32px;
+    padding-left: 1rem;
   }
   .see-more-button {
     font-size: 12px;
@@ -22,14 +27,16 @@
   .sort-button {
     font-size: 12px;
   }
+  .container-leaderboard-page .container-leaderboard-content {
+    min-height: calc(100vh - (48px + 2rem));
+  }
 }
 
 /* ------------------ Containers ------------------*/
 
 .container-leaderboard-page {
-  margin-left: 240px;
+  margin-left: 260px;
   overflow: hidden;
-  min-height: 100vh;
 }
 
 .container-leaderboard-page .container-title-buttons {
@@ -45,30 +52,7 @@
 
 .container-leaderboard-page .container-leaderboard-content {
   background-color: var(--background-sign);
-  height: calc(100vh - 80px);
   overflow-x: auto;
-}
-
-.container-leaderboard-content::-webkit-scrollbar {
-  width: 12px;
-  height: 10px;
-  cursor: pointer;
-}
-
-.container-leaderboard-content::-webkit-scrollbar-track {
-  background: transparent;
-  cursor: pointer;
-}
-
-.container-leaderboard-content::-webkit-scrollbar-thumb {
-  background: var(--background-nav);
-  border-radius: 999px;
-  cursor: pointer;
-}
-
-.container-leaderboard-content::-webkit-scrollbar-thumb:hover {
-  background: var(--background-color);
-  cursor: pointer;
 }
 
 .container-leaderboard-header {
@@ -76,7 +60,7 @@
   color: var(--white);
   padding: 0.5rem 1rem;
   display: grid;
-  grid-template-columns: 50px 150px 125px 70px 85px 120px 200px 60px;
+  grid-template-columns: 50px 180px 125px 70px 85px 120px 200px 60px;
   grid-gap: 50px;
   font-size: 12px;
 }
@@ -106,7 +90,6 @@
 
 .container-leaderboard-page h1 {
   color: var(--white);
-  padding-left: 2rem;
 }
 
 .container-leaderboard-page h1 span {
@@ -179,4 +162,26 @@
   width: 12px;
   object-fit: contain;
   transform: rotate(180deg);
+}
+
+.container-leaderboard-content::-webkit-scrollbar {
+  width: 12px;
+  height: 10px;
+  cursor: pointer;
+}
+
+.container-leaderboard-content::-webkit-scrollbar-track {
+  background: transparent;
+  cursor: pointer;
+}
+
+.container-leaderboard-content::-webkit-scrollbar-thumb {
+  background: var(--background-nav);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.container-leaderboard-content::-webkit-scrollbar-thumb:hover {
+  background: var(--background-color);
+  cursor: pointer;
 }

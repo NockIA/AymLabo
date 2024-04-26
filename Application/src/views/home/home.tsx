@@ -18,7 +18,7 @@ const Home: React.FC = () => {
                 competitive gaming. Aymlabo is the best
                 way to get better at the games you love to compete 
               </h2>
-              <img src="/jeune-entrepreneur.png" />
+              <img src="/images/others/jeune-entrepreneur.png" />
             </div>
           </article>
           <article className="flex-col container-gamer">
@@ -37,8 +37,8 @@ const Home: React.FC = () => {
           </article>
           <article className=" container-formation">
             <div className="flex-row container-images">
-              <img src="/faker.png" className="faker" />
-              <img src="/labz.png" className="leS" />
+              <img src="/images/others/faker.png" className="faker" />
+              <img src="/images/others/labz.png" className="leS" />
               <span className="filter-formation" />
             </div>
             <div className="flex-col container-informations">

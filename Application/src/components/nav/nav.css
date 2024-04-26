@@ -46,12 +46,16 @@
 .container-nav .container-links {
   list-style: none;
   padding: 0;
-  gap: 2rem;
+  gap: .8rem;
+}
+
+.container-nav .container-global-links {
+  gap: 1rem;
 }
 
 .container-nav .container-links .container-link {
   gap: 1rem;
-  color: var(--white);
+  color: var(--grey);
   align-items: center;
   border-bottom: 2px solid transparent;
   padding-bottom: .2rem;
@@ -105,7 +109,7 @@
 
 .container-nav .container-links .container-link p {
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .container-selection-friends .container-selection h5 {
@@ -127,7 +131,7 @@
 }
 
 .container-nav .container-links .container-link img {
-  width: 2rem;
+  width: 1.8rem;
   object-fit: contain;
 }
 

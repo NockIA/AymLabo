@@ -7,6 +7,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
+  width: 80vw;
+  max-width: 800px;
   min-height: 450px;
   transform: translate(-50%, -50%);
 }
@@ -15,10 +17,11 @@
   background-color: var(--background-sign);
   padding: 3rem;
   padding-left: 2vw;
+  width: 100%;
   padding-right: 0;
   justify-content: space-around;
   gap: 3rem;
-  width: 17rem;
+  width: 50%;
 }
 
 .container-left-section .container-logo {
@@ -37,6 +40,7 @@
 
 .container-sign .container-right-section {
   padding: 3rem 1.5rem;
+  width: 50%;
   padding-left: 0;
   padding-right: 2vw;
   background-color: var(--white);
@@ -44,7 +48,6 @@
   gap: 2rem;
   align-items: center;
   text-align: center;
-  width: 17rem;
 }
 
 .container-right-section .container-form {
