@@ -69,11 +69,7 @@ const Leaderboard: React.FC = () => {
 
   useEffect(() => {
     getLeaderboard(isFriend);
-  }, [endpoint]);
-
-  useEffect(() => {
-    getLeaderboard(isFriend);
-  }, [jwt]);
+  }, [endpoint, jwt]);
 
   const expandLeaderboard = async (
     limitMin: number,
@@ -105,6 +101,10 @@ const Leaderboard: React.FC = () => {
       }
     }
   };
+
+  // ---------------------------- //
+  // -----------Clics------------ //
+  // ---------------------------- //
 
   const handlePreviousClick = async () => {
     setLimits((prevLimits) => ({
@@ -178,7 +178,6 @@ const Leaderboard: React.FC = () => {
             </div>
           </div>
         </div>
-
         <section className="flex-col container-leaderboard-content">
           <header className="container-leaderboard-header">
             <h2 className="cell-leaderboard">Rank</h2>

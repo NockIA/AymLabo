@@ -45,7 +45,30 @@
 
 .container-leaderboard-page .container-leaderboard-content {
   background-color: var(--background-sign);
-  height: calc(100vh - 107.2px);
+  height: calc(100vh - 80px);
+  overflow-x: auto;
+}
+
+.container-leaderboard-content::-webkit-scrollbar {
+  width: 12px;
+  height: 10px;
+  cursor: pointer;
+}
+
+.container-leaderboard-content::-webkit-scrollbar-track {
+  background: transparent;
+  cursor: pointer;
+}
+
+.container-leaderboard-content::-webkit-scrollbar-thumb {
+  background: var(--background-nav);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.container-leaderboard-content::-webkit-scrollbar-thumb:hover {
+  background: var(--background-color);
+  cursor: pointer;
 }
 
 .container-leaderboard-header {
@@ -55,7 +78,7 @@
   display: grid;
   grid-template-columns: 50px 150px 125px 70px 85px 120px 200px 60px;
   grid-gap: 50px;
-  font-size: 0.8vw;
+  font-size: 12px;
 }
 
 .cell-leaderboard {

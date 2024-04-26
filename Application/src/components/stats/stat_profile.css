@@ -19,10 +19,8 @@
   font-weight: 900;
   font-size: 16px;
   text-transform: uppercase;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
   width: 100%;
+  word-break: break-all;
 }
 
 .container-stat-profile p {

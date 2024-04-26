@@ -126,8 +126,20 @@
   border: none;
   width: 100%;
   outline: none;
-  margin: -2rem 0 ;
+  margin: -2rem 0;
+  cursor: pointer;
   margin-top: -1rem;
+  transform-style: preserve-3d;
+}
+
+.logout:hover {
+  transform: scale(0.9);
+  transition: 0.5s ease;
+  cursor: pointer;
+}
+
+.logout:focus {
+  outline: 2px solid var(--blue);
 }
 
 .form-profile button {
