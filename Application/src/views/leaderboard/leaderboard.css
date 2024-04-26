@@ -1,3 +1,31 @@
+/* ------------------ Responsive ------------------*/
+
+@media screen and (min-width: 1401px) {
+  .container-leaderboard-page h1 {
+    font-size: 50px;
+  }
+  .see-more-button {
+    font-size: 16px;
+  }
+  .sort-button {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 1400px) {
+  .container-leaderboard-page h1 {
+    font-size: 32px;
+  }
+  .see-more-button {
+    font-size: 12px;
+  }
+  .sort-button {
+    font-size: 12px;
+  }
+}
+
+/* ------------------ Containers ------------------*/
+
 .container-leaderboard-page {
   margin-left: 240px;
   overflow: hidden;
@@ -6,28 +34,18 @@
 
 .container-leaderboard-page .container-title-buttons {
   justify-content: space-between;
-  padding: 1rem .5rem;
+  padding: 1rem 0.5rem;
   align-items: center;
 }
 
 .container-title-buttons .container-pagination {
-  gap: 1rem;
-  margin-bottom: -.5rem;
-}
-
-.container-leaderboard-page h1 {
-  color: var(--white);
-  font-size: 50px;
-  padding-left: 2rem;
+  gap: 3vw;
+  margin-bottom: -0.5rem;
 }
 
 .container-leaderboard-page .container-leaderboard-content {
   background-color: var(--background-sign);
-  height: 100%;
-}
-
-.container-leaderboard-page h1 span {
-  color: var(--cyan);
+  height: calc(100vh - 107.2px);
 }
 
 .container-leaderboard-header {
@@ -35,7 +53,7 @@
   color: var(--white);
   padding: 0.5rem 1rem;
   display: grid;
-  grid-template-columns: 50px 1.5fr repeat(6, 1fr);
+  grid-template-columns: 50px 150px 125px 70px 85px 120px 200px 60px;
   grid-gap: 50px;
   font-size: 0.8vw;
 }
@@ -56,6 +74,53 @@
   background-color: var(--background-sign);
 }
 
+.container-sort-btn {
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* ------------------ Texts ------------------*/
+
+.container-leaderboard-page h1 {
+  color: var(--white);
+  padding-left: 2rem;
+}
+
+.container-leaderboard-page h1 span {
+  color: var(--cyan);
+}
+
+/* ------------------ Buttons ------------------*/
+
+.container-leaderboard-page .sort-button {
+  background-color: var(--white);
+  border: none;
+  outline: none;
+  padding: 0.5rem 1rem;
+  width: fit-content;
+  align-self: center;
+  color: var(--background-nav);
+  border-radius: 10px;
+  font-family: "Poppins";
+  font-weight: 600;
+  min-width: 8vw;
+  transition: 0.5s ease;
+  margin-bottom: 0.2rem;
+  box-shadow: 0px 0px 17px 5px #48affd30;
+}
+
+.container-leaderboard-page .sort-button:focus {
+  outline: 2px solid var(--blue);
+}
+
+.container-leaderboard-page .sort-button:hover {
+  transform: scale(0.9);
+  cursor: pointer;
+}
+.container-leaderboard-page .sort-button:not(:hover) {
+  transform: scale(1);
+}
+
 .container-leaderboard-page .see-more-button {
   background-color: var(--background-nav);
   border: none;
@@ -67,7 +132,6 @@
   border-radius: 10px;
   font-family: "Poppins";
   font-weight: 600;
-  font-size: 16px;
   min-width: 8vw;
   transition: 0.5s ease;
   margin-bottom: 0.2rem;
@@ -84,4 +148,12 @@
 }
 .container-leaderboard-page .see-more-button:not(:hover) {
   transform: scale(1);
+}
+
+/* ------------------ Others ------------------*/
+
+.container-leaderboard-header .container-sort img {
+  width: 12px;
+  object-fit: contain;
+  transform: rotate(180deg);
 }

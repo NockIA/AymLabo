@@ -52,8 +52,6 @@ const Solo: React.FC = () => {
       bestStrike: bestStrike,
       score: score,
     };
-    console.log(datas);
-
     if (seconds >= maxTime && jwt) {
       try {
         await axios.post(`${apiURL}/soloPlay`, datas, {
@@ -189,7 +187,6 @@ const Solo: React.FC = () => {
     const gridColumnCount = 3;
     const cellWidth = 325 / gridColumnCount;
     const cellHeight = 325 / gridRowCount;
-    console.log(gameRef.current!.offsetWidth, gameRef.current!.offsetHeight);
 
     const newTargets: TargetProps[] = [];
     const existingPositions: { [key: string]: boolean } = {};

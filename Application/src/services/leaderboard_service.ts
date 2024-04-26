@@ -25,7 +25,6 @@ export class LeaderboardService {
     min: number,
     max: number
   ): Promise<LeaderboardProps> {
-    console.log(category, jwt, min, max);
 
     try {
       const response = await axios.get(

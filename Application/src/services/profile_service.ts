@@ -10,7 +10,7 @@ export class ProfileService {
   // ----------------------------------------- //
   async getProfileCurrentUser(jwt: string): Promise<ProfileProps> {
     try {
-      const response = await axios.get(`${apiURL}/profile`, {
+      const response = await axios.get(`${apiURL}/myProfile`, {
         headers: { Authorization: apiKey + ":" + jwt },
       });
       return response.data;
@@ -21,7 +21,7 @@ export class ProfileService {
 
   async getProfileStats(jwt: string): Promise<Array<StatProfileProps>> {
     try {
-      const response = await axios.get(`${apiURL}/stats`, {
+      const response = await axios.get(`${apiURL}/myStats`, {
         headers: { Authorization: apiKey + ":" + jwt },
       });
       return response.data;
@@ -58,7 +58,7 @@ export class ProfileService {
     if (!profileDatas.email) {
       errors.email = "Email adress is required";
     }
-    if (!profileDatas.username) {
+    if (!profileDatas.pseudo) {
       errors.username = "Username is required";
     }
     return errors;

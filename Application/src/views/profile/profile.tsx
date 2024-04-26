@@ -1,13 +1,13 @@
 import "./profile.css";
 import "../../style/global.css";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { StatProfile } from "../../components/stats/stat_profile";
 import { ValidationErrors } from "../../models/auth";
 import { ProfileService } from "../../services/profile_service";
 import { Store } from "../../services/store";
 import { ProfileProps } from "../../models/profile";
-import { StatProfileProps } from "@/models/stat";
+import { StatProfileProps } from "../../models/stat";
 import { Nav } from "../../components/nav/nav";
 import { AvatarModal } from "../../components/avatar/avatar";
 
@@ -21,6 +21,7 @@ const Profile: React.FC = () => {
   const _store: Store = new Store("userData");
   const [jwt, setJwt] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   // --------------------------- //
   // ---------Getters----------- //
@@ -30,12 +31,13 @@ const Profile: React.FC = () => {
     _profileService.getProfileCurrentUser(jwt).then((datas) => {
       setAvatar(datas.avatar);
       setEmail(datas.email);
-      setUsername(datas.username);
+      setUsername(datas.pseudo);
     });
   };
 
   const getStatsUser = () => {
     _profileService.getProfileStats(jwt).then((datas) => {
+      console.log(datas);
       setStats(datas);
     });
   };
@@ -45,7 +47,16 @@ const Profile: React.FC = () => {
       getProfileInfos();
       getStatsUser();
     }
-  }, []);
+  }, [jwt]);
+
+  // ---------------------------- //
+  // ---------Sign out----------- //
+  // ---------------------------- //
+
+  const Logout = () => {
+    _store.clear();
+    navigate("/");
+  };
 
   // -------------------------- //
   // ---------Submit----------- //
@@ -55,7 +66,7 @@ const Profile: React.FC = () => {
     e.preventDefault();
     setError(null);
     const userData: ProfileProps = {
-      username: username,
+      pseudo: username,
       email: email,
       avatar: avatar,
     };
@@ -147,6 +158,7 @@ const Profile: React.FC = () => {
                 )}
               </fieldset>
               <button onClick={(e) => handleSubmit}>Submit</button>
+
               {error?.avatar && (
                 <p aria-label="username error" className="profile-error">
                   {error.avatar}
@@ -158,13 +170,17 @@ const Profile: React.FC = () => {
                 </p>
               )}
             </form>
+            <button className="logout" onClick={Logout}>
+              Sign out
+            </button>
           </section>
+
           <section className="container-stats ">
-            {stats.length > 0 &&
-              stats.map((stat: StatProfileProps, index: number) => (
+            {Object.keys(stats).length > 0 &&
+              Object.keys(stats).map((key: any, index: number) => (
                 <StatProfile
-                  title={stat.title}
-                  value={stat.value}
+                  title={key}
+                  value={String(stats[key])}
                   key={index}
                 />
               ))}
