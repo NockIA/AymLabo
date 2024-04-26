@@ -53,10 +53,12 @@ func Friend(w http.ResponseWriter, r *http.Request) {
 			p.avatarProfile 
 		FROM
 			friends f 
-		JOIN players p ON f.player1UUID = p.playerUUID 
+		JOIN players p ON f.player1UUID = p.playerUUID OR f.player2UUID  = p.playerUUID 
 		WHERE 
-		f.player1UUID = ? OR f.player2UUID = ?
-		`, claims["UUID"], claims["UUID"])
+			(f.player1UUID = ? OR f.player2UUID = ?)
+			AND p.playerUUID <> ?;
+	
+		`, claims["UUID"], claims["UUID"], claims["UUID"])
 		if rslt.Next() {
 			var newFriend MyFriendData
 			var friendUUid string
