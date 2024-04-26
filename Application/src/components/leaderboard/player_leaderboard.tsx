@@ -1,8 +1,8 @@
 import "./player_leaderboard.css";
 import "../../style/global.css";
-import { PlayerLearderboardProps } from "../../models/leaderboard";
+import { PlayerLeaderboardProps } from "../../models/leaderboard";
 
-export const PlayerLeaderboard: React.FC<PlayerLearderboardProps> = ({
+export const PlayerLeaderboard: React.FC<PlayerLeaderboardProps> = ({
   isSelectedPlayer,
   uuid,
   pseudo,
@@ -19,7 +19,7 @@ export const PlayerLeaderboard: React.FC<PlayerLearderboardProps> = ({
     <article style={{backgroundColor : isSelectedPlayer ? ' var(--blue)' : ' var(--background-sign)'}} key={uuid} className="container-player-leader">
       <h2 className="cell-leaderboard cell-leaderboard-stats">{ranking}</h2>
       <div className="flex-row cell-leaderboard cell-leaderboard-user">
-        <img src={`/avatar/${avatar}`} />
+        <img src={`/images/avatar/${avatar}`} />
         <h2 className="cell-leaderboard-stats">{pseudo}</h2>
       </div>
       <h2 className="cell-leaderboard cell-leaderboard-stats">{totalScore}</h2>

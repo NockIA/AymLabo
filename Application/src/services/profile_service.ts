@@ -19,6 +19,9 @@ export class ProfileService {
     }
   }
 
+  // -------------------------------------- //
+  // -----------getProfileStats------------ //
+  // -------------------------------------- //
   async getProfileStats(jwt: string): Promise<Array<StatProfileProps>> {
     try {
       const response = await axios.get(`${apiURL}/myStats`, {
@@ -32,6 +35,9 @@ export class ProfileService {
     }
   }
 
+  // ---------------------------------------- //
+  // -----------submitProfileEdit------------ //
+  // ---------------------------------------- //
   async submitProfileEdit(
     profileDatas: ProfileProps,
     jwt: string
@@ -50,6 +56,9 @@ export class ProfileService {
     }
   }
 
+  // -------------------------------------- //
+  // -----------validateProfile------------ //
+  // -------------------------------------- //
   validateProfile(profileDatas: ProfileProps): ValidationErrors {
     const errors: ValidationErrors = {};
     if (!profileDatas.avatar) {

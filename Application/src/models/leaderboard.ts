@@ -1,4 +1,4 @@
-export interface PlayerLearderboardProps {
+export interface PlayerLeaderboardProps {
   isSelectedPlayer: boolean;
   uuid: string;
   pseudo: string;
@@ -13,10 +13,10 @@ export interface PlayerLearderboardProps {
 }
 
 export interface LeaderboardProps {
-  data: Array<PlayerLearderboardProps>;
+  data: Array<PlayerLeaderboardProps>;
   limitMin: number;
   limitMax: number;
-  top5: Array<PlayerLearderboardProps>;
+  top5: Array<PlayerLeaderboardProps>;
 }
 
 export interface LeaderboardLimits {

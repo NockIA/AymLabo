@@ -2,11 +2,10 @@
 
 body {
   margin: 0;
-  background-image: url("/background.png");
+  background-image: url("/images/others/background.png");
   background-color: var(--background-color);
   background-size: cover;
   background-attachment: fixed;
-  min-height: 100vh;
   background-repeat: no-repeat;
   padding: 0;
   font-family: "Poppins";
@@ -39,6 +38,10 @@ a {
   text-decoration: none;
 }
 
+a:focus {
+  outline: 2px solid var(--blue);
+}
+
 /* ------------------ Colors ------------------*/
 
 :root {
@@ -46,7 +49,9 @@ a {
   --background-nav: #0e1117;
   --background-game: rgba(0, 0, 0, 0.685);
   --background-sign: #31313f;
+  --separation-nav : #373C49;
   --background-inputs-form: #dddbe3;
+  --background-friend : #ffffff3d;
   --grey: #a5a5a5;
   --white: #f9f9f9;
   --cyan: #48fdfd;

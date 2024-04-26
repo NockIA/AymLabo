@@ -33,7 +33,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
               className="flex-col container-avatar"
               key={index}
             >
-              <img src={"/avatar/" + avatar} alt={avatar} />
+              <img src={"/images/avatar/" + avatar} alt={avatar} />
               <p>{avatar.slice(0, -4)}</p>
             </article>
           ))}

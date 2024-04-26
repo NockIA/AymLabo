@@ -36,7 +36,7 @@ const indexHtml = path.join(RENDERER_DIST, "index.html");
 async function createWindow() {
   win = new BrowserWindow({
     title: "Main window",
-    icon: path.join(process.env.VITE_PUBLIC, "icon.png"),
+    icon: path.join(process.env.VITE_PUBLIC, "/images/icons/icon.png"),
     minWidth: 900,
     minHeight: 500,
     webPreferences: {
