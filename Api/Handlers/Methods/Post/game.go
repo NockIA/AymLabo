@@ -5,6 +5,7 @@ import (
 	utils "api/Handlers/Utils"
 	"encoding/json"
 	"fmt"
+	"math"
 	"net/http"
 )
 
@@ -42,7 +43,7 @@ func SoloPlay(w http.ResponseWriter, r *http.Request) {
 			numberOfGameWithStrike = CASE WHEN ? != 0 THEN numberOfGameWithStrike + 1 ELSE numberOfGameWithStrike END
 		WHERE playerUUID = ?;
 		`
-		newKPS := requestData.NumberOfTargetDown / requestData.TimePlayedInSecond
+		newKPS := math.Round(float64(requestData.NumberOfTargetDown/requestData.TimePlayedInSecond)*100.0) / 100.0
 		bdd.DbManager.AddDeleteUpdateDB(sqlQuery, newKPS, requestData.Accuracy, requestData.Score, requestData.BestStrike, requestData.BestStrike, claims["UUID"])
 		w.WriteHeader(http.StatusAccepted)
 	} else {

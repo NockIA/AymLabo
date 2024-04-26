@@ -2,6 +2,7 @@ package bdd
 
 import (
 	"fmt"
+	"math"
 	"math/rand"
 	"time"
 
@@ -102,7 +103,7 @@ func Seeder() {
 			INSERT INTO players 
 			(playerUUID, email, pseudo, password, killPerSeconde, numberOfWin, numberOfLoose, numberOfSoloGamePlay, avgAccuracy, totalScore, avatarProfile, numberOfGameWithStrike, bestStrike) 
 			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-		`, playerUUID, pseudo+"@gmail.com", pseudo, string(password), randomKillPerSeconde, randomNumberOfWin, randomNumberOfLoose, randomNumberOfSoloGamePlay, random.Intn(101), randomTotalScore, images[randomIndex], randomNumberOfSoloGamePlay+randomNumberOfLoose, random.Intn(75))
+		`, playerUUID, pseudo+"@gmail.com", pseudo, string(password), math.Round(randomKillPerSeconde*100)/100.0, randomNumberOfWin, randomNumberOfLoose, randomNumberOfSoloGamePlay, random.Intn(101), randomTotalScore, images[randomIndex], randomNumberOfSoloGamePlay+randomNumberOfLoose, random.Intn(75))
 	}
 	fmt.Println("Seed is finished")
 }

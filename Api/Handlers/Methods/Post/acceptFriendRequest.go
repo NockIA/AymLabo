@@ -23,7 +23,7 @@ func AcceptFriend(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if claims, err := utils.GetClaims(&receiveToken); err == nil {
-		rslt := bdd.DbManager.SelectDB("SELECT requestingPlayerUUID FROM friendsRequests WHERE friendsRequestId = ?  AND requestedPlayerUUID = ?;", requestData.RequestId, claims["UUID"])
+		rslt := bdd.DbManager.SelectDB("SELECT requestingPlayerUUID FROM friendsRequests WHERE friendsRequestId = ? AND requestedPlayerUUID = ?;", requestData.RequestId, claims["UUID"])
 		if rslt.Next() {
 			var requestingPlayerUUID string
 			rslt.Scan(&requestingPlayerUUID)
