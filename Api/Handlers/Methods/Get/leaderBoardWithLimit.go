@@ -6,29 +6,23 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 )
 
-func getRankingOfOnePlayer(uuid, selectedEndpoint string) int {
-	rslt := bdd.DbManager.SelectDB(`
-	SELECT
-		ranking
-	FROM
-		players p
-	INNER JOIN
-		(SELECT pseudo, (SELECT COUNT(*) FROM players p2 WHERE p2.`+selectedEndpoint+` IS NOT NULL AND p2.`+selectedEndpoint+` > p.`+selectedEndpoint+`) + 1 AS ranking
-		FROM players p WHERE p.`+selectedEndpoint+` IS NOT NULL
-		ORDER BY p.`+selectedEndpoint+` DESC) as rankedPlayer
-	USING (pseudo)
-	WHERE playerUUID = ?
-	`, uuid)
-	var Ranking int
-	for rslt.Next() {
-		rslt.Scan(&Ranking)
+func LeaderBoardWithLimit(endpoint string, w http.ResponseWriter, r *http.Request) {
+	encodedBody := json.NewDecoder(r.Body)
+	defer r.Body.Close()
+	var requestData utils.LeaderBoardReceive
+	if err := encodedBody.Decode(&requestData); err != nil {
+		http.Error(w, "Failed to decode JSON", http.StatusBadRequest)
+		fmt.Printf("Failed to decode JSON LeaderBoardWithLimit method : %v\n", err)
+		return
 	}
-	return Ranking
-}
-
-func LeaderBoard(endpoint string, w http.ResponseWriter, r *http.Request) {
+	if err := utils.Validator.Struct(&requestData); err != nil {
+		fmt.Printf("Invalid request data in LeaderBoardWithLimit method : %v\n", err)
+		http.Error(w, "Invalid request data", http.StatusBadRequest)
+		return
+	}
 	receiveToken := r.Header.Get("Authorization")
 	if claims, err := utils.GetClaims(&receiveToken); err == nil {
 		var selectedEndpoint string
@@ -53,18 +47,14 @@ func LeaderBoard(endpoint string, w http.ResponseWriter, r *http.Request) {
 		var data utils.LeaderBoardData
 		rslt := bdd.DbManager.SelectDB("SELECT playerUUID, "+selectedEndpoint+" FROM players WHERE playerUUID = ?", claims["UUID"])
 		var rawPlayer utils.RawPlayer
+		lim1, _ := strconv.Atoi(requestData.LimitMin)
+		lim2, _ := strconv.Atoi(requestData.LimitMax)
 		for rslt.Next() {
 			rslt.Scan(&rawPlayer.Uuid, &rawPlayer.SelectedData)
 		}
 		if uuid, ok := claims["UUID"].(string); ok {
-			ranking := getRankingOfOnePlayer(uuid, selectedEndpoint)
-			if ranking <= 5 {
-				data = utils.GetPlayerOnEndpoint(ranking-1, 5+(5-(ranking-1)), selectedEndpoint, uuid, rawPlayer.SelectedData)
-				data.LimitMin, data.LimitMax = ranking-1, 5+(5-(ranking-1))
-			} else {
-				data = utils.GetPlayerOnEndpoint(5, 5, selectedEndpoint, uuid, rawPlayer.SelectedData)
-				data.LimitMin, data.LimitMax = 5, 5
-			}
+			data = utils.GetPlayerOnEndpoint(lim1, lim2, selectedEndpoint, uuid, rawPlayer.SelectedData)
+			data.LimitMin, data.LimitMax = lim1, lim2
 		}
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(data)

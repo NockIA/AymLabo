@@ -6,20 +6,28 @@ import (
 	"strings"
 )
 
-var gethandlers = map[string]func(string, http.ResponseWriter, *http.Request){
+var getHandlersWith2Endpoint = map[string]func(string, http.ResponseWriter, *http.Request){
 	"leaderBoardWithLimit": get.LeaderBoardWithLimit,
 	"leaderboard":          get.LeaderBoard,
+}
+var getHandlersWith1Endpoint = map[string]func(http.ResponseWriter, *http.Request){
+	"myStats":   get.MyStats,
+	"myProfile": get.MyProfile,
 }
 
 func GetHandler(w http.ResponseWriter, r *http.Request) {
 	splitedPath := strings.Split(r.URL.Path, "/")
 	if len(splitedPath) == 3 {
-		if handler, handlerExist := gethandlers[splitedPath[1]]; handlerExist {
+		if handler, handlerExist := getHandlersWith2Endpoint[splitedPath[1]]; handlerExist {
 			handler(splitedPath[2], w, r)
 		} else {
 			http.Error(w, "Not Found", http.StatusNotFound)
 		}
 	} else {
-		http.Error(w, "Not Found", http.StatusNotFound)
+		if handler, handlerExist := getHandlersWith1Endpoint[splitedPath[1]]; handlerExist {
+			handler(w, r)
+		} else {
+			http.Error(w, "Not Found", http.StatusNotFound)
+		}
 	}
 }
