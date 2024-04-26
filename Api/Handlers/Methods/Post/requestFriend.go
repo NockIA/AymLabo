@@ -35,15 +35,22 @@ func RequestFriend(w http.ResponseWriter, r *http.Request) {
 			rslt = bdd.DbManager.SelectDB("SELECT requestedPlayerUUID FROM friendsRequests WHERE requestingPlayerUUID=? AND requestedPlayerUUID=?", claims["UUID"], requestedPlayerUUID)
 			if !rslt.Next() {
 				rslt.Close()
-				w.WriteHeader(http.StatusAccepted)
-				bdd.DbManager.AddDeleteUpdateDB(`
+				rslt = bdd.DbManager.SelectDB("SELECT friendsId  FROM friends f WHERE (player1UUID =? AND player2UUID =?) OR player2UUID = (player1UUID =? AND player2UUID =?)", claims["UUID"], requestedPlayerUUID, requestedPlayerUUID, claims["UUID"])
+				if !rslt.Next() {
+					rslt.Close()
+					w.WriteHeader(http.StatusAccepted)
+					bdd.DbManager.AddDeleteUpdateDB(`
 				INSERT INTO friendsRequests (requestingPlayerUUID, requestedPlayerUUID) VALUES (?, ?)
 				`, claims["UUID"], requestedPlayerUUID)
-				return
+					return
+				} else {
+					rslt.Close()
+					http.Error(w, "This player are already friend", http.StatusUnauthorized)
+					return
+				}
 			} else {
 				rslt.Close()
 				http.Error(w, "This request already exist", http.StatusUnauthorized)
-				fmt.Println("This request already exist")
 				return
 			}
 		}
