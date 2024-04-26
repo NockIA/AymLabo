@@ -6,8 +6,9 @@
   left: 0;
   z-index: 999;
   top: 0;
+  width: 240px;
   background-color: var(--background-nav);
-  padding: 1.5rem 2vw;
+  padding: 1.5rem 2rem;
   justify-content: space-between;
   box-sizing: border-box;
   border-right: 1px solid var(--white);

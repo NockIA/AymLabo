@@ -1,0 +1,77 @@
+.container-leaderboard-page {
+  margin-left: 240px;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+.container-leaderboard-page h1 {
+  color: var(--white);
+  font-size: 50px;
+  padding: 1rem 0;
+  padding-left: 2rem;
+}
+
+.container-leaderboard-page .container-leaderboard-content {
+    background-color: var(--background-sign);
+    height: 100%;
+}
+
+.container-leaderboard-page h1 span {
+  color: var(--cyan);
+}
+
+.container-leaderboard-header {
+  background-color: var(--background-nav);
+  color: var(--white);
+  padding: 0.5rem 1rem;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-gap: 50px;
+  font-size: 1vw;
+}
+
+.cell-leaderboard {
+  display: flex;
+  width: calc(((100vw - 260px) - (50px * 8)) / 8);
+  text-overflow: ellipsis;
+  text-align: left;
+  white-space: nowrap;
+  align-items: center;
+  overflow: hidden;
+}
+
+.separation-leaderboard {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  align-items: center;
+  background-color: var(--background-sign);
+}
+
+.container-leaderboard-page .see-more-button {
+  background-color: var(--background-nav);
+  border: none;
+  outline: none;
+  padding: 1rem;
+  width: fit-content;
+  align-self: center;
+  color: var(--white);
+  border-radius: 10px;
+  margin-top: 2rem;
+  font-family: "Poppins";
+  font-weight: 600;
+  font-size: 16px;
+  transition: 0.5s ease;
+  margin-bottom: .2rem  ;
+}
+
+.container-leaderboard-page .see-more-button:focus {
+  outline: 2px solid var(--blue);
+}
+
+.container-leaderboard-page .see-more-button:hover {
+  transform: scale(0.9);
+  cursor: pointer;
+}
+.container-leaderboard-page .see-more-button:not(:hover) {
+  transform: scale(1);
+}
