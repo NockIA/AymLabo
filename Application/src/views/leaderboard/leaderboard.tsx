@@ -13,6 +13,7 @@ const Leaderboard: React.FC = () => {
   const [datas, setDatas] = useState<LeaderboardProps>();
   const [jwt, setJwt] = useState("");
   const [endpoint, setEndpoint] = useState("score");
+  const [isFriend, setIsFriend] = useState(false);
   const [limits, setLimits] = useState<LeaderboardLimits>({
     limitMax: 5,
     limitMin: 5,
@@ -32,42 +33,75 @@ const Leaderboard: React.FC = () => {
   // --------------------------------- //
   // -----------Load datas------------ //
   // --------------------------------- //
-  const getLeaderboard = async () => {
+  const getLeaderboard = async (friend: boolean) => {
     if (jwt.length > 0) {
-      const response = await _leaderboardService.getLimitsLeaderboard(
-        endpoint,
-        jwt
-      );
-      if (response) {
-        console.log(response);
+      if (friend) {
+        const response = await _leaderboardService.getFriendLimitsLeaderboard(
+          endpoint,
+          jwt
+        );
+        if (response) {
+          console.log(response);
 
-        setDatas(response);
-        setLimits({
-          limitMin: response.limitMin,
-          limitMax: response.limitMax,
-        });
+          setDatas(response);
+          setLimits({
+            limitMin: response.limitMin,
+            limitMax: response.limitMax,
+          });
+        }
+      } else {
+        const response = await _leaderboardService.getLimitsLeaderboard(
+          endpoint,
+          jwt
+        );
+        if (response) {
+          console.log(response);
+
+          setDatas(response);
+          setLimits({
+            limitMin: response.limitMin,
+            limitMax: response.limitMax,
+          });
+        }
       }
     }
   };
 
   useEffect(() => {
-    getLeaderboard();
+    getLeaderboard(isFriend);
   }, [endpoint]);
 
   useEffect(() => {
-    getLeaderboard();
+    getLeaderboard(isFriend);
   }, [jwt]);
 
-  const expandLeaderboard = async (limitMin: number, limitMax: number) => {
+  const expandLeaderboard = async (
+    limitMin: number,
+    limitMax: number,
+    friend: boolean
+  ) => {
     if (jwt.length > 0) {
-      const response = await _leaderboardService.getLeaderboardWithLimits(
-        endpoint,
-        jwt,
-        limitMin,
-        limitMax
-      );
-      if (response) {
-        setDatas(response);
+      if (friend) {
+        const response =
+          await _leaderboardService.getFriendLeaderboardWithLimits(
+            endpoint,
+            jwt,
+            limitMin,
+            limitMax
+          );
+        if (response) {
+          setDatas(response);
+        }
+      } else {
+        const response = await _leaderboardService.getLeaderboardWithLimits(
+          endpoint,
+          jwt,
+          limitMin,
+          limitMax
+        );
+        if (response) {
+          setDatas(response);
+        }
       }
     }
   };
@@ -77,7 +111,7 @@ const Leaderboard: React.FC = () => {
       limitMax: prevLimits.limitMax,
       limitMin: prevLimits.limitMin + 5,
     }));
-    await expandLeaderboard(limits.limitMin + 5, limits.limitMax);
+    await expandLeaderboard(limits.limitMin + 5, limits.limitMax, isFriend);
     setDatas((prevDatas) => {
       if (prevDatas) {
         return {
@@ -94,7 +128,7 @@ const Leaderboard: React.FC = () => {
       limitMax: prevLimits.limitMax + 5,
       limitMin: prevLimits.limitMin,
     }));
-    await expandLeaderboard(limits.limitMin, limits.limitMax + 5);
+    await expandLeaderboard(limits.limitMin, limits.limitMax + 5, isFriend);
     setDatas((prevDatas) => {
       if (prevDatas) {
         return {
@@ -104,6 +138,11 @@ const Leaderboard: React.FC = () => {
       }
       return undefined;
     });
+  };
+
+  const handleFriend = async (friend: boolean) => {
+    setIsFriend(friend);
+    getLeaderboard(friend);
   };
 
   return (
@@ -116,10 +155,16 @@ const Leaderboard: React.FC = () => {
           </h1>
           <div className="flex-row container-pagination">
             <div className="flex-row container-sort-btn">
-              <button onClick={handlePreviousClick} className="sort-button">
+              <button
+                onClick={() => handleFriend(false)}
+                className="sort-button"
+              >
                 all
               </button>
-              <button onClick={handlePreviousClick} className="sort-button">
+              <button
+                onClick={() => handleFriend(true)}
+                className="sort-button"
+              >
                 Friends
               </button>
             </div>
@@ -225,18 +270,20 @@ const Leaderboard: React.FC = () => {
               ))}
           </div>
           <div className="flex-col">
-            <article className="container-player-leader separation-leaderboard">
-              <h2 className="cell-leaderboard cell-leaderboard-stats">...</h2>
-              <div className="flex-row cell-leaderboard cell-leaderboard-user">
-                <h2 className="cell-leaderboard-stats"> ...</h2>
-              </div>
-              <h2 className="cell-leaderboard cell-leaderboard-stats">...</h2>
-              <h2 className="cell-leaderboard cell-leaderboard-stats">...</h2>
-              <h2 className="cell-leaderboard cell-leaderboard-stats">...</h2>
-              <h2 className="cell-leaderboard cell-leaderboard-stats">...</h2>
-              <h2 className="cell-leaderboard cell-leaderboard-stats">...</h2>
-              <h2 className="cell-leaderboard cell-leaderboard-stats">...</h2>
-            </article>
+            {isFriend == false && (
+              <article className="container-player-leader separation-leaderboard">
+                <h2 className="cell-leaderboard cell-leaderboard-stats">...</h2>
+                <div className="flex-row cell-leaderboard cell-leaderboard-user">
+                  <h2 className="cell-leaderboard-stats"> ...</h2>
+                </div>
+                <h2 className="cell-leaderboard cell-leaderboard-stats">...</h2>
+                <h2 className="cell-leaderboard cell-leaderboard-stats">...</h2>
+                <h2 className="cell-leaderboard cell-leaderboard-stats">...</h2>
+                <h2 className="cell-leaderboard cell-leaderboard-stats">...</h2>
+                <h2 className="cell-leaderboard cell-leaderboard-stats">...</h2>
+                <h2 className="cell-leaderboard cell-leaderboard-stats">...</h2>
+              </article>
+            )}
             {datas?.data &&
               Object.values(datas.data).map((player, index) => (
                 <PlayerLeaderboard
