@@ -1,11 +1,25 @@
+/* ------------------ Responsive ------------------*/
+
+@media screen and (min-width: 1401px) {
+  .container-profile-view {
+    margin-top: 20vh;
+    margin-left: 240px;
+  }
+}
+
+@media screen and (max-width: 1400px) {
+  .container-profile-view {
+    margin-top: 5vh;
+    margin-left: calc(240px + 3vw);
+  }
+}
+
 /* ------------------ Containers ------------------*/
 
 .container-profile-view {
-  width: calc(100vw - 215px);
-  height: 100vh;
   align-items: center;
   justify-content: center;
-  margin-left: 215px;
+  padding-left: 0;
 }
 
 .container-profile {
@@ -101,6 +115,20 @@
 }
 
 /* ------------------ Buttons ------------------*/
+
+.logout {
+  color: var(--error-code);
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  text-decoration: underline;
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  width: 100%;
+  outline: none;
+  margin: -2rem 0 ;
+  margin-top: -1rem;
+}
 
 .form-profile button {
   padding: 0.5rem 1rem;

@@ -39,6 +39,8 @@ const Leaderboard: React.FC = () => {
         jwt
       );
       if (response) {
+        console.log(response);
+
         setDatas(response);
         setLimits({
           limitMin: response.limitMin,
@@ -47,6 +49,10 @@ const Leaderboard: React.FC = () => {
       }
     }
   };
+
+  useEffect(() => {
+    getLeaderboard();
+  }, [endpoint]);
 
   useEffect(() => {
     getLeaderboard();
@@ -62,7 +68,6 @@ const Leaderboard: React.FC = () => {
       );
       if (response) {
         setDatas(response);
-        console.log(response);
       }
     }
   };
@@ -110,12 +115,22 @@ const Leaderboard: React.FC = () => {
             Leader<span>board</span>
           </h1>
           <div className="flex-row container-pagination">
-            <button onClick={handlePreviousClick} className="see-more-button">
-              Previous
-            </button>
-            <button onClick={handleNextClick} className="see-more-button">
-              Next
-            </button>
+            <div className="flex-row container-sort-btn">
+              <button onClick={handlePreviousClick} className="sort-button">
+                all
+              </button>
+              <button onClick={handlePreviousClick} className="sort-button">
+                Friends
+              </button>
+            </div>
+            <div className="flex-row container-sort-btn">
+              <button onClick={handlePreviousClick} className="see-more-button">
+                Previous
+              </button>
+              <button onClick={handleNextClick} className="see-more-button">
+                Next
+              </button>
+            </div>
           </div>
         </div>
 
@@ -123,12 +138,72 @@ const Leaderboard: React.FC = () => {
           <header className="container-leaderboard-header">
             <h2 className="cell-leaderboard">Rank</h2>
             <h2 className="cell-leaderboard">Username</h2>
-            <h2 className="cell-leaderboard">TT Score</h2>
-            <h2 className="cell-leaderboard">Wins</h2>
-            <h2 className="cell-leaderboard">Looses</h2>
-            <h2 className="cell-leaderboard">TT games</h2>
-            <h2 className="cell-leaderboard">Avg Accuracy</h2>
-            <h2 className="cell-leaderboard">KpS</h2>
+            <div
+              className="flex-row container-sort"
+              onClick={() => setEndpoint("score")}
+            >
+              <h2 className="cell-leaderboard">Total Score</h2>
+              <img
+                style={{ display: endpoint === "score" ? "block" : "none" }}
+                src="/sort_icon.png"
+                alt="sort-icon"
+              />
+            </div>
+            <div
+              className="flex-row container-sort"
+              onClick={() => setEndpoint("win")}
+            >
+              <h2 className="cell-leaderboard">Wins</h2>
+              <img
+                style={{ display: endpoint === "win" ? "block" : "none" }}
+                src="/sort_icon.png"
+                alt="sort-icon"
+              />
+            </div>
+            <div
+              className="flex-row container-sort"
+              onClick={() => setEndpoint("loose")}
+            >
+              <h2 className="cell-leaderboard">Looses</h2>
+              <img
+                style={{ display: endpoint === "loose" ? "block" : "none" }}
+                src="/sort_icon.png"
+                alt="sort-icon"
+              />
+            </div>
+            <div
+              className="flex-row container-sort"
+              onClick={() => setEndpoint("solo")}
+            >
+              <h2 className="cell-leaderboard">Solo games</h2>
+              <img
+                style={{ display: endpoint === "solo" ? "block" : "none" }}
+                src="/sort_icon.png"
+                alt="sort-icon"
+              />
+            </div>
+            <div
+              className="flex-row container-sort"
+              onClick={() => setEndpoint("acc")}
+            >
+              <h2 className="cell-leaderboard">Average Accuracy</h2>
+              <img
+                style={{ display: endpoint === "acc" ? "block" : "none" }}
+                src="/sort_icon.png"
+                alt="sort-icon"
+              />
+            </div>
+            <div
+              className="flex-row container-sort"
+              onClick={() => setEndpoint("kps")}
+            >
+              <h2 className="cell-leaderboard">KpS</h2>
+              <img
+                style={{ display: endpoint === "kps" ? "block" : "none" }}
+                src="/sort_icon.png"
+                alt="sort-icon"
+              />
+            </div>
           </header>
           <div className="flex-col">
             {datas?.top5 &&
