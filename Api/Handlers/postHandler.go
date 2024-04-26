@@ -6,10 +6,10 @@ import (
 )
 
 var posthandlers = map[string]func(http.ResponseWriter, *http.Request){
-	"/signup": postMethods.Register,
-	"/signin": postMethods.Login,
-	// "/play":     methods.Play,
-	"/soloPlay": postMethods.SoloPlay,
+	"/signup":        postMethods.Register,
+	"/signin":        postMethods.Login,
+	"/soloPlay":      postMethods.SoloPlay,
+	"/requestFriend": postMethods.RequestFriend,
 }
 
 func PostHandler(w http.ResponseWriter, r *http.Request) {

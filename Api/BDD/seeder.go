@@ -48,6 +48,24 @@ func Seeder() {
 		CONSTRAINT games_FK_1 FOREIGN KEY (player1UUID) REFERENCES players(playerUUID) ON UPDATE CASCADE,
 		CONSTRAINT games_FK_2 FOREIGN KEY (tournamentId) REFERENCES tournaments(tournamentId) ON UPDATE CASCADE
 	);`)
+	DbManager.AddDeleteUpdateDB(`
+	DROP TABLE IF EXISTS friendsRequests;
+	CREATE TABLE friendsRequests (
+		friendsRequestId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+		requestingPlayerUUID TEXT(128) NOT NULL,
+		requestedPlayerUUID TEXT(128) NOT NULL,
+		CONSTRAINT friendsRequestFK1 FOREIGN KEY (requestingPlayerUUID) REFERENCES players(playerUUID) ON UPDATE CASCADE,
+		CONSTRAINT friendsRequestFK2 FOREIGN KEY (requestedPlayerUUID) REFERENCES players(playerUUID) ON UPDATE CASCADE
+	);`)
+	DbManager.AddDeleteUpdateDB(`
+	DROP TABLE IF EXISTS friends;
+	CREATE TABLE friends (
+		friendsId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+		player1UUID TEXT(128) NOT NULL,
+		player2UUID TEXT(128) NOT NULL,
+		CONSTRAINT friendsFK1 FOREIGN KEY (player1UUID) REFERENCES players(playerUUID) ON UPDATE CASCADE,
+		CONSTRAINT friendsFK2 FOREIGN KEY (player2UUID) REFERENCES players(playerUUID) ON UPDATE CASCADE
+	);`)
 	password, err := bcrypt.GenerateFromPassword([]byte("azertyuiop"), bcrypt.DefaultCost)
 	if err != nil {
 		fmt.Println("Failde to hash password")
