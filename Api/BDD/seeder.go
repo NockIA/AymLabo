@@ -11,6 +11,43 @@ import (
 
 func Seeder() {
 	fmt.Println("Seed in progress")
+	DbManager.AddDeleteUpdateDB(`
+	DROP TABLE IF EXISTS players;
+	CREATE TABLE players (
+		playerUUID TEXT(128) NOT NULL UNIQUE,
+		avatarProfile TEXT(256) NOT NULL DEFAULT 'panda.png',
+		email TEXT(256) NOT NULL UNIQUE,
+		pseudo TEXT(100) NOT NULL UNIQUE,
+		password TEXT NOT NULL,
+		avgAccuracy INTEGER NOT NULL DEFAULT 0,
+		killPerSeconde FLOAT NOT NULL DEFAULT 0,
+		totalScore INTEGER NOT NULL DEFAULT 0,
+		numberOfWin INTEGER NOT NULL DEFAULT 0,
+		numberOfLoose INTEGER NOT NULL DEFAULT 0, 
+		numberOfSoloGamePlay INTEGER NOT NULL DEFAULT 0,
+		numberOfGameWithStrike INTEGER NOT NULL DEFAULT 0,
+		bestStrike INTEGER NOT NULL DEFAULT 0,
+		CONSTRAINT players_PK PRIMARY KEY (playerUUID)
+	);`)
+	DbManager.AddDeleteUpdateDB(`
+	DROP TABLE IF EXISTS tournaments;
+	CREATE TABLE tournaments (
+		tournamentId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+		name TEXT(128) NOT NULL
+	);`)
+	DbManager.AddDeleteUpdateDB(`
+	DROP TABLE IF EXISTS games;
+	CREATE TABLE games (
+		gameId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+		player1UUID TEXT NOT NULL,
+		player2UUID TEXT NOT NULL,
+		"start" TEXT,
+		"end" TEXT,
+		tournamentId INTEGER,
+		CONSTRAINT games_FK FOREIGN KEY (player2UUID) REFERENCES players(playerUUID) ON UPDATE CASCADE,
+		CONSTRAINT games_FK_1 FOREIGN KEY (player1UUID) REFERENCES players(playerUUID) ON UPDATE CASCADE,
+		CONSTRAINT games_FK_2 FOREIGN KEY (tournamentId) REFERENCES tournaments(tournamentId) ON UPDATE CASCADE
+	);`)
 	password, err := bcrypt.GenerateFromPassword([]byte("azertyuiop"), bcrypt.DefaultCost)
 	if err != nil {
 		fmt.Println("Failde to hash password")
