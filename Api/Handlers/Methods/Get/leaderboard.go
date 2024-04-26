@@ -58,7 +58,6 @@ func LeaderBoard(endpoint string, w http.ResponseWriter, r *http.Request) {
 		}
 		if uuid, ok := claims["UUID"].(string); ok {
 			ranking := getRankingOfOnePlayer(uuid, selectedEndpoint)
-			fmt.Println(ranking)
 			if ranking <= 5 {
 				data = utils.GetPlayerOnEndpoint(ranking-1, 5+(5-(ranking-1)), selectedEndpoint, uuid, rawPlayer.SelectedData)
 				data.LimitMin, data.LimitMax = ranking-1, 5+(5-(ranking-1))
