@@ -31,7 +31,7 @@ func GetPlayerOnEndpointWithFriend(limitMin, limitMax int, selectedEndpoint, uui
 			JOIN players p ON f.player1UUID = p.playerUUID OR f.player2UUID = p.playerUUID 
 			WHERE 
 				(f.player1UUID = ? OR f.player2UUID = ?)
-				AND p.playerUUID <> ?)
+		)
 		ORDER BY distance ASC
 		LIMIT `+fmt.Sprint(limitMin)+`) ORDER BY distance DESC  ) as closedPlayer
 	JOIN
@@ -52,7 +52,7 @@ func GetPlayerOnEndpointWithFriend(limitMin, limitMax int, selectedEndpoint, uui
 			JOIN players p ON f.player1UUID = p.playerUUID OR f.player2UUID = p.playerUUID 
 			WHERE 
 				(f.player1UUID = ? OR f.player2UUID = ?)
-				AND p.playerUUID <> ?)
+		)
 		ORDER BY distance ASC
 		LIMIT `+fmt.Sprint(limitMax)+`) ORDER BY distance ASC ) as closedPlayer
 	JOIN
