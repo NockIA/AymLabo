@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import "./solo.css";
-import "../../style/global.css";
-import { HeaderGame } from "../../components/headerGame/header_game";
-import { Target } from "../../components/target/target";
-import EndMenu from "../../components/endMenu/end_menu";
-import { TargetProps } from "../../models/game";
+import "../solo.css";
+import "../../../style/global.css";
+import { HeaderGame } from "../../../components/headerGame/header_game";
+import { Target } from "../../../components/target/target";
+import EndMenu from "../../../components/endMenu/end_menu";
+import { TargetProps } from "../../../models/game";
 import axios from "axios";
-import { apiKey, apiURL } from "../../utils/api";
-import { Store } from "../../services/store";
+import { apiKey, apiURL } from "../../../utils/api";
+import { Store } from "../../../services/store";
 
 const Solo: React.FC = () => {
   const [score, setScore] = useState(0);
@@ -18,6 +18,8 @@ const Solo: React.FC = () => {
   const [totalClics, setTotalClics] = useState(0);
   const [currentStrike, setCurrentStrike] = useState(0);
   const [bestStrike, setBestStrike] = useState(0);
+  const [countdown, setCountdown] = useState(5);
+  const [hasStarted, setHasStarted] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [jwt, setJwt] = useState<string | null>();
   const _store: Store = new Store("userData");
@@ -28,6 +30,7 @@ const Solo: React.FC = () => {
 
   const maxScore: number = 10000;
   const maxTime: number = 30; // seconds
+  const despawn: boolean = false;
 
   // ------------------------- //
   // ----------Jwt------------ //
@@ -52,7 +55,7 @@ const Solo: React.FC = () => {
       bestStrike: bestStrike,
       score: score,
     };
-    if (seconds >= maxTime && jwt) {
+    if (seconds >= maxTime && jwt && score > 0) {
       try {
         await axios.post(`${apiURL}/soloPlay`, datas, {
           headers: {
@@ -106,6 +109,8 @@ const Solo: React.FC = () => {
       setShowMenu(false);
       const initialTargets: TargetProps[] = generateRandomTargets(4);
       setTargets(initialTargets);
+      setHasStarted(false);
+      setCountdown(5);
     }
   };
 
@@ -128,13 +133,23 @@ const Solo: React.FC = () => {
     checkEnd();
   }, [score, seconds]);
 
+  // ------------------------------- //
+  // ---------Best Strike----------- //
+  // ------------------------------- //
+
+  useEffect(() => {
+    if (currentStrike > bestStrike) {
+      setBestStrike(currentStrike);
+    }
+  }, [currentStrike]);
+
   // ------------------------- //
   // ---------Timer----------- //
   // ------------------------- //
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout | null = null;
-    if (!showMenu) {
+    if (!showMenu && countdown <= 0) {
       intervalId = setInterval(() => {
         setSeconds((prevSeconds) => prevSeconds + 1);
       }, 1000);
@@ -143,7 +158,22 @@ const Solo: React.FC = () => {
     return () => {
       if (intervalId) clearInterval(intervalId);
     };
-  }, [showMenu]);
+  }, [showMenu, countdown]);
+
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout | null = null;
+    if (!showMenu && countdown > 0) {
+      intervalId = setInterval(() => {
+        setCountdown((prevCountdown) => prevCountdown - 1);
+      }, 1000);
+    } else if (countdown === 0) {
+      setHasStarted(true);
+    }
+
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [showMenu, countdown]);
 
   // ------------------------------ //
   // ---------Init Targets--------- //
@@ -238,24 +268,26 @@ const Solo: React.FC = () => {
   // ---------------------------------- //
 
   useEffect(() => {
-    const handleClick = (event: MouseEvent) => {
-      const clickedTargetId = parseInt((event.target as HTMLDivElement).id);
-      if (!isNaN(clickedTargetId)) {
-        setScore(score + 10 + Math.ceil(currentStrike / 10));
-        setTargets((prevTargets) =>
-          prevTargets.filter((target) => target.id !== clickedTargetId)
-        );
-      }
-    };
-    document.addEventListener("click", handleClick);
-    return () => {
-      document.removeEventListener("click", handleClick);
-    };
-  }, [score, targets]);
+    if (hasStarted) {
+      const handleClick = (event: MouseEvent) => {
+        const clickedTargetId = parseInt((event.target as HTMLDivElement).id);
+        if (!isNaN(clickedTargetId)) {
+          setScore(score + 10 + Math.ceil(currentStrike / 10));
+          setTargets((prevTargets) =>
+            prevTargets.filter((target) => target.id !== clickedTargetId)
+          );
+        }
+      };
+      document.addEventListener("click", handleClick);
+      return () => {
+        document.removeEventListener("click", handleClick);
+      };
+    }
+  }, [score, targets, hasStarted]);
 
   useEffect(() => {
     const handleGlobalClick = () => {
-      if (!showMenu) {
+      if (!showMenu && hasStarted) {
         setTotalClics(totalClics + 1);
       }
     };
@@ -263,38 +295,35 @@ const Solo: React.FC = () => {
     return () => {
       document.body.removeEventListener("click", handleGlobalClick);
     };
-  }, [totalClics, showMenu]);
+  }, [totalClics, showMenu,hasStarted]);
 
   return (
     <main className="container-game flex-col" role="main">
       <HeaderGame
         score={score}
         time={seconds}
-        precison={Math.ceil((totalTargets * 100) / totalClics)}
+        precision={Math.ceil((totalTargets * 100) / totalClics)}
       />
-      <div
-        ref={gameRef}
-        className="game flex-row"
-        onClick={(event) => {
-          if (event.target === gameRef.current) {
-            setScore(score - 10);
-            if (currentStrike > bestStrike) {
-              setBestStrike(currentStrike);
+      {countdown > 0 && <h1 className="countdown">{countdown}</h1>}
+      {hasStarted && (
+        <div
+          ref={gameRef}
+          className="game flex-row"
+          onClick={(event) => {
+            if (event.target === gameRef.current) {
+              setScore(score - 10);
+              setCurrentStrike(0);
+            } else {
+              setTotalTargets(totalTargets + 1);
+              setCurrentStrike(currentStrike + 1);
             }
-            setCurrentStrike(0);
-          } else {
-            setTotalTargets(totalTargets + 1);
-            if (currentStrike > bestStrike) {
-              setBestStrike(currentStrike);
-            }
-            setCurrentStrike(currentStrike + 1);
-          }
-        }}
-      >
-        {targets.map((target, index) => (
-          <Target key={index} target={target} />
-        ))}
-      </div>
+          }}
+        >
+          {targets.map((target, index) => (
+            <Target key={index} target={target} />
+          ))}
+        </div>
+      )}
       <h2 className="bestStrike">{currentStrike + "x"}</h2>
       {showMenu && (
         <EndMenu

@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 interface HeaderGameProps {
   score: number;
   time: number;
-  precison: number;
+  precision: number;
 }
 
-export const HeaderGame: React.FC<HeaderGameProps> = ({ score, time,precison }) => {
+export const HeaderGame: React.FC<HeaderGameProps> = ({ score, time,precision }) => {
   const [renderedTime, setRenderedTime] = useState("00:00");
   const formatTime = (time: number): string => {
     const minutes = Math.floor(time / 60);
@@ -30,7 +30,7 @@ export const HeaderGame: React.FC<HeaderGameProps> = ({ score, time,precison }) 
       </div>
       <div className="flex-col">
         <h2 className="timer">{renderedTime}</h2>
-        <h2 className="precision">{!Number.isNaN(precison) ? precison + '%' : '0%' }</h2>
+        <h2 className="precision">{!Number.isNaN(precision) ? precision + '%' : '0%' }</h2>
       </div>
     </header>
   );

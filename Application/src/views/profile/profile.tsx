@@ -1,7 +1,7 @@
 import "./profile.css";
 import "../../style/global.css";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { StatProfile } from "../../components/stats/stat_profile";
 import { ValidationErrors } from "../../models/auth";
 import { ProfileService } from "../../services/profile_service";
@@ -10,6 +10,9 @@ import { ProfileProps } from "../../models/profile";
 import { StatProfileProps } from "../../models/stat";
 import { Nav } from "../../components/nav/nav";
 import { AvatarModal } from "../../components/avatar/avatar";
+import bear from "/images/avatar/bear.png";
+import panda from "/images/avatar/panda.png";
+import rabbit from "/images/avatar/rabbit.png";
 
 const Profile: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -109,7 +112,13 @@ const Profile: React.FC = () => {
           <section className="flex-col container-informations">
             <img
               className="avatar"
-              src={"/images/avatar/" + avatar}
+              src={
+                avatar === "bear.png"
+                  ? bear
+                  : avatar === "rabbit.png"
+                  ? rabbit
+                  : panda
+              }
               alt="user_avatar"
             />
             <button className="edit-avatar" onClick={() => setShowModal(true)}>
