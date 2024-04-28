@@ -55,7 +55,7 @@ const Solo: React.FC = () => {
       bestStrike: bestStrike,
       score: score,
     };
-    if (seconds >= maxTime && jwt) {
+    if (seconds >= maxTime && jwt && score > 0) {
       try {
         await axios.post(`${apiURL}/soloPlay`, datas, {
           headers: {

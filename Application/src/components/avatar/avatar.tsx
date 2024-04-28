@@ -1,6 +1,9 @@
 import "./avatar.css";
 import "../../style/global.css";
 import { useState } from "react";
+import bear from "/images/avatar/bear.png";
+import panda from "/images/avatar/panda.png";
+import rabbit from "/images/avatar/rabbit.png";
 
 interface AvatarModalProps {
   currentAvatar: string;
@@ -33,7 +36,16 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
               className="flex-col container-avatar"
               key={index}
             >
-              <img src={"/images/avatar/" + avatar} alt={avatar} />
+              <img
+                src={
+                  avatar === "bear.png"
+                    ? bear
+                    : avatar === "rabbit.png"
+                    ? rabbit
+                    : panda
+                }
+                alt={avatar}
+              />
               <p>{avatar.slice(0, -4)}</p>
             </article>
           ))}

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { AuthService } from "../../services/auth_service";
 import { SignupFormProps, ValidationErrors } from "../../models/auth";
 import { Store } from "../../services/store";
+import icon from '/images/icons/icon.png';
 
 const SignUp: React.FC = () => {
   const _store: Store = new Store("userData");
@@ -55,7 +56,7 @@ const SignUp: React.FC = () => {
         aria-label="App presentation"
       >
         <div className="flex-row container-logo">
-          <img src="/images/icons/icon.png" />
+          <img src={icon} />
           <h5>
             Aym<span>Labo</span>
           </h5>
@@ -71,7 +72,7 @@ const SignUp: React.FC = () => {
           aria-label="Switch to signin"
           role="button"
           className="button-sign button-sign-white"
-          to={"/signin"}
+          to={"/"}
           tabIndex={5}
         >
           Sign In

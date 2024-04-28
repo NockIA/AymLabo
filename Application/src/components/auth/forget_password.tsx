@@ -6,6 +6,7 @@ import {
   AuthService,
 } from "../../services/auth_service";
 import { SigninFormProps, ValidationErrors } from "../../models/auth";
+import icon from '/images/icons/icon.png';
 
 const ResetPassword: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -46,7 +47,7 @@ const ResetPassword: React.FC = () => {
         aria-label="App presentation"
       >
         <div className="flex-row container-logo">
-          <img src="/images/icons/icon.png" />
+          <img src={icon} />
           <h5>
             Aym<span>Labo</span>
           </h5>

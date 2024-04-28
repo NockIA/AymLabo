@@ -1,6 +1,9 @@
 import "./home.css";
 import "../../style/global.css";
 import { Nav } from "../../components/nav/nav";
+import jeune_entrepeneur from "/images/others/jeune-entrepreneur.png";
+import faker from "/images/others/faker.png";
+import labz from "/images/others/labz.png";
 
 const Home: React.FC = () => {
   return (
@@ -18,7 +21,7 @@ const Home: React.FC = () => {
                 competitive gaming. Aymlabo is the best
                 way to get better at the games you love to compete 
               </h2>
-              <img src="/images/others/jeune-entrepreneur.png" />
+              <img src={jeune_entrepeneur} />
             </div>
           </article>
           <article className="flex-col container-gamer">
@@ -37,8 +40,8 @@ const Home: React.FC = () => {
           </article>
           <article className=" container-formation">
             <div className="flex-row container-images">
-              <img src="/images/others/faker.png" className="faker" />
-              <img src="/images/others/labz.png" className="leS" />
+              <img src={faker} className="faker" />
+              <img src={labz} className="leS" />
               <span className="filter-formation" />
             </div>
             <div className="flex-col container-informations">
