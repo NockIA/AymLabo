@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import "./solo.css";
-import "../../style/global.css";
-import { HeaderGame } from "../../components/headerGame/header_game";
-import { Target } from "../../components/target/target";
-import EndMenu from "../../components/endMenu/end_menu";
-import { TargetProps } from "../../models/game";
+import "../solo.css";
+import "../../../style/global.css";
+import { HeaderGame } from "../../../components/headerGame/header_game";
+import { Target } from "../../../components/target/target";
+import EndMenu from "../../../components/endMenu/end_menu";
+import { TargetProps } from "../../../models/game";
 import axios from "axios";
-import { apiKey, apiURL } from "../../utils/api";
-import { Store } from "../../services/store";
+import { apiKey, apiURL } from "../../../utils/api";
+import { Store } from "../../../services/store";
 
 const Solo: React.FC = () => {
   const [score, setScore] = useState(0);
@@ -28,6 +28,7 @@ const Solo: React.FC = () => {
 
   const maxScore: number = 10000;
   const maxTime: number = 30; // seconds
+  const despawn: boolean = false;
 
   // ------------------------- //
   // ----------Jwt------------ //
@@ -280,7 +281,7 @@ const Solo: React.FC = () => {
       <HeaderGame
         score={score}
         time={seconds}
-        precison={Math.ceil((totalTargets * 100) / totalClics)}
+        precision={Math.ceil((totalTargets * 100) / totalClics)}
       />
       <div
         ref={gameRef}

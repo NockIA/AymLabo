@@ -91,9 +91,15 @@ export const Nav: React.FC = () => {
         <h2 className="subtitle-nav ">Menu</h2>
         <ul className="flex-col container-links">
           <li className="flex-col ">
-            <Link className="flex-row container-link" to={"/solo"}>
+            <Link className="flex-row container-link" to={"/solo-classic"}>
               <img src="/images/icons/pistol.png" alt="Solo gamemode" />
-              <p>Solo</p>
+              <p>Solo-Classic</p>
+            </Link>
+          </li>
+          <li className="flex-col ">
+            <Link className="flex-row container-link" to={"/solo-params"}>
+              <img src="/images/icons/pistol.png" alt="Solo gamemode" />
+              <p>Solo-Params</p>
             </Link>
           </li>
           <li className="flex-col ">

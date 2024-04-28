@@ -18,6 +18,14 @@
   overflow: hidden;
 }
 
+.game-params {
+  width: 98vw;
+  height: 85vh;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
 /* ------------------ Texts ------------------*/
 
 .bestStrike {
