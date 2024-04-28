@@ -99,13 +99,13 @@ export const Nav: React.FC = () => {
           <li className="flex-col ">
             <Link className="flex-row container-link" to={"/solo-classic"}>
               <img src={pistol} alt="Solo gamemode" />
-              <p>Solo-Classic</p>
+              <p>Gridshot</p>
             </Link>
           </li>
           <li className="flex-col ">
             <Link className="flex-row container-link" to={"/solo-params"}>
               <img src={pistol} alt="Solo gamemode" />
-              <p>Solo-Params</p>
+              <p>Tracking</p>
             </Link>
           </li>
           <li className="flex-col ">

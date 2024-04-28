@@ -2,11 +2,11 @@ import Profile from "../views/profile/profile";
 import ResetPassword from "../components/auth/forget_password";
 import SignIn from "../components/auth/signin";
 import SignUp from "../components/auth/signup";
-import Solo from "../views/game/classic/solo";
+import Solo from "../views/game/gridshot/solo";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import Home from "../views/home/home";
 import Leaderboard from "../views/leaderboard/leaderboard";
-import SoloParams from "../views/game/editable/solo";
+import SoloParams from "../views/game/tracking/solo";
 
 const Ways: React.FC = () => {
   return (
