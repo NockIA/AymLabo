@@ -4,13 +4,11 @@ import "../../../style/global.css";
 import { HeaderGame } from "../../../components/headerGame/header_game";
 import { Target } from "../../../components/target/target";
 import EndMenu from "../../../components/endMenu/end_menu";
-import { TargetProps } from "../../../models/game";
 import axios from "axios";
 import { apiKey, apiURL } from "../../../utils/api";
 import { Store } from "../../../services/store";
 
 const SoloParams: React.FC = () => {
-  const [score, setScore] = useState(0);
   const [targetPosition, setTargetPosition] = useState<{
     top: number;
     left: number;
@@ -19,13 +17,16 @@ const SoloParams: React.FC = () => {
     left: window.innerWidth / 2 - 100,
   });
   const gameRef = useRef<HTMLDivElement>(null);
+  const _store: Store = new Store("userData");
+  const [jwt, setJwt] = useState<string | null>();
+  const [score, setScore] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [totalClics, setTotalClics] = useState(0);
-  const [totalHits, setTotalHits] = useState(0); // Track total hits on target
+  const [totalHits, setTotalHits] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
-  const [jwt, setJwt] = useState<string | null>();
   const [isMouseOverTarget, setIsMouseOverTarget] = useState(false);
-  const _store: Store = new Store("userData");
+  const [hasStarted, setHasStarted] = useState(false);
+  const [countdown, setCountdown] = useState(5);
 
   // ------------------------- //
   // ---------Rules----------- //
@@ -35,6 +36,7 @@ const SoloParams: React.FC = () => {
   const maxTime: number = 30; // seconds
   let velocityX = 1.5; // horizontal speed of target
   let velocityY = 1.5; // vertical speed of target
+  const scorePerHits = 8;
 
   // ------------------------- //
   // ----------Jwt------------ //
@@ -72,9 +74,9 @@ const SoloParams: React.FC = () => {
     }
   };
 
-  // ------------------------- //
-  // ---------Menu------------ //
-  // ------------------------- //
+  // -------------------------- //
+  // ---------Menus------------ //
+  // -------------------------- //
 
   const handleMenuModal = (data: boolean) => {
     setShowMenu(data);
@@ -101,22 +103,9 @@ const SoloParams: React.FC = () => {
     };
   }, []);
 
-  const restart = async (restart: boolean) => {
-    if (restart) {
-      console.log('restart');
-      
-      await handleEndGame();
-      setScore(0);
-      setSeconds(0);
-      setTotalClics(0);
-      setTotalHits(0);
-      setShowMenu(false);
-    }
-  };
-
-  // ------------------------- //
-  // ---------Score----------- //
-  // ------------------------- //
+  // ----------------------- //
+  // ---------End----------- //
+  // ----------------------- //
 
   useEffect(() => {
     const checkEnd = () => {
@@ -133,34 +122,86 @@ const SoloParams: React.FC = () => {
     checkEnd();
   }, [score, seconds]);
 
-  useEffect(() => {
-    const handleMouseEnter = () => {
-      setIsMouseOverTarget(true);
-    };
-
-    const handleMouseLeave = () => {
-      setIsMouseOverTarget(false);
-    };
-
-    const targetElement = gameRef.current?.querySelector(".target");
-    if (targetElement) {
-      targetElement.addEventListener("mouseenter", handleMouseEnter);
-      targetElement.addEventListener("mouseleave", handleMouseLeave);
-      return () => {
-        targetElement.removeEventListener("mouseenter", handleMouseEnter);
-        targetElement.removeEventListener("mouseleave", handleMouseLeave);
-      };
+  const restart = async (restart: boolean) => {
+    if (restart) {
+      console.log("restart");
+      await handleEndGame();
+      setScore(0);
+      setSeconds(0);
+      setTotalClics(0);
+      setTotalHits(0);
+      setShowMenu(false);
+      setHasStarted(false);
+      setCountdown(5);
     }
-  }, []);
+  };
+
+  // ------------------------- //
+  // ---------Timer----------- //
+  // ------------------------- //
 
   useEffect(() => {
-    if (!showMenu) {
+    let intervalId: NodeJS.Timeout | null = null;
+    if (!showMenu && countdown <= 0) {
+      intervalId = setInterval(() => {
+        setSeconds((prevSeconds) => prevSeconds + 1);
+      }, 1000);
+    }
+
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [showMenu, countdown]);
+
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout | null = null;
+    if (!showMenu && countdown > 0) {
+      intervalId = setInterval(() => {
+        setCountdown((prevCountdown) => prevCountdown - 1);
+      }, 1000);
+    } else if (countdown === 0) {
+      setHasStarted(true);
+    }
+
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [showMenu, countdown]);
+
+  // ------------------------------- //
+  // ---------Target Hits----------- //
+  // ------------------------------- //
+
+  useEffect(() => {
+    if (hasStarted) {
+      const handleMouseEnter = () => {
+        setIsMouseOverTarget(true);
+      };
+
+      const handleMouseLeave = () => {
+        setIsMouseOverTarget(false);
+      };
+
+      const targetElement = gameRef.current?.querySelector(".target");
+      if (targetElement) {
+        targetElement.addEventListener("mouseenter", handleMouseEnter);
+        targetElement.addEventListener("mouseleave", handleMouseLeave);
+        return () => {
+          targetElement.removeEventListener("mouseenter", handleMouseEnter);
+          targetElement.removeEventListener("mouseleave", handleMouseLeave);
+        };
+      }
+    }
+  }, [hasStarted]);
+
+  useEffect(() => {
+    if (!showMenu && hasStarted) {
       let intervalId: NodeJS.Timeout | null = null;
 
       if (isMouseOverTarget) {
         intervalId = setInterval(() => {
-          setScore((prevScore) => prevScore + 10);
-          setTotalHits((prevTotalHits) => prevTotalHits + 2);
+          setScore((prevScore) => prevScore + scorePerHits);
+          setTotalHits((prevTotalHits) => prevTotalHits + 1);
         }, 50);
       } else {
         clearInterval(intervalId as unknown as NodeJS.Timeout);
@@ -170,10 +211,10 @@ const SoloParams: React.FC = () => {
         clearInterval(intervalId as NodeJS.Timeout);
       };
     }
-  }, [isMouseOverTarget, showMenu]);
+  }, [isMouseOverTarget, showMenu, hasStarted]);
 
   useEffect(() => {
-    if (!showMenu) {
+    if (!showMenu && hasStarted) {
       let intervalId: NodeJS.Timeout | null = null;
 
       intervalId = setInterval(() => {
@@ -184,48 +225,24 @@ const SoloParams: React.FC = () => {
         clearInterval(intervalId as NodeJS.Timeout);
       };
     }
-  }, [showMenu]);
-
-  // ------------------------- //
-  // ---------Timer----------- //
-  // ------------------------- //
-
-  useEffect(() => {
-    let intervalId: NodeJS.Timeout | null = null;
-    if (!showMenu) {
-      intervalId = setInterval(() => {
-        setSeconds((prevSeconds) => prevSeconds + 1);
-      }, 1000);
-    }
-
-    return () => {
-      if (intervalId) clearInterval(intervalId);
-    };
-  }, [showMenu]);
+  }, [showMenu, hasStarted]);
 
   // -------------------------- //
   // ---------Target----------- //
   // -------------------------- //
 
   useEffect(() => {
-    if (seconds === 0) {
-      console.log('aaaa');
-      
-      setTargetPosition({
-        top: window.innerHeight / 2 - 200,
-        left: window.innerWidth / 2 - 100,
-      });
-    } else {
+    if (hasStarted) {
       let targetPosition = {
         top: window.innerHeight / 2 - 200,
         left: window.innerWidth / 2 - 100,
       };
-      const targetWidth = 150;
-      const targetHeight = 250;
+      const targetWidth = 200;
+      const targetHeight = 300;
       if (seconds == 0 || seconds >= maxTime) {
         targetPosition = {
-          top: window.innerHeight / 2 - 200,
-          left: window.innerWidth / 2 - 100,
+          top: window.innerHeight / 2 - targetHeight,
+          left: window.innerWidth / 2 - targetWidth,
         };
       }
       const moveTarget = () => {
@@ -258,7 +275,6 @@ const SoloParams: React.FC = () => {
         }
 
         // update target position
-
         setTargetPosition({ ...targetPosition });
 
         animationId = requestAnimationFrame(moveTarget);
@@ -268,7 +284,7 @@ const SoloParams: React.FC = () => {
 
       return () => cancelAnimationFrame(animationId);
     }
-  }, []);
+  }, [hasStarted]);
 
   return (
     <main className="container-game flex-col" role="main">
@@ -277,15 +293,18 @@ const SoloParams: React.FC = () => {
         time={seconds}
         precision={Math.ceil((totalHits * 100) / totalClics)}
       />
-      <div
-        ref={gameRef}
-        className="game-params flex-row"
-        style={{ position: "relative" }}
-      >
-        <Target
-          target={{ id: 1, top: targetPosition.top, left: targetPosition.left }}
-        />
-      </div>
+      {countdown > 0 && <h1 className="countdown">{countdown}</h1>}
+      {hasStarted && (
+        <div ref={gameRef} className="game-params flex-row">
+          <Target
+            target={{
+              id: 1,
+              top: targetPosition.top,
+              left: targetPosition.left,
+            }}
+          />
+        </div>
+      )}
       {showMenu && (
         <EndMenu
           bestStrike={0}
