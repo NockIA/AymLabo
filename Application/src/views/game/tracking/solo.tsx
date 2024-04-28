@@ -34,8 +34,8 @@ const SoloParams: React.FC = () => {
 
   const maxScore: number = 10000;
   const maxTime: number = 30; // seconds
-  let velocityX = 1.5; // horizontal speed of target
-  let velocityY = 1.5; // vertical speed of target
+  let velocityX = 1; // horizontal speed of target
+  let velocityY = 1; // vertical speed of target
   const scorePerHits = 8;
 
   // ------------------------- //
@@ -219,7 +219,7 @@ const SoloParams: React.FC = () => {
 
       intervalId = setInterval(() => {
         setTotalClics((prevTotalClics) => prevTotalClics + 1);
-      }, 50);
+      }, 60);
 
       return () => {
         clearInterval(intervalId as NodeJS.Timeout);
