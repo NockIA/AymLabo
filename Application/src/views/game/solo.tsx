@@ -128,6 +128,16 @@ const Solo: React.FC = () => {
     checkEnd();
   }, [score, seconds]);
 
+  // ------------------------------- //
+  // ---------Best Strike----------- //
+  // ------------------------------- //
+
+  useEffect(() => {
+    if (currentStrike > bestStrike) {
+      setBestStrike(currentStrike);
+    }
+  }, [currentStrike]);
+
   // ------------------------- //
   // ---------Timer----------- //
   // ------------------------- //
@@ -278,15 +288,9 @@ const Solo: React.FC = () => {
         onClick={(event) => {
           if (event.target === gameRef.current) {
             setScore(score - 10);
-            if (currentStrike > bestStrike) {
-              setBestStrike(currentStrike);
-            }
             setCurrentStrike(0);
           } else {
             setTotalTargets(totalTargets + 1);
-            if (currentStrike > bestStrike) {
-              setBestStrike(currentStrike);
-            }
             setCurrentStrike(currentStrike + 1);
           }
         }}
