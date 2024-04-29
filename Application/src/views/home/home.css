@@ -39,7 +39,6 @@
 /* ------------------ Containers ------------------*/
 
 .container-home .container-gamer {
-  margin-top: -4rem;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -77,7 +76,7 @@
   padding: 1rem;
   align-items: center;
   border-radius: 20px;
-  background-image: url("/background_home.png");
+  background-image: url("/images/others/background_home.png");
   background-repeat: no-repeat;
   background-size: contain;
 }
@@ -125,8 +124,11 @@
 /* ------------------ Images ------------------*/
 
 .container-entrepreneur img {
-  width: 30vw;
+  width: 25vw;
   filter: grayscale(100%);
+  background-image: url("/images/others/background_home.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .container-images .faker {
