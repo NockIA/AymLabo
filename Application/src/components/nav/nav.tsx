@@ -12,6 +12,7 @@ import ranking_icon from "/images/icons/ranking.png";
 import profile_icon from "/images/icons/user.png";
 import friend_icon from "/images/icons/friends.png";
 import request_icon from "/images/icons/add-friend.png";
+import historic_icon from "/images/icons/historical.png";
 
 export const Nav: React.FC = () => {
   const _friendService: FriendService = new FriendService();
@@ -116,7 +117,7 @@ export const Nav: React.FC = () => {
           </li>
           <li className="flex-col ">
             <Link className="flex-row container-link" to={"/historic"}>
-              <img src={ranking_icon} alt="leaderboard" />
+              <img src={historic_icon} alt="historic" />
               <p>Historic</p>
             </Link>
           </li>

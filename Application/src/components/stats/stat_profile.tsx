@@ -4,12 +4,24 @@ import { StatProfileProps } from "../../models/stat";
 import target_icon from "/images/icons/target.png";
 
 export const StatProfile: React.FC<StatProfileProps> = ({ title, value }) => {
+  // ---------------------------------- //
+  // -----------Format Stat------------ //
+  // ---------------------------------- //
   const formatStat = (data: string): string => {
-    if (parseInt(data) >= 1000000) {
-      return (parseInt(data) / 1000000).toString() + "M";
+    const value = parseInt(data);
+    if (value >= 1000000000000) {
+      const formattedValue = (value / 1000000000000).toFixed(1);
+      return formattedValue + "Td";
+    } else if (value >= 1000000000) {
+      const formattedValue = (value / 1000000000).toFixed(1);
+      return formattedValue + "Md";
+    } else if (value >= 1000000) {
+      const formattedValue = (value / 1000000).toFixed(1);
+      return formattedValue + "M";
     }
-    return data.toString();
+    return data;
   };
+
   return (
     <article className="flex-col container-stat-profile">
       <img src={target_icon} />

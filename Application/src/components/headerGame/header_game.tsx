@@ -1,12 +1,7 @@
 import "./header_game.css";
 import "../../style/global.css";
 import { useEffect, useState } from "react";
-
-interface HeaderGameProps {
-  score: number;
-  time: number;
-  precision: number;
-}
+import { HeaderGameProps } from "../../models/menu";
 
 export const HeaderGame: React.FC<HeaderGameProps> = ({
   score,
@@ -16,6 +11,9 @@ export const HeaderGame: React.FC<HeaderGameProps> = ({
   const [renderedTime, setRenderedTime] = useState("00:00");
   const [acc, setAcc] = useState("");
 
+  // ---------------------------------- //
+  // -----------Format Time------------ //
+  // ---------------------------------- //
   const formatTime = (time: number): string => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
@@ -28,6 +26,9 @@ export const HeaderGame: React.FC<HeaderGameProps> = ({
     setRenderedTime(formatTime(time));
   }, [time]);
 
+  // -------------------------------------- //
+  // -----------Format Accuracy------------ //
+  // -------------------------------------- //
   useEffect(() => {
     const formatAccuracy = (nb: number): string => {
       if (Number.isNaN(nb)) {

@@ -53,12 +53,12 @@
 .container-leaderboard-page .container-leaderboard-content {
   background-color: var(--background-sign);
   overflow-x: auto;
+  min-width: calc(100vw - 240px);
 }
 
 .container-leaderboard-header {
   background-color: var(--background-nav);
   color: var(--white);
-  width: max-content;
   padding: 0.5rem 1rem;
   display: grid;
   grid-template-columns: 50px 180px 125px 70px 85px 120px 200px 64px;
