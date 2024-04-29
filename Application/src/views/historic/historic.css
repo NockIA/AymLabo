@@ -1,0 +1,11 @@
+/* ------------------ Containers ------------------*/
+
+.container-leaderboard-historic {
+  background-color: var(--background-nav);
+  color: var(--white);
+  padding: 0.5rem 1rem;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 50px;
+  font-size: 12px;
+}

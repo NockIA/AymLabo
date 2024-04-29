@@ -57,15 +57,12 @@ const SoloParams: React.FC = () => {
 
   const handleEndGame = async () => {
     const datas = {
-      timePlayedInSecond: seconds,
-      numberOfTargetDown: totalHits,
       accuracy: Math.ceil((totalHits * 100) / totalClics),
-      bestStrike: 1,
       score: score,
     };
     if (seconds >= maxTime && jwt && score > 0) {
       try {
-        await axios.post(`${apiURL}/soloPlay`, datas, {
+        await axios.post(`${apiURL}/soloPlayTracking`, datas, {
           headers: {
             Authorization: apiKey + ":" + jwt,
           },

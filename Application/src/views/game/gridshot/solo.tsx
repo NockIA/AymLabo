@@ -60,7 +60,7 @@ const Solo: React.FC = () => {
     console.log(seconds, jwt, score);
     if (seconds >= maxTime && jwt && score > 0) {
       try {
-        await axios.post(`${apiURL}/soloPlay`, datas, {
+        await axios.post(`${apiURL}/soloPlayGrid`, datas, {
           headers: {
             Authorization: apiKey + ":" + jwt,
           },
