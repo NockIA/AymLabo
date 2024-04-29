@@ -13,8 +13,8 @@ type GameGrid struct {
 	TotalScore  int       `json:"score"`
 	AvgAccuracy int       `json:"accuracy"`
 	GameDate    time.Time `json:"gameDate"`
-	KPS         time.Time `json:"kps"`
-	BestStrike  time.Time `json:"bestStrike"`
+	KPS         float64   `json:"kps"`
+	BestStrike  int       `json:"bestStrike"`
 }
 type HistoricGrid struct {
 	Data map[string]GameGrid `json:"data"`
