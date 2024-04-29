@@ -35,7 +35,7 @@ const Historic: React.FC = () => {
   // -----------Load datas------------ //
   // --------------------------------- //
 
-  const getLeaderboard = async (tracking: boolean) => {
+  const getHistoric = async (tracking: boolean) => {
     if (jwt.length > 0) {
       if (tracking) {
         const response = await _historicService.getHistoricTracking(jwt, limit);
@@ -52,12 +52,8 @@ const Historic: React.FC = () => {
   };
 
   useEffect(() => {
-    getLeaderboard(isTracking);
+    getHistoric(isTracking);
   }, [jwt]);
-
-  useEffect(() => {
-    console.log(datas?.data);
-  }, [datas]);
 
   const expandLeaderboard = async (newLimit: number, tracking: boolean) => {
     if (jwt.length > 0) {
@@ -89,13 +85,15 @@ const Historic: React.FC = () => {
   // ------------------------------ //
 
   const handleNextClick = async () => {
-    setLimit(limit + 5);
+     // Expand historic
     await expandLeaderboard(limit + 5, isTracking);
+    setLimit(limit + 5);
   };
 
   const handleTracking = async (tracking: boolean) => {
+    // Switch between tracking and gridshot sort
     setIsTracking(tracking);
-    getLeaderboard(tracking);
+    getHistoric(tracking);
   };
 
   return (
@@ -136,8 +134,8 @@ const Historic: React.FC = () => {
             </div>
           </div>
         </div>
-        <section className="flex-col container-leaderboard-content">
-          <header className="container-leaderboard-historic">
+        <section className="flex-col container-historic-content">
+          <header className="container-historic-header">
             <h2 className="cell-leaderboard">Game date</h2>
             <h2 className="cell-leaderboard">Score</h2>
             <h2 className="cell-leaderboard">Accuracy</h2>

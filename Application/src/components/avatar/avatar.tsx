@@ -4,11 +4,7 @@ import { useState } from "react";
 import bear from "/images/avatar/bear.png";
 import panda from "/images/avatar/panda.png";
 import rabbit from "/images/avatar/rabbit.png";
-
-interface AvatarModalProps {
-  currentAvatar: string;
-  callback: Function;
-}
+import { AvatarModalProps } from "../../models/profile";
 
 export const AvatarModal: React.FC<AvatarModalProps> = ({
   callback,

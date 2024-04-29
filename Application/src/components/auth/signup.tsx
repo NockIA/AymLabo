@@ -5,7 +5,7 @@ import { useState } from "react";
 import { AuthService } from "../../services/auth_service";
 import { SignupFormProps, ValidationErrors } from "../../models/auth";
 import { Store } from "../../services/store";
-import icon from '/images/icons/icon.png';
+import icon from "/images/icons/icon.png";
 
 const SignUp: React.FC = () => {
   const _store: Store = new Store("userData");
@@ -17,6 +17,10 @@ const SignUp: React.FC = () => {
   const [error, setError] = useState<ValidationErrors | null>(null);
   const navigate = useNavigate();
   const _authService: AuthService = new AuthService();
+
+  // --------------------------- //
+  // -----------Send------------ //
+  // --------------------------- //
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

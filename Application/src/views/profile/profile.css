@@ -1,4 +1,4 @@
-/* ------------------ Responsive ------------------*/
+/* ------------------ Responsive ------------------ */
 
 @media screen and (min-width: 1401px) {
   .container-profile-view {
@@ -14,7 +14,7 @@
   }
 }
 
-/* ------------------ Containers ------------------*/
+/* ------------------ Containers ------------------ */
 
 .container-profile-view {
   align-items: center;
@@ -59,7 +59,7 @@
   padding: 0;
 }
 
-/* ------------------ Texts ------------------*/
+/* ------------------ Texts ------------------ */
 
 .container-stats .error-stats {
   font-size: 40px;
@@ -91,7 +91,7 @@
   margin-bottom: -0.5rem;
 }
 
-/* ------------------ Images ------------------*/
+/* ------------------ Images ------------------ */
 
 .container-informations .avatar {
   width: 5rem;
@@ -100,7 +100,7 @@
   box-shadow: 0px 0px 32px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* ------------------ Inputs ------------------*/
+/* ------------------ Inputs ------------------ */
 
 .form-profile fieldset input {
   background-color: var(--background-inputs-form);
@@ -114,7 +114,7 @@
   outline: 2px solid var(--background-sign);
 }
 
-/* ------------------ Buttons ------------------*/
+/* ------------------ Buttons ------------------ */
 
 .logout {
   color: var(--error-code);

@@ -32,7 +32,6 @@ const Solo: React.FC = () => {
 
   const maxScore: number = 10000;
   const maxTime: number = 30; // seconds
-  const despawn: boolean = false;
 
   // ------------------------- //
   // ----------Jwt------------ //
@@ -57,7 +56,6 @@ const Solo: React.FC = () => {
       bestStrike: bestStrike,
       score: score,
     };
-    console.log(seconds, jwt, score);
     if (seconds >= maxTime && jwt && score > 0) {
       try {
         await axios.post(`${apiURL}/soloPlayGrid`, datas, {
@@ -155,6 +153,7 @@ const Solo: React.FC = () => {
   // ------------------------- //
 
   useEffect(() => {
+    // Timer Game
     let intervalId: NodeJS.Timeout | null = null;
     if (!showMenu && countdown <= 0) {
       intervalId = setInterval(() => {
@@ -168,6 +167,7 @@ const Solo: React.FC = () => {
   }, [showMenu, countdown]);
 
   useEffect(() => {
+    // Timer start game
     let intervalId: NodeJS.Timeout | null = null;
     if (!showMenu && countdown > 0) {
       intervalId = setInterval(() => {
@@ -194,6 +194,7 @@ const Solo: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    // regenerate targets when window size changes
     const handleResize = () => {
       const newTargets = generateRandomTargets(4);
       setTargets(newTargets);
@@ -211,10 +212,13 @@ const Solo: React.FC = () => {
   // ---------------------------------- //
 
   useEffect(() => {
+    // randomly generate new targets
     if (targets.length < 3) {
+      // Generate new targets if the current number of targets is less than 3
       const newTargets = generateRandomTargets(3 - targets.length);
       setTargets((prevTargets) => [...prevTargets, ...newTargets]);
     } else if (targets.length > 5) {
+      // Truncate the targets array if the number of targets exceeds 5
       setTargets((prevTargets) => prevTargets.slice(0, 5));
     }
   }, [targets]);
@@ -228,6 +232,7 @@ const Solo: React.FC = () => {
     const newTargets: TargetProps[] = [];
     const existingPositions: { [key: string]: boolean } = {};
 
+    // Function to generate a unique position for a target
     const generateUniquePosition = (): string => {
       let newPosition: string;
       do {
@@ -239,6 +244,7 @@ const Solo: React.FC = () => {
       return newPosition;
     };
 
+    // Array of positions occupied by existing targets
     const targetPositions = targets.map(
       (target) =>
         `${Math.floor(target.left / cellWidth)},${Math.floor(
@@ -246,19 +252,23 @@ const Solo: React.FC = () => {
         )}`
     );
 
+    // Generate new targets
     for (let i = 0; i < count; i++) {
       let newTarget: TargetProps;
       let newPosition: string;
       do {
+        // Generate a unique position for the new target
         newPosition = generateUniquePosition();
       } while (
         existingPositions[newPosition] ||
         targetPositions.includes(newPosition)
       );
 
+      // Mark the new position as occupied
       existingPositions[newPosition] = true;
-
+      // Convert position to grid coordinates
       const [gridX, gridY] = newPosition.split(",").map(Number);
+      // Calculate the top-left coordinates for the new target
       newTarget = {
         id: Math.floor(Math.random() * 1000),
         top: gridY * cellHeight,
@@ -275,6 +285,7 @@ const Solo: React.FC = () => {
   // ---------------------------------- //
 
   useEffect(() => {
+    // to delete a target when clicked
     if (hasStarted) {
       const handleClick = (event: MouseEvent) => {
         const clickedTargetId = parseInt((event.target as HTMLDivElement).id);
@@ -293,6 +304,7 @@ const Solo: React.FC = () => {
   }, [score, targets, hasStarted]);
 
   useEffect(() => {
+    //to count global clicks
     const handleGlobalClick = () => {
       if (!showMenu && hasStarted) {
         setTotalClics(totalClics + 1);
