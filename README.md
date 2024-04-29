@@ -1,4 +1,4 @@
-# <span style="color:blue">Aym *Labo*</span>.
+# ${\color{white}Aym\color{lightblue}Labo}$$
 
 Aymlabo is an Aimlab be like, in other words an aiming training game.
 
