@@ -40,7 +40,7 @@ func Friend(w http.ResponseWriter, r *http.Request) {
 			WHERE
 				fr.requestedPlayerUUID = ?
 		`, claims["UUID"])
-		if rslt.Next() {
+		for rslt.Next() {
 			var newRequest FriendRequestData
 			rslt.Scan(&newRequest.RequestId, &newRequest.Pseudo, &newRequest.Avatar)
 			data.Requests[newRequest.RequestId] = newRequest
@@ -55,11 +55,9 @@ func Friend(w http.ResponseWriter, r *http.Request) {
 			friends f 
 		JOIN players p ON f.player1UUID = p.playerUUID OR f.player2UUID  = p.playerUUID 
 		WHERE 
-			(f.player1UUID = ? OR f.player2UUID = ?)
-			AND p.playerUUID <> ?;
-	
+			(f.player1UUID = ? OR f.player2UUID = ?) AND p.playerUUID <> ?;
 		`, claims["UUID"], claims["UUID"], claims["UUID"])
-		if rslt.Next() {
+		for rslt.Next() {
 			var newFriend MyFriendData
 			var friendUUid string
 			rslt.Scan(&friendUUid, &newFriend.Pseudo, &newFriend.Avatar)
