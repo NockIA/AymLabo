@@ -1,16 +1,22 @@
 package handlers
 
 import (
-	methods "api/Handlers/Methods"
+	postMethods "api/Handlers/Methods/Post"
 	"net/http"
 )
 
-var handlers = map[string]func(http.ResponseWriter, *http.Request){
-	"/register": methods.Register,
+var posthandlers = map[string]func(http.ResponseWriter, *http.Request){
+	"/signup":              postMethods.Register,
+	"/signin":              postMethods.Login,
+	"/soloPlayGrid":        postMethods.SoloPlayGrid,
+	"/soloPlayTracking":    postMethods.SoloPlayTraking,
+	"/requestFriend":       postMethods.RequestFriend,
+	"/acceptFriendRequest": postMethods.AcceptFriend,
+	"/refuseFriendRequest": postMethods.DeclineFriend,
 }
 
 func PostHandler(w http.ResponseWriter, r *http.Request) {
-	if handler, ok := handlers[r.URL.Path]; ok {
+	if handler, handlerExist := posthandlers[r.URL.Path]; handlerExist {
 		handler(w, r)
 	} else {
 		http.Error(w, "Not Found", http.StatusNotFound)
