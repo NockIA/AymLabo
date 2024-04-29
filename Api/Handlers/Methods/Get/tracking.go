@@ -15,8 +15,7 @@ type GameTracking struct {
 	GameDate    time.Time `json:"gameDate"`
 }
 type HistoricGameTracking struct {
-	Data         map[string]GameTracking `json:"data"`
-	NumberOfLine int                     `json:"numberOfLine"`
+	Data map[string]GameTracking `json:"data"`
 }
 type Game struct {
 	NumberOfLine string `json:"numberOfLine" validate:"required"`
@@ -47,6 +46,7 @@ func Tracking(w http.ResponseWriter, r *http.Request) {
 			WHERE 
 				playerUUID = ?
 			ORDER BY gameDate DESC
+			LIMIT `+requestData.NumberOfLine+`
 		`, claims["UUID"])
 		for rslt.Next() {
 			var newGame GameTracking

@@ -6,48 +6,54 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 )
 
+type GameGrid struct {
+	TotalScore  int       `json:"score"`
+	AvgAccuracy int       `json:"accuracy"`
+	GameDate    time.Time `json:"gameDate"`
+	KPS         time.Time `json:"kps"`
+	BestStrike  time.Time `json:"bestStrike"`
+}
+type HistoricGrid struct {
+	Data map[string]GameGrid `json:"data"`
+}
+
 func Grid(w http.ResponseWriter, r *http.Request) {
+	params := r.URL.Query()
+	requestData := Game{
+		NumberOfLine: params["numberOfLine"][0],
+	}
+	if err := utils.Validator.Struct(&requestData); err != nil {
+		fmt.Printf("Invalid request data in LeaderBoardWithLimit method : %v\n", err)
+		http.Error(w, "Invalid request data", http.StatusBadRequest)
+		return
+	}
 	receiveToken := r.Header.Get("Authorization")
 	if claims, err := utils.GetClaims(&receiveToken); err == nil {
-		var data FriendData = FriendData{MyFriends: make(map[string]MyFriendData), Requests: make(map[int]FriendRequestData)}
+		var data HistoricGrid = HistoricGrid{Data: make(map[string]GameGrid)}
 		rslt := bdd.DbManager.SelectDB(
-			`SELECT
-				fr.friendsRequestId,
-				p.pseudo,
-				p.avatarProfile
-			FROM
-				friendsRequests fr
-			JOIN
-				players p
-			ON
-				fr.requestingPlayerUUID = p.playerUUID
-			WHERE
-				fr.requestedPlayerUUID = ?
+			`
+			SELECT 
+				gridGamesId,
+				accuracy,
+				totalScore,
+				gameDate,
+				killPerSeconde,
+				bestStrike
+			FROM 
+				gridGames gg 
+			WHERE 
+				playerUUID = ?
+			ORDER BY gameDate DESC
+			LIMIT `+requestData.NumberOfLine+`
 		`, claims["UUID"])
 		for rslt.Next() {
-			var newRequest FriendRequestData
-			rslt.Scan(&newRequest.RequestId, &newRequest.Pseudo, &newRequest.Avatar)
-			data.Requests[newRequest.RequestId] = newRequest
-		}
-		rslt.Close()
-		rslt = bdd.DbManager.SelectDB(`
-		SELECT 
-			p.playerUUID,
-			p.pseudo,
-			p.avatarProfile 
-		FROM
-			friends f 
-		JOIN players p ON f.player1UUID = p.playerUUID OR f.player2UUID  = p.playerUUID 
-		WHERE 
-			(f.player1UUID = ? OR f.player2UUID = ?) AND p.playerUUID <> ?;
-		`, claims["UUID"], claims["UUID"], claims["UUID"])
-		for rslt.Next() {
-			var newFriend MyFriendData
-			var friendUUid string
-			rslt.Scan(&friendUUid, &newFriend.Pseudo, &newFriend.Avatar)
-			data.MyFriends[friendUUid] = newFriend
+			var newGame GameGrid
+			var gameId int
+			rslt.Scan(&gameId, &newGame.AvgAccuracy, &newGame.TotalScore, &newGame.GameDate, &newGame.KPS, &newGame.TotalScore)
+			data.Data[fmt.Sprint(gameId)] = newGame
 		}
 		rslt.Close()
 		w.Header().Set("Content-Type", "application/json")
