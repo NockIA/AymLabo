@@ -1,4 +1,4 @@
-# AymLabo
+# <span style="color:blue">Aym *Labo*</span>.
 
 Aymlabo is an Aimlab be like, in other words an aiming training game.
 
