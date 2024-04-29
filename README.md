@@ -51,6 +51,8 @@ npm run build
 	 - filter by friends
 	 - filter by categories
 	 - pagination
+ - Game History
+   	 - pagination
  - Profile / Stats
 	 - personalise avatar
 	 - change informations
