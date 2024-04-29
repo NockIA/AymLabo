@@ -7,7 +7,7 @@ Aymlabo is an Aimlab be like, in other words an aiming training game.
 git clone https://github.com/NockIA/AymLabo.git
 ```
 
-### Terminal 1 :
+### Terminal 1 (wsl) :
 ```
 cd Api
 ```
@@ -53,6 +53,8 @@ npm run build
 	 - pagination
  - Game History
    	 - pagination
+   	 - tracking sort
+   	 - gridshot sort
  - Profile / Stats
 	 - personalise avatar
 	 - change informations
