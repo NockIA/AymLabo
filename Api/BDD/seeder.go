@@ -10,6 +10,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// This file creates and fills the database with dummy data
 func Seeder() {
 	fmt.Println("Seed in progress")
 	DbManager.AddDeleteUpdateDB(`

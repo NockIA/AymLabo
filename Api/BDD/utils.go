@@ -7,6 +7,8 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+// In this file we create a structure that will be used to use the database in sqlite with 4 functions
+
 var DbManager *DatabaseManager
 
 type DatabaseManager struct{}
