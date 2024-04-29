@@ -56,8 +56,22 @@ npm run build
  - Profile / Stats
 	 - personalise avatar
 	 - change informations
-	 - display personal stats 
- 
+	 - display personal stats
+ ### Other :
+ - Seeder
+
+## Tools / Languages
+### Languages
+- Api : Golang
+- BDD : SqLite
+- Application : Electron + React + Typescript
+### Tools
+- Github
+- Figma
+- Trello
+- Postman
+- Vscode
+
 ## Members
 
 - [NockIA](https://github.com/NockIA)  (Kévin CHAFFAUX)
