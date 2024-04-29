@@ -13,9 +13,11 @@ var getHandlersWith2Endpoint = map[string]func(string, http.ResponseWriter, *htt
 	"leaderboardWithFriend":          get.LeaderBoardWithFriend,
 }
 var getHandlersWith1Endpoint = map[string]func(http.ResponseWriter, *http.Request){
-	"myStats":   get.MyStats,
-	"myProfile": get.MyProfile,
-	"myFriend":  get.Friend,
+	"myStats":        get.MyStats,
+	"myProfile":      get.MyProfile,
+	"myFriend":       get.Friend,
+	"myGameGrid":     get.Grid,
+	"myGameTracking": get.Tracking,
 }
 
 func GetHandler(w http.ResponseWriter, r *http.Request) {
