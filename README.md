@@ -3,24 +3,40 @@
 Aymlabo is an Aimlab be like, in other words an aiming training game.
 
 ## Start the project
-- ```git clone https://github.com/NockIA/AymLabo.git```
+```
+git clone https://github.com/NockIA/AymLabo.git
+```
 
 ### Terminal 1 :
-- ```cd Api```
-- ```go run main.go --init```
-- ```go run main.go```
+```
+cd Api
+```
+```
+go run main.go --init
+```
+```
+go run main.go
+```
 
 ### Terminal 2 :
-```cd Application/```
-```npm i```
+```
+cd Application/
+```
+```
+npm i
+```
 
 > To launch dynamically :
 
-- ```npm run dev```
+```
+npm run dev
+```
 
 > To launch the software :
 
- - npm run build
+```
+npm run build
+```
  - go to the release/1.0.0 folder 
  - install the software  
  - run the software
