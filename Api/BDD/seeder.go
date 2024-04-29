@@ -10,6 +10,11 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+func round(x float64, places int) float64 {
+	facteur := math.Pow10(places)
+	return float64(int(x*facteur)) / facteur
+}
+
 // This file creates and fills the database with dummy data
 func Seeder() {
 	fmt.Println("Seed in progress")
@@ -126,7 +131,17 @@ func Seeder() {
 			INSERT INTO players 
 			(playerUUID, email, pseudo, password, killPerSeconde, numberOfWin, numberOfLoose, numberOfSoloGamePlay, avgAccuracy, totalScore, avatarProfile, numberOfGameWithStrike, bestStrike) 
 			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-		`, playerUUID, pseudo+"@gmail.com", pseudo, string(password), math.Round(randomKillPerSeconde*100)/100.0, randomNumberOfWin, randomNumberOfLoose, randomNumberOfSoloGamePlay, random.Intn(101), randomTotalScore, images[randomIndex], randomNumberOfSoloGamePlay+randomNumberOfLoose, random.Intn(75))
+		`, playerUUID, pseudo+"@gmail.com", pseudo, string(password), round(randomKillPerSeconde, 2), randomNumberOfWin, randomNumberOfLoose, randomNumberOfSoloGamePlay, random.Intn(101), randomTotalScore, images[randomIndex], randomNumberOfSoloGamePlay+randomNumberOfLoose, random.Intn(75))
+		for i := 0; i < (randomNumberOfSoloGamePlay / 2); i++ {
+			DbManager.AddDeleteUpdateDB(`
+			INSERT INTO trackingGames 
+			(playerUUID, accuracy, totalScore, gameDate) 
+			VALUES (?,?,?,?);`, playerUUID, random.Intn(101), (randomNumberOfSoloGamePlay/2)*(500+random.Intn(1500)), time.Now())
+			DbManager.AddDeleteUpdateDB(`
+			INSERT INTO gridGames 
+			(playerUUID, killPerSeconde, accuracy, totalScore, gameDate, bestStrike) 
+			VALUES (?,?,?,?,?,?);`, playerUUID, round(1+rand.Float64()*(5), 2), random.Intn(101), (randomNumberOfSoloGamePlay/2)*(500+random.Intn(1500)), time.Now(), random.Intn(75))
+		}
 	}
 	fmt.Println("Seed is finished")
 }

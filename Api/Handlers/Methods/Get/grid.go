@@ -52,7 +52,7 @@ func Grid(w http.ResponseWriter, r *http.Request) {
 		for rslt.Next() {
 			var newGame GameGrid
 			var gameId int
-			rslt.Scan(&gameId, &newGame.AvgAccuracy, &newGame.TotalScore, &newGame.GameDate, &newGame.KPS, &newGame.TotalScore)
+			rslt.Scan(&gameId, &newGame.AvgAccuracy, &newGame.TotalScore, &newGame.GameDate, &newGame.KPS, &newGame.BestStrike)
 			data.Data[fmt.Sprint(gameId)] = newGame
 		}
 		rslt.Close()
