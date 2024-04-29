@@ -23,6 +23,9 @@ const EndMenu: React.FC<EndMenuProps> = ({
   restart,
   end,
 }) => {
+  // -------------------------------------- //
+  // -----------Format Accuracy------------ //
+  // -------------------------------------- //
   const [acc, setAcc] = useState("");
   useEffect(() => {
     const formatAccuracy = (nb: number): string => {

@@ -23,7 +23,6 @@ const SoloParams: React.FC = () => {
   const navigate = useNavigate();
   const [score, setScore] = useState(0);
   const [seconds, setSeconds] = useState(0);
-  const [totalClics, setTotalClics] = useState(0);
   const [totalHits, setTotalHits] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
   const [isMouseOverTarget, setIsMouseOverTarget] = useState(false);
@@ -57,7 +56,7 @@ const SoloParams: React.FC = () => {
 
   const handleEndGame = async () => {
     const datas = {
-      accuracy: Math.ceil((totalHits * 100) / totalClics),
+      accuracy: Math.ceil(((totalHits / 20) * 100) / seconds),
       score: score,
     };
     if (seconds >= maxTime && jwt && score > 0) {
@@ -82,7 +81,6 @@ const SoloParams: React.FC = () => {
     if (seconds >= maxTime || score >= maxScore) {
       restart(true);
     }
-    setTotalClics(totalClics - 1);
   };
 
   const handleEchap = (event: { key: string }) => {
@@ -130,7 +128,6 @@ const SoloParams: React.FC = () => {
       await handleEndGame();
       setScore(0);
       setSeconds(0);
-      setTotalClics(0);
       setTotalHits(0);
       setShowMenu(false);
       setHasStarted(false);
@@ -143,6 +140,7 @@ const SoloParams: React.FC = () => {
   // ------------------------- //
 
   useEffect(() => {
+    // Timer for game
     let intervalId: NodeJS.Timeout | null = null;
     if (!showMenu && countdown <= 0) {
       intervalId = setInterval(() => {
@@ -156,6 +154,7 @@ const SoloParams: React.FC = () => {
   }, [showMenu, countdown]);
 
   useEffect(() => {
+    // Timer for countdown
     let intervalId: NodeJS.Timeout | null = null;
     if (!showMenu && countdown > 0) {
       intervalId = setInterval(() => {
@@ -175,6 +174,7 @@ const SoloParams: React.FC = () => {
   // ------------------------------- //
 
   useEffect(() => {
+    // Detect if the user is over the target
     if (hasStarted) {
       const handleMouseEnter = () => {
         setIsMouseOverTarget(true);
@@ -197,6 +197,7 @@ const SoloParams: React.FC = () => {
   }, [hasStarted]);
 
   useEffect(() => {
+    // Calculate the time the user is over the target
     if (!showMenu && hasStarted) {
       let intervalId: NodeJS.Timeout | null = null;
 
@@ -215,31 +216,19 @@ const SoloParams: React.FC = () => {
     }
   }, [isMouseOverTarget, showMenu, hasStarted]);
 
-  useEffect(() => {
-    if (!showMenu && hasStarted) {
-      let intervalId: NodeJS.Timeout | null = null;
-
-      intervalId = setInterval(() => {
-        setTotalClics((prevTotalClics) => prevTotalClics + 1);
-      }, 60);
-
-      return () => {
-        clearInterval(intervalId as NodeJS.Timeout);
-      };
-    }
-  }, [showMenu, hasStarted]);
-
   // -------------------------- //
   // ---------Target----------- //
   // -------------------------- //
 
   const moveTarget = () => {
+     // Set initial target position at the center of the window
     let targetPosition = {
       top: window.innerHeight / 2 - 200,
       left: window.innerWidth / 2 - 100,
     };
     const targetWidth = 200;
     const targetHeight = 300;
+    // Stop the target if the game is finished
     if (seconds == 0 || seconds >= maxTime) {
       targetPosition = {
         top: window.innerHeight / 2 - targetHeight,
@@ -286,6 +275,7 @@ const SoloParams: React.FC = () => {
   };
 
   useEffect(() => {
+    // move the target while the game is On
     if (hasStarted) {
       moveTarget();
     }
@@ -316,7 +306,7 @@ const SoloParams: React.FC = () => {
           score={score}
           accuracy={Math.ceil(((totalHits / 20) * 100) / seconds)}
           targetHits={totalHits}
-          totalClics={totalClics < 0 ? 0 : totalClics}
+          totalClics={0}
           close={handleMenuModal}
           restart={restart}
           end={handleHome}

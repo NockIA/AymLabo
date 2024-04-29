@@ -3,3 +3,8 @@ export interface ProfileProps {
   email: string;
   pseudo: string;
 }
+
+export interface AvatarModalProps {
+  currentAvatar: string;
+  callback: Function;
+}

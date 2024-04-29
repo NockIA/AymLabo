@@ -2,11 +2,9 @@ import "./sign.css";
 import "../../style/global.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import {
-  AuthService,
-} from "../../services/auth_service";
+import { AuthService } from "../../services/auth_service";
 import { SigninFormProps, ValidationErrors } from "../../models/auth";
-import icon from '/images/icons/icon.png';
+import icon from "/images/icons/icon.png";
 
 const ResetPassword: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -16,27 +14,38 @@ const ResetPassword: React.FC = () => {
   const [error, setError] = useState<ValidationErrors | null>(null);
   const navigate = useNavigate();
 
+  // --------------------------- //
+  // -----------Send------------ //
+  // --------------------------- //
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
-    const userData: SigninFormProps = {
-      login: email,
-      password: password1,
-    };
-    const errors: ValidationErrors = _authService.validateResetPassword(userData);
-    if (Object.keys(errors).length === 0) {
-      try {
-        const response = await _authService.resetPassword(userData);
-        if (response.data) {
-          navigate("/signin");
-        } else {
-          setError({ other: "Invalid credentials" });
+    if (password1 === password2) {
+      const userData: SigninFormProps = {
+        login: email,
+        password: password1,
+      };
+      const errors: ValidationErrors =
+        _authService.validateResetPassword(userData);
+      if (Object.keys(errors).length === 0) {
+        try {
+          const response = await _authService.resetPassword(userData);
+          if (response.data) {
+            navigate("/signin");
+          } else {
+            setError({ other: "Invalid credentials" });
+          }
+        } catch (error: any) {
+          setError({
+            other: "An error occured while trying to reset password",
+          });
         }
-      } catch (error: any) {
-        setError({ other: "An error occured while trying to reset password" });
+      } else {
+        setError(errors);
       }
     } else {
-      setError(errors);
+      setError({ other: "Passwords do not matchs" });
     }
   };
 

@@ -1,5 +1,5 @@
 import "./historic_comp.css";
-import '../leaderboard/player_leaderboard.css';
+import "../leaderboard/player_leaderboard.css";
 import "../../style/global.css";
 import { HistoricCompProps } from "../../models/historic";
 
@@ -10,6 +10,9 @@ export const HistoricComp: React.FC<HistoricCompProps> = ({
   kps,
   bestStrike,
 }) => {
+  // ---------------------------------- //
+  // -----------Format Date------------ //
+  // ---------------------------------- //
   function formatDate(isoDateString: Date) {
     const date = new Date(isoDateString);
     const day = String(date.getDate()).padStart(2, "0");
