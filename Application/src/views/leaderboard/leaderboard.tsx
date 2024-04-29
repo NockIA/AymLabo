@@ -54,6 +54,8 @@ const Leaderboard: React.FC = () => {
           jwt
         );
         if (response) {
+          console.log(response);
+          
           setDatas(response);
           setLimits({
             limitMin: response.limitMin,

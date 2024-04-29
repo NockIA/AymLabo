@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import { FriendAndRequestProps } from "../../models/friend";
 import { Friend } from "../friend/friend";
 import { Store } from "../../services/store";
-import icon from '/images/icons/icon.png';
-import pistol from '/images/icons/pistol.png';
+import icon from "/images/icons/icon.png";
+import pistol from "/images/icons/pistol.png";
 import ranking_icon from "/images/icons/ranking.png";
 import profile_icon from "/images/icons/user.png";
 import friend_icon from "/images/icons/friends.png";
@@ -112,6 +112,12 @@ export const Nav: React.FC = () => {
             <Link className="flex-row container-link" to={"/leaderboard"}>
               <img src={ranking_icon} alt="leaderboard" />
               <p>Leaderboard</p>
+            </Link>
+          </li>
+          <li className="flex-col ">
+            <Link className="flex-row container-link" to={"/historic"}>
+              <img src={ranking_icon} alt="leaderboard" />
+              <p>Historic</p>
             </Link>
           </li>
           <li className="flex-col ">
