@@ -58,9 +58,10 @@
 .container-leaderboard-header {
   background-color: var(--background-nav);
   color: var(--white);
+  width: max-content;
   padding: 0.5rem 1rem;
   display: grid;
-  grid-template-columns: 50px 180px 125px 70px 85px 120px 200px 60px;
+  grid-template-columns: 50px 180px 125px 70px 85px 120px 200px 64px;
   grid-gap: 50px;
   font-size: 12px;
 }
