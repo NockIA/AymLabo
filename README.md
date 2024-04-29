@@ -1,4 +1,4 @@
-# ${\color{white}Aym\color{blue}Labo}$
+# ${\color{white}Aym\color{lightblue}Labo}$
 
 Aymlabo is an Aimlab be like, in other words an aiming training game.
 
