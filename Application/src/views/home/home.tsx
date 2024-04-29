@@ -18,8 +18,8 @@ const Home: React.FC = () => {
             <div className="flex-row container-entrepreneur">
               <h2>
                 Join over 30 million players improving their skills in
-                competitive gaming. Aymlabo is the best
-                way to get better at the games you love to compete 
+                competitive gaming. Aymlabo is the best way to get better at the
+                games you love to compete
               </h2>
               <img src={jeune_entrepeneur} />
             </div>

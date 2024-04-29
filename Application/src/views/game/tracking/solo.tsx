@@ -231,58 +231,61 @@ const SoloParams: React.FC = () => {
   // ---------Target----------- //
   // -------------------------- //
 
+  const moveTarget = () => {
+    let targetPosition = {
+      top: window.innerHeight / 2 - 200,
+      left: window.innerWidth / 2 - 100,
+    };
+    const targetWidth = 200;
+    const targetHeight = 300;
+    if (seconds == 0 || seconds >= maxTime) {
+      targetPosition = {
+        top: window.innerHeight / 2 - targetHeight,
+        left: window.innerWidth / 2 - targetWidth,
+      };
+    }
+    const moveTarget = () => {
+      // move randomly horizontally the target
+      if (Math.random() < 0.01) {
+        velocityX *= -1;
+      }
+      // move randomly vertically the target
+      if (Math.random() < 0.01) {
+        velocityY *= -1;
+      }
+      targetPosition.left += velocityX;
+      targetPosition.top += velocityY;
+
+      // Check if target hits horizontal borders
+      if (targetPosition.left <= 0) {
+        targetPosition.left = 0;
+        velocityX = Math.abs(velocityX);
+      } else if (targetPosition.left >= window.innerWidth - targetWidth) {
+        targetPosition.left = window.innerWidth - targetWidth;
+        velocityX = -Math.abs(velocityX);
+      }
+      // Check if target hits vertical borders
+      if (targetPosition.top <= 0) {
+        targetPosition.top = 0;
+        velocityY = Math.abs(velocityY);
+      } else if (targetPosition.top >= window.innerHeight - targetHeight) {
+        targetPosition.top = window.innerHeight - targetHeight;
+        velocityY = -Math.abs(velocityY);
+      }
+      // update target position
+      setTargetPosition({ ...targetPosition });
+      animationId = requestAnimationFrame(moveTarget);
+    };
+    let animationId = requestAnimationFrame(moveTarget);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+    };
+  };
+
   useEffect(() => {
     if (hasStarted) {
-      let targetPosition = {
-        top: window.innerHeight / 2 - 200,
-        left: window.innerWidth / 2 - 100,
-      };
-      const targetWidth = 200;
-      const targetHeight = 300;
-      if (seconds == 0 || seconds >= maxTime) {
-        targetPosition = {
-          top: window.innerHeight / 2 - targetHeight,
-          left: window.innerWidth / 2 - targetWidth,
-        };
-      }
-      const moveTarget = () => {
-        // move randomly horizontally the target
-        if (Math.random() < 0.01) {
-          velocityX *= -1;
-        }
-        // move randomly vertically the target
-        if (Math.random() < 0.01) {
-          velocityY *= -1;
-        }
-        targetPosition.left += velocityX;
-        targetPosition.top += velocityY;
-
-        // Check if target hits horizontal borders
-        if (targetPosition.left <= 0) {
-          targetPosition.left = 0;
-          velocityX = Math.abs(velocityX);
-        } else if (targetPosition.left >= window.innerWidth - targetWidth) {
-          targetPosition.left = window.innerWidth - targetWidth;
-          velocityX = -Math.abs(velocityX);
-        }
-        // Check if target hits vertical borders
-        if (targetPosition.top <= 0) {
-          targetPosition.top = 0;
-          velocityY = Math.abs(velocityY);
-        } else if (targetPosition.top >= window.innerHeight - targetHeight) {
-          targetPosition.top = window.innerHeight - targetHeight;
-          velocityY = -Math.abs(velocityY);
-        }
-
-        // update target position
-        setTargetPosition({ ...targetPosition });
-
-        animationId = requestAnimationFrame(moveTarget);
-      };
-
-      let animationId = requestAnimationFrame(moveTarget);
-
-      return () => cancelAnimationFrame(animationId);
+      moveTarget();
     }
   }, [hasStarted]);
 
