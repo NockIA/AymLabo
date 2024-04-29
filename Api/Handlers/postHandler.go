@@ -8,7 +8,8 @@ import (
 var posthandlers = map[string]func(http.ResponseWriter, *http.Request){
 	"/signup":              postMethods.Register,
 	"/signin":              postMethods.Login,
-	"/soloPlay":            postMethods.SoloPlay,
+	"/soloPlayGrid":        postMethods.SoloPlayGrid,
+	"/soloPlayTracking":    postMethods.SoloPlayTraking,
 	"/requestFriend":       postMethods.RequestFriend,
 	"/acceptFriendRequest": postMethods.AcceptFriend,
 	"/refuseFriendRequest": postMethods.DeclineFriend,
