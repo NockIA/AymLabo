@@ -8,8 +8,14 @@ interface HeaderGameProps {
   precision: number;
 }
 
-export const HeaderGame: React.FC<HeaderGameProps> = ({ score, time,precision }) => {
+export const HeaderGame: React.FC<HeaderGameProps> = ({
+  score,
+  time,
+  precision,
+}) => {
   const [renderedTime, setRenderedTime] = useState("00:00");
+  const [acc, setAcc] = useState("");
+
   const formatTime = (time: number): string => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
@@ -22,6 +28,19 @@ export const HeaderGame: React.FC<HeaderGameProps> = ({ score, time,precision })
     setRenderedTime(formatTime(time));
   }, [time]);
 
+  useEffect(() => {
+    const formatAccuracy = (nb: number): string => {
+      if (Number.isNaN(nb)) {
+        return "0";
+      } else if (nb > 100) {
+        return "100";
+      } else {
+        return nb.toString();
+      }
+    };
+    setAcc(formatAccuracy(precision));
+  }, [precision]);
+
   return (
     <header className="flex-row container-header-game">
       <div className="flex-row container-score">
@@ -30,7 +49,7 @@ export const HeaderGame: React.FC<HeaderGameProps> = ({ score, time,precision })
       </div>
       <div className="flex-col">
         <h2 className="timer">{renderedTime}</h2>
-        <h2 className="precision">{!Number.isNaN(precision) ? precision + '%' : '0%' }</h2>
+        <h2 className="precision">{acc + "%"}</h2>
       </div>
     </header>
   );

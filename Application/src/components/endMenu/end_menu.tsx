@@ -1,6 +1,6 @@
 import "./end_menu.css";
 import "../../style/global.css";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 interface EndMenuProps {
   score: number;
@@ -10,6 +10,7 @@ interface EndMenuProps {
   totalClics: number;
   close: Function;
   restart: Function;
+  end: Function;
 }
 
 const EndMenu: React.FC<EndMenuProps> = ({
@@ -20,7 +21,22 @@ const EndMenu: React.FC<EndMenuProps> = ({
   totalClics,
   close,
   restart,
+  end,
 }) => {
+  const [acc, setAcc] = useState("");
+  useEffect(() => {
+    const formatAccuracy = (nb: number): string => {
+      if (Number.isNaN(nb)) {
+        return "0";
+      } else if (nb > 100) {
+        return "100";
+      } else {
+        return nb.toString();
+      }
+    };
+    setAcc(formatAccuracy(accuracy));
+  }, [accuracy]);
+
   return (
     <div className="flex-col container-end-menu-shadow">
       <div className="flex-col container-end-menu">
@@ -48,7 +64,7 @@ const EndMenu: React.FC<EndMenuProps> = ({
               </div>
               <div className="flex-col container-col-stat">
                 <h2>Accuracy</h2>
-                <p>{!Number.isNaN(accuracy) ? accuracy + "%" : "0%"}</p>
+                <p>{acc + "%"}</p>
               </div>
             </div>
           </div>
@@ -61,9 +77,14 @@ const EndMenu: React.FC<EndMenuProps> = ({
             >
               Restart
             </button>
-            <Link className="buttons-menu-stats" to={"/home"}>
+            <button
+              className="buttons-menu-stats"
+              onClick={() => {
+                end(true);
+              }}
+            >
               Home
-            </Link>
+            </button>
             <button className="buttons-menu-stats" onClick={() => close(false)}>
               Close
             </button>

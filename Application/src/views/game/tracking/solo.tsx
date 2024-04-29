@@ -7,6 +7,7 @@ import EndMenu from "../../../components/endMenu/end_menu";
 import axios from "axios";
 import { apiKey, apiURL } from "../../../utils/api";
 import { Store } from "../../../services/store";
+import { useNavigate } from "react-router-dom";
 
 const SoloParams: React.FC = () => {
   const [targetPosition, setTargetPosition] = useState<{
@@ -19,6 +20,7 @@ const SoloParams: React.FC = () => {
   const gameRef = useRef<HTMLDivElement>(null);
   const _store: Store = new Store("userData");
   const [jwt, setJwt] = useState<string | null>();
+  const navigate = useNavigate();
   const [score, setScore] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [totalClics, setTotalClics] = useState(0);
@@ -34,8 +36,8 @@ const SoloParams: React.FC = () => {
 
   const maxScore: number = 10000;
   const maxTime: number = 30; // seconds
-  let velocityX = 1; // horizontal speed of target
-  let velocityY = 1; // vertical speed of target
+  let velocityX = 4; // horizontal speed of target
+  let velocityY = 4; // vertical speed of target
   const scorePerHits = 8;
 
   // ------------------------- //
@@ -103,6 +105,10 @@ const SoloParams: React.FC = () => {
     };
   }, []);
 
+  const handleHome = async () => {
+    await handleEndGame().then(() => navigate("/home"));
+  };
+
   // ----------------------- //
   // ---------End----------- //
   // ----------------------- //
@@ -124,7 +130,6 @@ const SoloParams: React.FC = () => {
 
   const restart = async (restart: boolean) => {
     if (restart) {
-      console.log("restart");
       await handleEndGame();
       setScore(0);
       setSeconds(0);
@@ -202,7 +207,7 @@ const SoloParams: React.FC = () => {
         intervalId = setInterval(() => {
           setScore((prevScore) => prevScore + scorePerHits);
           setTotalHits((prevTotalHits) => prevTotalHits + 1);
-        }, 50);
+        }, 40);
       } else {
         clearInterval(intervalId as unknown as NodeJS.Timeout);
       }
@@ -294,7 +299,7 @@ const SoloParams: React.FC = () => {
       <HeaderGame
         score={score}
         time={seconds}
-        precision={Math.ceil((totalHits * 100) / totalClics)}
+        precision={Math.ceil(((totalHits / 20) * 100) / seconds)}
       />
       {countdown > 0 && <h1 className="countdown">{countdown}</h1>}
       {hasStarted && (
@@ -312,11 +317,12 @@ const SoloParams: React.FC = () => {
         <EndMenu
           bestStrike={0}
           score={score}
-          accuracy={Math.ceil((totalHits * 100) / totalClics)}
+          accuracy={Math.ceil(((totalHits / 20) * 100) / seconds)}
           targetHits={totalHits}
           totalClics={totalClics < 0 ? 0 : totalClics}
           close={handleMenuModal}
           restart={restart}
+          end={handleHome}
         />
       )}
     </main>

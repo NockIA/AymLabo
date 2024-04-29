@@ -8,6 +8,7 @@ import { TargetProps } from "../../../models/game";
 import axios from "axios";
 import { apiKey, apiURL } from "../../../utils/api";
 import { Store } from "../../../services/store";
+import { useNavigate } from "react-router-dom";
 
 const Solo: React.FC = () => {
   const [score, setScore] = useState(0);
@@ -23,6 +24,7 @@ const Solo: React.FC = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [jwt, setJwt] = useState<string | null>();
   const _store: Store = new Store("userData");
+  const navigate = useNavigate();
 
   // ------------------------- //
   // ---------Rules----------- //
@@ -55,6 +57,7 @@ const Solo: React.FC = () => {
       bestStrike: bestStrike,
       score: score,
     };
+    console.log(seconds, jwt, score);
     if (seconds >= maxTime && jwt && score > 0) {
       try {
         await axios.post(`${apiURL}/soloPlay`, datas, {
@@ -112,6 +115,10 @@ const Solo: React.FC = () => {
       setHasStarted(false);
       setCountdown(5);
     }
+  };
+
+  const handleHome = async () => {
+    await handleEndGame().then(() => navigate("/home"));
   };
 
   // ------------------------- //
@@ -295,14 +302,18 @@ const Solo: React.FC = () => {
     return () => {
       document.body.removeEventListener("click", handleGlobalClick);
     };
-  }, [totalClics, showMenu,hasStarted]);
+  }, [totalClics, showMenu, hasStarted]);
 
   return (
     <main className="container-game flex-col" role="main">
       <HeaderGame
         score={score}
         time={seconds}
-        precision={Math.ceil((totalTargets * 100) / totalClics)}
+        precision={
+          totalClics > 0 && totalTargets > 0
+            ? Math.min(Math.ceil((totalTargets * 100) / totalClics), 100)
+            : 0
+        }
       />
       {countdown > 0 && <h1 className="countdown">{countdown}</h1>}
       {hasStarted && (
@@ -328,12 +339,17 @@ const Solo: React.FC = () => {
       {showMenu && (
         <EndMenu
           score={score}
-          accuracy={Math.ceil((totalTargets * 100) / totalClics)}
+          accuracy={
+            totalClics > 0 && totalTargets > 0
+              ? Math.min(Math.ceil((totalTargets * 100) / totalClics), 100)
+              : 0
+          }
           bestStrike={bestStrike}
           targetHits={totalTargets}
           totalClics={totalClics < 0 ? 0 : totalClics}
           close={handleMenuModal}
           restart={restart}
+          end={handleHome}
         />
       )}
     </main>

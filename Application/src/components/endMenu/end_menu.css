@@ -143,4 +143,5 @@
 
 .container-end-menu .container-buttons .buttons-menu-stats:hover {
   outline: 2px solid var(--blue);
+  cursor: pointer;
 }
