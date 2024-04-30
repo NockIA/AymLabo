@@ -10,7 +10,7 @@ import (
 
 type NewPlayer struct {
 	Email  string `json:"email" validate:"required,email"`
-	Pseudo string `json:"username" validate:"required,alphanum"`
+	Pseudo string `json:"pseudo" validate:"required,alphanum"`
 	Avatar string `json:"avatar" validate:"required,min=8"`
 }
 
