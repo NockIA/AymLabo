@@ -4,6 +4,8 @@ import { FriendProps } from "../../models/friend";
 import bear from "/images/avatar/bear.png";
 import panda from "/images/avatar/panda.png";
 import rabbit from "/images/avatar/rabbit.png";
+import close_icon from "/images/icons/close.png";
+import validate_icon from "/images/icons/check.png";
 
 export const Friend: React.FC<FriendProps> = ({
   avatar,
@@ -30,12 +32,12 @@ export const Friend: React.FC<FriendProps> = ({
       {isRequest && (
         <div className="flex-col container-options">
           <img
-            src="/images/icons/check.png"
+            src={validate_icon}
             alt="accept-request"
             onClick={() => acceptRequest(true, requestId)}
           />
           <img
-            src="/images/icons/close.png"
+            src={close_icon}
             alt="refuse-request"
             onClick={() => acceptRequest(false, requestId)}
           />
