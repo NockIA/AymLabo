@@ -1,6 +1,6 @@
 # ${\color{white}Aym\color{lightblue}Labo}$
 
-Aymlabo is an Aimlab be like, in other words an aiming training game.
+Aymlabo is a desktop app and an Aimlab be like, in other words an aiming training game.
 
 ## Start the project
 ```
