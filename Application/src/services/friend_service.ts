@@ -1,6 +1,7 @@
-import { apiKey, apiURL } from "../utils/api";
 import axios from "axios";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_KEY = import.meta.env.VITE_API_KEY;
 export class FriendService {
   // ------------------------------------ //
   // -----------requestFriend------------ //
@@ -8,9 +9,9 @@ export class FriendService {
   async requestFriend(username: string, jwt: string): Promise<string> {
     try {
       const response = await axios.post(
-        `${apiURL}/requestFriend`,
+        `${API_BASE_URL}/requestFriend`,
         { username: username.trim() },
-        { headers: { Authorization: apiKey + ":" + jwt } }
+        { headers: { Authorization: API_KEY + ":" + jwt } }
       );
       if (response) {
         return "Friend request sended !";
@@ -26,8 +27,8 @@ export class FriendService {
   // -------------------------------------------- //
   async getFriendsAndRequests(jwt: string) {
     try {
-      const response = await axios.get(`${apiURL}/myFriend`, {
-        headers: { Authorization: apiKey + ":" + jwt },
+      const response = await axios.get(`${API_BASE_URL}/myFriend`, {
+        headers: { Authorization: API_KEY + ":" + jwt },
       });
       return response;
     } catch (error: any) {
@@ -41,10 +42,10 @@ export class FriendService {
   async acceptFriendRequest(requestId: string, jwt: string) {
     try {
       const response = await axios.post(
-        `${apiURL}/acceptFriendRequest`,
+        `${API_BASE_URL}/acceptFriendRequest`,
         { requestId: requestId.toString() },
         {
-          headers: { Authorization: `${apiKey}:${jwt}` },
+          headers: { Authorization: `${API_KEY}:${jwt}` },
         }
       );
       return response;
@@ -59,10 +60,10 @@ export class FriendService {
   async refuseFriendRequest(requestId: string, jwt: string) {
     try {
       const response = await axios.post(
-        `${apiURL}/refuseFriendRequest`,
+        `${API_BASE_URL}/refuseFriendRequest`,
         { requestId: requestId.toString() },
         {
-          headers: { Authorization: `${apiKey}:${jwt}` },
+          headers: { Authorization: `${API_KEY}:${jwt}` },
         }
       );
       return response;

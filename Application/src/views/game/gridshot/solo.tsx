@@ -6,9 +6,11 @@ import { Target } from "../../../components/target/target";
 import EndMenu from "../../../components/endMenu/end_menu";
 import { TargetProps } from "../../../models/game";
 import axios from "axios";
-import { apiKey, apiURL } from "../../../utils/api";
 import { Store } from "../../../services/store";
 import { useNavigate } from "react-router-dom";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 const Solo: React.FC = () => {
   const [score, setScore] = useState(0);
@@ -58,9 +60,9 @@ const Solo: React.FC = () => {
     };
     if (seconds >= maxTime && jwt && score > 0) {
       try {
-        await axios.post(`${apiURL}/soloPlayGrid`, datas, {
+        await axios.post(`${API_BASE_URL}/soloPlayGrid`, datas, {
           headers: {
-            Authorization: apiKey + ":" + jwt,
+            Authorization: API_KEY + ":" + jwt,
           },
         });
       } catch (error: any) {

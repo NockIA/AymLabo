@@ -1,8 +1,10 @@
 import { StatProfileProps } from "../models/stat";
 import { ValidationErrors } from "../models/auth";
 import { ProfileProps } from "../models/profile";
-import { apiKey, apiURL } from "../utils/api";
 import axios, { AxiosResponse } from "axios";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 export class ProfileService {
   // ----------------------------------------- //
@@ -10,8 +12,8 @@ export class ProfileService {
   // ----------------------------------------- //
   async getProfileCurrentUser(jwt: string): Promise<ProfileProps> {
     try {
-      const response = await axios.get(`${apiURL}/myProfile`, {
-        headers: { Authorization: apiKey + ":" + jwt },
+      const response = await axios.get(`${API_BASE_URL}/myProfile`, {
+        headers: { Authorization: API_KEY + ":" + jwt },
       });
       return response.data;
     } catch (error: any) {
@@ -24,8 +26,8 @@ export class ProfileService {
   // -------------------------------------- //
   async getProfileStats(jwt: string): Promise<Array<StatProfileProps>> {
     try {
-      const response = await axios.get(`${apiURL}/myStats`, {
-        headers: { Authorization: apiKey + ":" + jwt },
+      const response = await axios.get(`${API_BASE_URL}/myStats`, {
+        headers: { Authorization: API_KEY + ":" + jwt },
       });
       return response.data;
     } catch (error: any) {
@@ -43,9 +45,9 @@ export class ProfileService {
     jwt: string
   ): Promise<AxiosResponse> {
     try {
-      const response = await axios.put(`${apiURL}/profile`, profileDatas, {
+      const response = await axios.put(`${API_BASE_URL}/profile`, profileDatas, {
         headers: {
-          Authorization: apiKey + ":" + jwt,
+          Authorization: API_KEY + ":" + jwt,
         },
       });
       return response;

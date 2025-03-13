@@ -1,6 +1,8 @@
 import { LeaderboardProps } from "../models/leaderboard";
-import { apiKey, apiURL } from "../utils/api";
 import axios from "axios";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 export class LeaderboardService {
   // ------------------------------------------- //
@@ -11,8 +13,8 @@ export class LeaderboardService {
     jwt: string
   ): Promise<LeaderboardProps> {
     try {
-      const response = await axios.get(`${apiURL}/leaderboard/${category}`, {
-        headers: { Authorization: apiKey + ":" + jwt },
+      const response = await axios.get(`${API_BASE_URL}/leaderboard/${category}`, {
+        headers: { Authorization: API_KEY + ":" + jwt },
       });
       return response.data;
     } catch (error: any) {
@@ -33,9 +35,9 @@ export class LeaderboardService {
   ): Promise<LeaderboardProps> {
     try {
       const response = await axios.get(
-        `${apiURL}/leaderBoardWithFriendWithLimit/${category}`,
+        `${API_BASE_URL}/leaderBoardWithFriendWithLimit/${category}`,
         {
-          headers: { Authorization: apiKey + ":" + jwt },
+          headers: { Authorization: API_KEY + ":" + jwt },
           params: {
             limitMin: min.toString(),
             limitMax: max.toString(),
@@ -59,9 +61,9 @@ export class LeaderboardService {
   ): Promise<LeaderboardProps> {
     try {
       const response = await axios.get(
-        `${apiURL}/leaderboardWithFriend/${category}`,
+        `${API_BASE_URL}/leaderboardWithFriend/${category}`,
         {
-          headers: { Authorization: apiKey + ":" + jwt },
+          headers: { Authorization: API_KEY + ":" + jwt },
         }
       );
       return response.data;
@@ -83,9 +85,9 @@ export class LeaderboardService {
   ): Promise<LeaderboardProps> {
     try {
       const response = await axios.get(
-        `${apiURL}/leaderBoardWithLimit/${category}`,
+        `${API_BASE_URL}/leaderBoardWithLimit/${category}`,
         {
-          headers: { Authorization: apiKey + ":" + jwt },
+          headers: { Authorization: API_KEY + ":" + jwt },
           params: {
             limitMin: min.toString(),
             limitMax: max.toString(),

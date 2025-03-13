@@ -5,9 +5,11 @@ import { HeaderGame } from "../../../components/headerGame/header_game";
 import { Target } from "../../../components/target/target";
 import EndMenu from "../../../components/endMenu/end_menu";
 import axios from "axios";
-import { apiKey, apiURL } from "../../../utils/api";
 import { Store } from "../../../services/store";
 import { useNavigate } from "react-router-dom";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 const SoloParams: React.FC = () => {
   const [targetPosition, setTargetPosition] = useState<{
@@ -61,9 +63,9 @@ const SoloParams: React.FC = () => {
     };
     if (seconds >= maxTime && jwt && score > 0) {
       try {
-        await axios.post(`${apiURL}/soloPlayTracking`, datas, {
+        await axios.post(`${API_BASE_URL}/soloPlayTracking`, datas, {
           headers: {
-            Authorization: apiKey + ":" + jwt,
+            Authorization: API_KEY + ":" + jwt,
           },
         });
       } catch (error: any) {
@@ -221,7 +223,7 @@ const SoloParams: React.FC = () => {
   // -------------------------- //
 
   const moveTarget = () => {
-     // Set initial target position at the center of the window
+    // Set initial target position at the center of the window
     let targetPosition = {
       top: window.innerHeight / 2 - 200,
       left: window.innerWidth / 2 - 100,

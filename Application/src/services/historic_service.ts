@@ -1,7 +1,8 @@
 import { HistoricProps } from "../models/historic";
-import { apiKey, apiURL } from "../utils/api";
 import axios from "axios";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_KEY = import.meta.env.VITE_API_KEY;
 export class HistoricService {
   // ------------------------------------------ //
   // -----------getHistoricGridShot------------ //
@@ -11,8 +12,8 @@ export class HistoricService {
     limit: number
   ): Promise<HistoricProps> {
     try {
-      const response = await axios.get(`${apiURL}/myGameGrid`, {
-        headers: { Authorization: apiKey + ":" + jwt },
+      const response = await axios.get(`${API_BASE_URL}/myGameGrid`, {
+        headers: { Authorization: API_KEY + ":" + jwt },
         params: {
           numberOfLine: limit.toString(),
         },
@@ -33,8 +34,8 @@ export class HistoricService {
     limit: number
   ): Promise<HistoricProps> {
     try {
-      const response = await axios.get(`${apiURL}/myGameTracking`, {
-        headers: { Authorization: apiKey + ":" + jwt },
+      const response = await axios.get(`${API_BASE_URL}/myGameTracking`, {
+        headers: { Authorization: API_KEY + ":" + jwt },
         params: {
           numberOfLine: limit.toString(),
         },

@@ -3,18 +3,19 @@ import {
   SignupFormProps,
   ValidationErrors,
 } from "../models/auth";
-import { apiKey, apiURL } from "../utils/api";
 import axios, { AxiosResponse } from "axios";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_KEY = import.meta.env.VITE_API_KEY;
 export class AuthService {
   // ----------------------------- //
   // -----------signin------------ //
   // ----------------------------- //
   async signin(userData: SigninFormProps): Promise<AxiosResponse> {
     try {
-      const response = await axios.post(`${apiURL}/signin`, userData, {
+      const response = await axios.post(`${API_BASE_URL}/signin`, userData, {
         headers: {
-          Authorization: apiKey + ":",
+          Authorization: API_KEY + ":",
         },
       });
       return response;
@@ -28,9 +29,9 @@ export class AuthService {
   // ----------------------------- //
   async signup(userData: SignupFormProps): Promise<AxiosResponse> {
     try {
-      const response = await axios.post(`${apiURL}/signup`, userData, {
+      const response = await axios.post(`${API_BASE_URL}/signup`, userData, {
         headers: {
-          Authorization: apiKey + ":",
+          Authorization: API_KEY + ":",
         },
       });
       return response;
@@ -44,9 +45,9 @@ export class AuthService {
   // ------------------------------------ //
   async resetPassword(userData: SigninFormProps): Promise<AxiosResponse> {
     try {
-      const response = await axios.post(`${apiURL}/reset-password`, userData, {
+      const response = await axios.post(`${API_BASE_URL}/reset-password`, userData, {
         headers: {
-          Authorization: apiKey + ":",
+          Authorization: API_KEY + ":",
         },
       });
       return response;
