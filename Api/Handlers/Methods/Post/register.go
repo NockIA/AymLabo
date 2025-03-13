@@ -33,16 +33,20 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid request data", http.StatusBadRequest)
 		return
 	}
-	rslt := bdd.DbManager.SelectDB("SELECT playerUUID FROM players WHERE (email=? OR pseudo=?)", requestData.Email, requestData.Pseudo)
+	rslt := bdd.DbManager.SelectDB("SELECT playerUUID FROM players WHERE (email=? OR pseudo=?);", requestData.Email, requestData.Pseudo)
 	defer rslt.Close()
 	if !rslt.Next() {
 		var playerUUID string = uuid.New().String()
-		if jwtToken, err := utils.CreateJWT(&playerUUID); err == nil {
+		fmt.Println(playerUUID)
+		jwtToken, err := utils.CreateJWT(&playerUUID)
+		if err == nil {
 			message := LoginAndRegisterMessage{Jwt: jwtToken}
 			w.Header().Set("Content-Type", "application/json")
 			json.NewEncoder(w).Encode(message)
 			bdd.DbManager.AddDeleteUpdateDB("INSERT INTO players (playerUUID, email, pseudo, password) VALUES (?, ?, ?, ?);", playerUUID, requestData.Email, requestData.Pseudo, string(utils.HashPassword(requestData.Password)))
 			return
+		} else {
+			fmt.Println(err)
 		}
 	}
 	http.Error(w, "This user already exist", http.StatusBadRequest)

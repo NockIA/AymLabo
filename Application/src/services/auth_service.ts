@@ -29,6 +29,7 @@ export class AuthService {
   // ----------------------------- //
   async signup(userData: SignupFormProps): Promise<AxiosResponse> {
     try {
+      console.log(API_KEY)
       const response = await axios.post(`${API_BASE_URL}/signup`, userData, {
         headers: {
           Authorization: API_KEY + ":",

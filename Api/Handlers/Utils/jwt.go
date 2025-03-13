@@ -2,13 +2,15 @@ package utils
 
 import (
 	"fmt"
+	"os"
 	"strings"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 )
 
-var jwtKey = []byte("B2AymLabauB2")
+var j = os.Getenv("JWT_SECRET")
+var jwtKey = []byte(j)
 
 func CreateJWT(userUUID *string) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
